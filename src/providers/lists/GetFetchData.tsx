@@ -24,7 +24,7 @@ export const GetFetchDataContextFragment: FC<fragmentType> = (props) => {
     const [isGetFetchData, setGetFetchData] = useState<Array<estateInfoJsonDataContents>>([]);
 
     /* ページャー数の管理用 State */
-    const [isPagers, setPagers] = useState<number>(0); // 再レンダリングの度に引数に指定した数値が加算される
+    const [isPagers, setPagers] = useState<number>(85); // 再レンダリングの度に引数に指定した数値が加算される
 
     /* ページャーの offset 値 */
     const [isOffSet] = useState<number>(5);
