@@ -12,16 +12,15 @@ export const SetPagerNum = memo(() => {
         setInputValue((_prevInoutTxt) => inputElValue);
     }
 
-    /*  */
+    /* 四捨五入メソッド */
     const RoundingOff = (
         inputValue: string,
-        overOffset?: boolean
+        targetNumOver?: boolean
     ) => {
         let adjustResult: number = parseInt(inputValue);
         const adjustResultSplitAry: string[] = String(adjustResult).split('');
         const shallowCopy = [...adjustResultSplitAry];
-        if (overOffset) {
-            /* オフセット以上の場合 */
+        if (targetNumOver) {
             if (shallowCopy[1] === '9') {
                 /*（現在 90 番台で次は）桁が増える場合は1桁目に加算して、2桁目以降は全て 0 にする */
                 for (let i = 0; i < shallowCopy.length; i++) {
@@ -40,7 +39,6 @@ export const SetPagerNum = memo(() => {
                 adjustResult = parseInt(shallowCopy.join(''));
             }
         } else {
-            /* オフセット以下の場合 */
             const secondDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0');
             // console.log(shallowCopy.join(''), secondDigitDestroyAry.join(''));
             adjustResult = parseInt(shallowCopy.join(''));
@@ -70,11 +68,11 @@ export const SetPagerNum = memo(() => {
         } else {
             if (_inputValue >= isOffSet) {
                 /* 入力値がオフセット以上の場合 */
-                if (parseInt(inputValue[inputValue.length - 1]) >= isOffSet) {
-                    /* 入力値の1桁目がオフセット以上の場合 */
+                if (parseInt(inputValue[inputValue.length - 1]) >= 5) {
+                    /* 入力値の1桁目が 5 以上の場合は四捨五入メソッド（RoundingOff）で処理を進める */
                     RoundingOff(inputValue, true);
                 } else {
-                    /* 入力値の1桁目がオフセット以下の場合 */
+                    /* 入力値の1桁目が 5 以下の場合は四捨五入メソッド（RoundingOff）で処理を進める */
                     RoundingOff(inputValue);
                 }
             } else {
@@ -92,6 +90,10 @@ export const SetPagerNum = memo(() => {
             }} /></label>
             <button type="button" onClick={() => {
                 setPagerNumber(isInputValue);
+                setTimeout(() => {
+                    /* 1秒後に input を空欄に戻す */
+                    setInputValue((_prevInputValue) => '');
+                }, 1000);
             }}>移動</button>
         </SetPagerNumEl>
     );

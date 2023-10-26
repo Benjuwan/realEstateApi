@@ -1,5 +1,6 @@
 import { useState, useEffect, ChangeEvent, memo, useContext, FC } from "react";
 import { GetFetchCityCode } from "../../providers/compare/GetFetchCityCode";
+import { useGetJsonData } from "../../hooks/compare/useGetJsonData";
 
 type optionDefaultNameType = {
     optionDefaultName?: string;
@@ -17,6 +18,9 @@ type ciryData = {
 export const SelectCities: FC<optionDefaultNameType> = memo((props) => {
     const { optionDefaultName = 'please choose below lists.' } = props;
 
+    /* fetch API */
+    const { GetJsonData } = useGetJsonData();
+
     /* 市区町村コード */
     const { isGetFetchCityCode } = useContext(GetFetchCityCode);
 
@@ -31,7 +35,6 @@ export const SelectCities: FC<optionDefaultNameType> = memo((props) => {
         selectEl?.insertAdjacentHTML('afterbegin', `<option>${optionDefaultName}</option>`); // 市区町村リストに市区町村コードに準拠した地名を追加
 
         const getCityData = async () => {
-            /* 大阪府（27）の市区町村コード一覧：https://www.land.mlit.go.jp/webland/api/CitySearch?area=27 */
             const response = await fetch(`https://www.land.mlit.go.jp/webland/api/CitySearch?area=${isGetFetchCityCode}`);
             const resObj: ciryData = await response.json();
             const ciryAry: Array<cityAry> = resObj.data;
@@ -46,8 +49,9 @@ export const SelectCities: FC<optionDefaultNameType> = memo((props) => {
 
     const getCityCode = (el: HTMLFormElement) => {
         /* form 要素を親に持っていないと下記の記述は不可能 */
-        const selectEl = el.querySelector('select');
-        console.log(selectEl?.value);
+        const selectElValue: string | undefined = el.querySelector('select')?.value;
+        console.log(selectElValue);
+        // GetJsonData(`${selectElValue}`);
     }
 
     return (
