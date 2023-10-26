@@ -13,7 +13,6 @@ export const ContentsItems: FC<ContentItemsProps> = memo((props) => {
 
     return (
         <>
-            <p>isPagerContents</p>
             <div className="boxes categories">
                 <h2 className="type">{aryEl.Type}</h2>
                 <p className="Prefecture">{aryEl.Prefecture}</p>

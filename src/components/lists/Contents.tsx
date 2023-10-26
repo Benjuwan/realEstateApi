@@ -13,10 +13,15 @@ type ContentsProps = {
 export const Contents: FC<ContentsProps> = memo((props) => {
     const { pagerLimitMaxNum } = props;
 
+    /* ページャー切替：A-ページ送り（true）、B-コンテンツデータの随時追加・削除（false）*/
+    const [isPagerAction] = useState<boolean>(true);
+
     const { isGetFetchData, isPagers, isOffSet } = useContext(GetFetchDataContext);
 
+    /* index 番号の表示（テスト：コンテンツデータ数の確認用）*/
     const [isIndexNumStr, setIsIndexNumStr] = useState<boolean>(true);
 
+    /* ページャー機能：ページ送りで使用 */
     const [isPagerContents, setPagerContents] = useState<estateInfoJsonDataContents[]>([]);
     const setPagerContentsFrag = useCallback((
         fragStart: number = isPagers,
@@ -48,42 +53,40 @@ export const Contents: FC<ContentsProps> = memo((props) => {
             /* 初期表示（オフセット分を表示） */
             if (isPagers <= 0 && i < isOffSet) {
                 return el;
-            }
-
-            /* ページャー処理後-A（コンテンツデータを【差し替えて】いくver）*/
-            else if (isPagers > 0) {
-                if (isPagers <= 5) {
-                    setPagerContentsFrag(0);
-                } else {
-                    if (typeof pagerLimitMaxNum !== "undefined") {
-                        const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
-                        if (nearlyLimitRange - isOffSet <= isOffSet) {
-                            console.log(isPagers, nearlyLimitRange);
-                            setPagerContentsFrag(isPagers, nearlyLimitRange);
-                        } else {
-                            setPagerContentsFrag();
+            } else if (isPagerAction) {
+                /* ページャー処理後-A（コンテンツデータを【差し替えて】いくver）*/
+                if (isPagers > 0) {
+                    if (isPagers <= 5) {
+                        setPagerContentsFrag(0);
+                    } else {
+                        if (typeof pagerLimitMaxNum !== "undefined") {
+                            const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
+                            if (nearlyLimitRange - isOffSet <= isOffSet) {
+                                console.log(isPagers, nearlyLimitRange);
+                                setPagerContentsFrag(isPagers, nearlyLimitRange);
+                            } else {
+                                setPagerContentsFrag();
+                            }
                         }
                     }
                 }
+            } else {
+                /* ページャー処理後-B（コンテンツデータを【追加・削除して】いくver）*/
+                setIsIndexNumStr(false);
+                if (typeof pagerLimitMaxNum !== "undefined") {
+                    const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
+                    if (nearlyLimitRange <= isOffSet) {
+                        /* nearlyLimitRange（上限値近辺数値）がオフセット（次ページ表示数）より下回っている場合 */
+                        const getRemandContents: number = isPagers + nearlyLimitRange;
+                        if (i < getRemandContents) {
+                            /* 残りのコンテンツデータ数を計算して、その分だけコンテンツデータを取得 */
+                            return el;
+                        }
+                    } else if (i < isPagers) {
+                        return el;
+                    }
+                }
             }
-
-            /* ページャー処理後-B（コンテンツデータを【追加・削除して】いくver）*/
-            // else {
-            //     setIsIndexNumStr(false);
-            //     if (typeof pagerLimitMaxNum !== "undefined") {
-            //         const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
-            //         if (nearlyLimitRange <= isOffSet) {
-            //             /* nearlyLimitRange（上限値近辺数値）がオフセット（次ページ表示数）より下回っている場合 */
-            //             const getRemandContents: number = isPagers + nearlyLimitRange;
-            //             if (i < getRemandContents) {
-            //                 /* 残りのコンテンツデータ数を計算して、その分だけコンテンツデータを取得 */
-            //                 return el;
-            //             }
-            //         } else if (i < isPagers) {
-            //             return el;
-            //         }
-            //     }
-            // }
         });
     }, [isGetFetchData]); // 依存配列 isGetFetchData：コンテンツデータが取得・変更される度
 
@@ -95,7 +98,7 @@ export const Contents: FC<ContentsProps> = memo((props) => {
                 {isPagerContents.length > 0 ?
                     isPagerContents.map((el, i) => (
                         <article key={i}>
-                            {isIndexNumStr || <p>{i + 1}</p>}
+                            {isIndexNumStr || <p>isPagerContents：{i + 1}</p>}
                             <ContentsItems aryEl={el} />
                         </article>
                     )) :
