@@ -1,9 +1,10 @@
-import { memo, useContext, useEffect, useMemo, FC, useState } from "react";
+import { memo, useContext, useEffect, useMemo, FC, useState, useCallback } from "react";
 import styled from "styled-components";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
 import { GetFetchDataContext } from "../../providers/lists/GetFetchData";
+import { SetPagerNum } from "./setPagerNum";
+import { ContentsItems } from "../ContentItmes";
 import { useGetJsonData } from "../../hooks/lists/useGetJsonData";
-import { ContentsItems } from "./ContentItmes";
 
 type ContentsProps = {
     pagerLimitMaxNum?: number;
@@ -11,16 +12,20 @@ type ContentsProps = {
 
 export const Contents: FC<ContentsProps> = memo((props) => {
     const { pagerLimitMaxNum } = props;
+
     const { isGetFetchData, isPagers, isOffSet } = useContext(GetFetchDataContext);
+
     const [isIndexNumStr, setIsIndexNumStr] = useState<boolean>(true);
+
     const [isPagerContents, setPagerContents] = useState<estateInfoJsonDataContents[]>([]);
-    const setPagerContentsFrag = (
+    const setPagerContentsFrag = useCallback((
         fragStart: number = isPagers,
         fragFinish: number = isOffSet
     ) => {
+        /* 始点：ページャー数、終点：ページャー数 + オフセット数 */
         const splicedContents: estateInfoJsonDataContents[] = [...isGetFetchData].splice(fragStart, fragFinish);
         setPagerContents(splicedContents);
-    }
+    }, [isGetFetchData]);
 
     /* 都道府県内市区町村一覧取得API：https://www.land.mlit.go.jp/webland/api.html */
     const { GetJsonData } = useGetJsonData();
@@ -29,7 +34,7 @@ export const Contents: FC<ContentsProps> = memo((props) => {
         // 大阪府全域：https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20151&to=20152&area=27
 
         // 吹田市：https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205
-        GetJsonData(`https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205`);
+        GetJsonData('https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205');
 
         /* レンダリング時にスクロールトップ */
         if (isIndexNumStr) {
@@ -48,7 +53,6 @@ export const Contents: FC<ContentsProps> = memo((props) => {
             /* ページャー処理後-A（コンテンツデータを【差し替えて】いくver）*/
             else if (isPagers > 0) {
                 if (isPagers <= 5) {
-                    console.log(isPagers);
                     setPagerContentsFrag(0);
                 } else {
                     if (typeof pagerLimitMaxNum !== "undefined") {
@@ -57,32 +61,10 @@ export const Contents: FC<ContentsProps> = memo((props) => {
                             console.log(isPagers, nearlyLimitRange);
                             setPagerContentsFrag(isPagers, nearlyLimitRange);
                         } else {
-                            console.log('else');
                             setPagerContentsFrag();
                         }
                     }
                 }
-
-                // if (isPagers <= isOffSet) {
-                //     // ページャー数がオフセットを下回っている場合は初期表示と同じ処理
-                //     if (i < isOffSet) {
-                //         return el;
-                //     }
-                // } else if (isPagers < i && i <= (isPagers + isOffSet)) {
-                //     // 始点：ページャー数、終点：ページャー数 + オフセット数
-                //     if (typeof pagerLimitMaxNum !== "undefined") {
-                //         const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
-                //         if (nearlyLimitRange - isOffSet <= isOffSet) {
-                //             if (isPagers <= i) {
-                //                 console.log(isPagers, nearlyLimitRange);
-                //                 return el;
-                //             }
-                //         } else {
-                //             console.log(isPagers, isPagers + isOffSet);
-                //             return el;
-                //         }
-                //     }
-                // }
             }
 
             /* ページャー処理後-B（コンテンツデータを【追加・削除して】いくver）*/
@@ -108,6 +90,7 @@ export const Contents: FC<ContentsProps> = memo((props) => {
     return (
         <>
             <p style={{ 'fontSize': '16px', 'textAlign': 'center', 'marginBottom': '1em' }}>{isPagers === 0 ? isPagers + isOffSet : isPagers}件 / {pagerLimitMaxNum}</p>
+            <SetPagerNum />
             <ContentWrapper>
                 {isPagerContents.length > 0 ?
                     isPagerContents.map((el, i) => (
