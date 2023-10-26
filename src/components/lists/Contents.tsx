@@ -14,8 +14,9 @@ export const Contents: FC<ContentsProps> = memo((props) => {
     const { pagerLimitMaxNum } = props;
 
     /* ページャー切替：A-ページ送り（true）、B-コンテンツデータの随時追加・削除（false）*/
-    const [isPagerAction] = useState<boolean>(true);
+    const [isPagerFrag] = useState<boolean>(false);
 
+    /* 各種 Context */
     const { isGetFetchData, isPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* index 番号の表示（テスト：コンテンツデータ数の確認用）*/
@@ -30,15 +31,26 @@ export const Contents: FC<ContentsProps> = memo((props) => {
         /* 始点：ページャー数、終点：ページャー数 + オフセット数 */
         const splicedContents: estateInfoJsonDataContents[] = [...isGetFetchData].splice(fragStart, fragFinish);
         setPagerContents(splicedContents);
-    }, [isGetFetchData]);
+    }, [isGetFetchData]); // 依存配列 isGetFetchData：コンテンツデータが取得・変更される度
 
-    /* 都道府県内市区町村一覧取得API：https://www.land.mlit.go.jp/webland/api.html */
+    useEffect(() => {
+        /* ページャー機能-A：ページ送り */
+        if (isPagerFrag) {
+            if (typeof pagerLimitMaxNum !== "undefined") {
+                const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
+                if (nearlyLimitRange - isOffSet <= isOffSet) {
+                    console.log(isPagers, nearlyLimitRange);
+                    setPagerContentsFrag(isPagers, nearlyLimitRange);
+                } else {
+                    setPagerContentsFrag();
+                }
+            }
+        }
+    }, [isGetFetchData]); // 依存配列 isGetFetchData：コンテンツデータが取得・変更される度
+
+    /* fetch API */
     const { GetJsonData } = useGetJsonData();
     useEffect(() => {
-        /* 大阪府（27）の市区町村コード一覧：https://www.land.mlit.go.jp/webland/api/CitySearch?area=27 */
-        // 大阪府全域：https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20151&to=20152&area=27
-
-        // 吹田市：https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205
         GetJsonData('https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205');
 
         /* レンダリング時にスクロールトップ */
@@ -53,25 +65,10 @@ export const Contents: FC<ContentsProps> = memo((props) => {
             /* 初期表示（オフセット分を表示） */
             if (isPagers <= 0 && i < isOffSet) {
                 return el;
-            } else if (isPagerAction) {
-                /* ページャー処理後-A（コンテンツデータを【差し替えて】いくver）*/
-                if (isPagers > 0) {
-                    if (isPagers <= 5) {
-                        setPagerContentsFrag(0);
-                    } else {
-                        if (typeof pagerLimitMaxNum !== "undefined") {
-                            const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
-                            if (nearlyLimitRange - isOffSet <= isOffSet) {
-                                console.log(isPagers, nearlyLimitRange);
-                                setPagerContentsFrag(isPagers, nearlyLimitRange);
-                            } else {
-                                setPagerContentsFrag();
-                            }
-                        }
-                    }
-                }
-            } else {
-                /* ページャー処理後-B（コンテンツデータを【追加・削除して】いくver）*/
+            }
+
+            /* ページャー機能-B：コンテンツデータの随時追加・削除 */
+            else if (!isPagerFrag) {
                 setIsIndexNumStr(false);
                 if (typeof pagerLimitMaxNum !== "undefined") {
                     const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
@@ -90,15 +87,17 @@ export const Contents: FC<ContentsProps> = memo((props) => {
         });
     }, [isGetFetchData]); // 依存配列 isGetFetchData：コンテンツデータが取得・変更される度
 
+    console.log(isPagerContents.length, isPagers);
+
     return (
         <>
             <p style={{ 'fontSize': '16px', 'textAlign': 'center', 'marginBottom': '1em' }}>{isPagers === 0 ? isPagers + isOffSet : isPagers}件 / {pagerLimitMaxNum}</p>
-            <SetPagerNum />
+            {isPagerFrag && <SetPagerNum />}
             <ContentWrapper>
                 {isPagerContents.length > 0 ?
                     isPagerContents.map((el, i) => (
                         <article key={i}>
-                            {isIndexNumStr || <p>isPagerContents：{i + 1}</p>}
+                            <p>isPagerContents：{i + 1}</p>
                             <ContentsItems aryEl={el} />
                         </article>
                     )) :

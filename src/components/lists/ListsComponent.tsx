@@ -19,6 +19,7 @@ export const ListsComponent = memo(() => {
         const getAryLength: number = isGetFetchData.length / isForCalcNum;
         return getAryLength;
     }, [isGetFetchData]);
+    // console.log(pagerLimitMaxNum);
 
     /* pager method */
     const { prevPager, nextPager } = usePager();
