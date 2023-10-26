@@ -4,9 +4,10 @@ import { CityName } from "../../providers/compare/CityName";
 import { GetFetchDataContext } from "../../providers/compare/GetFetchData";
 import { FetchDataResetRenderContext } from "../../providers/compare/FetchDataResetRender";
 import { AverageNumber } from "./AverageNumber";
+import { ContentsItems } from "../ContentItmes";
+import { FilterActionBtns } from "./FilterActionBtns";
+import { FilterContentsCatClick } from "./FilterContentsCatClick";
 import { useGetJsonData } from "../../hooks/compare/useGetJsonData";
-import { useSortMethod } from "../../hooks/compare/useSortMethod";
-import { useFilterMethod } from "../../hooks/compare/useFilterMethod";
 
 /* 都道府県から市区町村コードを取得して表示（データフェッチ）したいが未実装 */
 import { SelectPrefs } from "./SelectPrefs";
@@ -21,12 +22,6 @@ export const CompareComponent = memo(() => {
         GetJsonData(`https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205`);
     }, [isFetchDataResetRender]);
 
-    // ソート機能
-    const { ascClick, deskClick } = useSortMethod();
-
-    // フィルター機能
-    const { FilterType, ResetFilter } = useFilterMethod();
-
     // 詳細情報の表示機能（モーダル）
     const OnViewDetails = (el: HTMLElement) => {
         const detailsContent = el.parentElement?.querySelector('.details');
@@ -37,24 +32,15 @@ export const CompareComponent = memo(() => {
         }
     }
 
-    /* fee を3桁区切りに */
-    const toLocaleString = (targetWords: string) => parseInt(targetWords).toLocaleString();
-
     return (
         <Contents>
             <h2>「{isCityName}」の平均取引価格「<AverageNumber />」</h2>
             <p>件数：{isGetFetchData.length}</p>
             <SelectPrefs />
-            <div className="btns">
-                <button type="button" onClick={ascClick}>昇順</button>
-                <button type="button" onClick={deskClick}>降順</button>
-                <button type="button" onClick={ResetFilter}>リセット</button>
-            </div>
+            <FilterActionBtns />
             {isGetFetchData.map((el, i) => (
                 <div className="contents" key={i}>
-                    <button className="info" type="button" onClick={(btnEl: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-                        FilterType(btnEl.currentTarget.textContent);
-                    }}>{el.Type}</button>
+                    <FilterContentsCatClick aryEl={el} classNameStr="infoBtn" />
                     <p className="TradePrice">{el.TradePrice}</p>
                     <button type="button" onClick={((btnEl) => {
                         OnViewDetails(btnEl.currentTarget);
@@ -62,29 +48,7 @@ export const CompareComponent = memo(() => {
                     <div className="details" onClick={((divEl) => {
                         OnViewDetails(divEl.currentTarget);
                     })}>
-                        <div className="boxes categories">
-                            <p className="type">{el.Type}</p>
-                            <p className="Prefecture">{el.Prefecture}</p>
-                            {el.Direction && <p className="direction">{el.Direction}</p>}
-                        </div>
-                        <div className="boxes infos">
-                            <p className="used">用途：{el.Use}</p>
-                            <p className="fee">￥{toLocaleString(el.TradePrice)}</p>
-                            <p className="districtName">{el.Prefecture}<span>{el.Municipality}</span><span>{el.DistrictName}</span></p>
-                            <p className="buildingYear">{el.BuildingYear}</p>
-                            <p className="floorPlan">{el.FloorPlan}</p>
-                            <p className="area">面積（平方メートル）：{el.Area}</p>
-                            <p className="structure">{el.Structure}</p>
-                            <p className="renovation">{el.Renovation}</p>
-                        </div>
-                        <div className="boxes otherInfo">
-                            <p className="purpose">目的：{el.Purpose}</p>
-                            <p className="period">取引時点：{el.Period}</p>
-                            <p className="type">取引の種類：{el.Type}<span>{el.CityPlanning}</span></p>
-                            <p className="municipalityCode">市区町村コード：{el.MunicipalityCode}</p>
-                            <p className="floorAreaRatio">容積率（％）：{el.FloorAreaRatio}</p>
-                            <p className="coverageRatio">建ぺい率（％）：{el.CoverageRatio}</p>
-                        </div>
+                        <ContentsItems aryEl={el} />
                     </div>
                 </div>
             ))}
@@ -131,7 +95,7 @@ margin: auto;
     background-color: #eaeaea;
     border-radius: 4px;
 
-    & .info{
+    & .infoBtn{
         color: #fff;
         background-color: limegreen;
         text-align: center;
