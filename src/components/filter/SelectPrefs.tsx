@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, memo, useContext } from "react";
 import { SelectCities } from "./SelectCities";
-import { GetFetchCityCode } from "../../providers/compare/GetFetchCityCode";
+import { GetFetchCityCode } from "../../providers/filter/GetFetchCityCode";
 
 export const SelectPrefs = memo(() => {
     const { setGetFetchCityCode } = useContext(GetFetchCityCode);

@@ -4,7 +4,7 @@ import { App } from './App.tsx'
 import './index.css'
 
 /* Lists */
-import { GetFetchDataContextFragment } from './providers/lists/GetFetchData.tsx'
+import { GetFetchDataContextFragment } from './providers/pager/GetFetchData.tsx'
 
 /* Compare */
 // import { GetFetchDataContextFragment } from './providers/compare/GetFetchData.tsx'

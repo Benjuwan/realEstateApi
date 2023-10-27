@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext, memo } from "react";
-import { GetFetchDataContext } from "../../providers/compare/GetFetchData";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 
 export const AverageNumber = memo(() => {
     const { isGetFetchData } = useContext(GetFetchDataContext);

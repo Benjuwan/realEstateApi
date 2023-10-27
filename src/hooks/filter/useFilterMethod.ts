@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
-import { GetFetchDataContext } from "../../providers/compare/GetFetchData";
-import { FetchDataResetRenderContext } from "../../providers/compare/FetchDataResetRender";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
+import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
 
 export const useFilterMethod = () => {
     const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);

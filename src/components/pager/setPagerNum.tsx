@@ -1,6 +1,6 @@
 import { memo, useContext, useState, ChangeEvent } from "react";
 import styled from "styled-components";
-import { GetFetchDataContext } from "../../providers/lists/GetFetchData";
+import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
 
 export const SetPagerNum = memo(() => {
     const { setPagers, isOffSet } = useContext(GetFetchDataContext);
@@ -100,25 +100,35 @@ export const SetPagerNum = memo(() => {
 });
 
 const SetPagerNumEl = styled.div`
-width: clamp(320px, calc(100vw/3), 640px);
+width: 100%;
 margin: 0 auto 1em;
 display: flex;
 justify-content: space-between;
-gap: 2%;
+gap: 4%;
 
 & button {
+    cursor: pointer;
     width: 100%;
     display: block;
     padding: .25em 1em;
     background-color: #333;
     color: #fff;
     border-radius: 4px;
-    border: none;
+    border: 1px solid transparent;
+
+    &:hover {
+        background-color: #fff;
+        border-color: #333;
+        color: #333;
+    }
 }
 
-& input {
-    display: block;
-    font-size: 16px;
-    width: fit-content;
+& label {
+    width: 100%;
+
+    & input {
+        width: 100%;
+        font-size: 16px;
+    }
 }
 `;

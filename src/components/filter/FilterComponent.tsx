@@ -1,13 +1,13 @@
 import { useContext, useEffect, memo } from "react";
 import styled from "styled-components";
-import { CityName } from "../../providers/compare/CityName";
-import { GetFetchDataContext } from "../../providers/compare/GetFetchData";
-import { FetchDataResetRenderContext } from "../../providers/compare/FetchDataResetRender";
+import { CityName } from "../../providers/filter/CityName";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
+import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
 import { AverageNumber } from "./AverageNumber";
 import { ContentsItems } from "../ContentItmes";
 import { FilterActionBtns } from "./FilterActionBtns";
 import { FilterContentsCatClick } from "./FilterContentsCatClick";
-import { useGetJsonData } from "../../hooks/compare/useGetJsonData";
+import { useGetJsonData } from "../../hooks/filter/useGetJsonData";
 
 /* 都道府県から市区町村コードを取得して表示（データフェッチ）したいが未実装 */
 import { SelectPrefs } from "./SelectPrefs";

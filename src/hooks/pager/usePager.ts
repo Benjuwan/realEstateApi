@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { GetFetchDataContext } from '../../providers/lists/GetFetchData';
+import { GetFetchDataContext } from '../../providers/pager/GetFetchData';
 
 export const usePager = () => {
     const { isPagers, setPagers, isOffSet } = useContext(GetFetchDataContext);

@@ -1,8 +1,8 @@
 import { useContext, memo, useMemo, useState, useEffect } from "react";
-import { GetFetchDataContext } from "../../providers/lists/GetFetchData";
+import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
 import { Contents } from "./Contents";
 import { BtnComponent } from "./BtnComponent";
-import { usePager } from "../../hooks/lists/usePager";
+import { usePager } from "../../hooks/pager/usePager";
 
 export const ListsComponent = memo(() => {
     /* ページャーのオフセットは GetFetchData.tsx の isOffSet State で指定 */

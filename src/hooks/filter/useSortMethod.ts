@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
-import { GetFetchDataContext } from "../../providers/compare/GetFetchData";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 
 export const useSortMethod = () => {
     const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);
