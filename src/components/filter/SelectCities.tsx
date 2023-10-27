@@ -41,7 +41,7 @@ export const SelectCities: FC<optionDefaultNameType> = memo((props) => {
             const newAry = [...isCities];
             ciryAry.forEach(aryEl => {
                 newAry.push(aryEl);
-                setCities(newAry);
+                setCities((_prevAry) => newAry);
             });
         }
         getCityData();

@@ -1,25 +1,54 @@
-import { memo, useContext, FC, useState } from "react";
+import { memo, useContext, FC, useEffect } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
 import { PagerPages } from "./PagerPages";
 import { PagerIncDec } from "./PagerIncDec";
+import { useGetJsonData } from "../../hooks/pager/useGetJsonData";
 
-type ContentsProps = {
+type PagerComponentProps = {
     pagerLimitMaxNum: number;
+    isPagerFrag: boolean;
+    setPagerFrag: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Contents: FC<ContentsProps> = memo((props) => {
-    const { pagerLimitMaxNum } = props;
+export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
+    const { pagerLimitMaxNum, isPagerFrag, setPagerFrag } = props;
 
-    /* ページャー切替：A-ページ送り（true）、B-コンテンツデータの随時追加・削除（false）*/
-    const [isPagerFrag, setPagerFrag] = useState<boolean>(true);
-
-    /* 各種 Context */
+    /* 各種 Context：ページャーのオフセットは isOffSet State で指定 */
     const { isPagers, isOffSet } = useContext(GetFetchDataContext);
+
+    /**
+     * ページャー切替：デフォルト true
+     * true：ページ送り
+     * false：コンテンツデータの随時追加・削除
+    */
+    const changePagerMethod = () => setPagerFrag(!isPagerFrag);
+    const changePagerMethodStyle: object = {
+        'appearance': 'none',
+        'display': 'block',
+        'width': 'clamp(160px, 100%, 320px)',
+        'margin': '0 auto .5em',
+        'border': '1px solid',
+        'borderRadius': '4px'
+    }
+
+    /* fetch API（親コンポーネントで読み込まないと State 更新などによる再レンダリングで随時読み込まれてしまう= jsonデータが倍数で増えていく）*/
+    const { GetJsonData } = useGetJsonData();
+    useEffect(() => {
+        GetJsonData('https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205');
+
+        /* レンダリング時にスクロールトップ */
+        if (isPagerFrag) {
+            window.scrollTo(0, 0);
+        }
+    }, [isPagers]); // 依存配列 isPagers：ページャー数が変更される度
 
     return (
         <>
-            <p style={{ 'fontSize': '16px', 'textAlign': 'center', 'marginBottom': '1em' }}>{isPagers === 0 ? isPagers + isOffSet : isPagers}件 / {pagerLimitMaxNum}</p>
+            <div>
+                <button style={changePagerMethodStyle} id="changePagerMethod" type="button" onClick={changePagerMethod}>{isPagerFrag ? 'ページ送りver' : 'コンテンツ追加・削除ver'}</button>
+                <p style={{ 'fontSize': '16px', 'textAlign': 'center', 'marginBottom': '1em' }}>{isPagers === 0 ? isPagers + isOffSet : isPagers}件 / {pagerLimitMaxNum}</p>
+            </div>
             <ContentWrapper>
                 {isPagerFrag ?
                     <PagerPages pagerLimitMaxNum={pagerLimitMaxNum} /> :
@@ -123,6 +152,7 @@ font-size: 1.6rem;
 }
 
 @media screen and (min-width: 700px) {
+    width: clamp(320px, 100%, 960px);
     display: flex;
     flex-flow: row wrap;
     gap: 2%;
