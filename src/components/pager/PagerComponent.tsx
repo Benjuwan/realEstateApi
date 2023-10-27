@@ -1,6 +1,7 @@
-import { memo, useContext, FC, useEffect } from "react";
+import { memo, useContext, FC, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { ContentsNumber } from "./ContentsNumber";
 import { PagerPages } from "./PagerPages";
 import { PagerIncDec } from "./PagerIncDec";
 import { useGetJsonData } from "../../hooks/pager/useGetJsonData";
@@ -14,15 +15,17 @@ type PagerComponentProps = {
 export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
     const { pagerLimitMaxNum, isPagerFrag, setPagerFrag } = props;
 
-    /* 各種 Context：ページャーのオフセットは isOffSet State で指定 */
-    const { isPagers, isOffSet } = useContext(GetFetchDataContext);
+    const { isPagers, setPagers } = useContext(GetFetchDataContext);
 
     /**
      * ページャー切替：デフォルト true
      * true：ページ送り
      * false：コンテンツデータの随時追加・削除
     */
-    const changePagerMethod = () => setPagerFrag(!isPagerFrag);
+    const changePagerMethod = useCallback(() => {
+        setPagerFrag(!isPagerFrag);
+        setPagers((_prevPagerNum) => 0); // 切替時にページャーをリセット
+    }, [isPagerFrag]);
     const changePagerMethodStyle: object = {
         'appearance': 'none',
         'display': 'block',
@@ -47,7 +50,7 @@ export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
         <>
             <div>
                 <button style={changePagerMethodStyle} id="changePagerMethod" type="button" onClick={changePagerMethod}>{isPagerFrag ? 'ページ送りver' : 'コンテンツ追加・削除ver'}</button>
-                <p style={{ 'fontSize': '16px', 'textAlign': 'center', 'marginBottom': '1em' }}>{isPagers === 0 ? isPagers + isOffSet : isPagers}件 / {pagerLimitMaxNum}</p>
+                <ContentsNumber pagerLimitMaxNum={pagerLimitMaxNum} isPagerFrag={isPagerFrag} />
             </div>
             <ContentWrapper>
                 {isPagerFrag ?

@@ -19,7 +19,7 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
     /* pager method */
     const { prevPagerPages, nextPagerPages } = usePager();
 
-    /* ページャー機能：ページ送りで使用 */
+    /* ページャー機能：splice メソッドで処理 */
     const [isPagerContents, setPagerContents] = useState<estateInfoJsonDataContents[]>([]);
     const setPagerContentsFrag = useCallback((
         fragStart: number = isPagers,
@@ -38,8 +38,6 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
             if (isPagers >= limitBorderLine) {
                 const remandNum: number = pagerLimitMaxNum - isPagers;
                 setPagerContentsFrag(isPagers, remandNum);
-            } else if (isPagers === 10 && isPagers - isOffSet === 0) {
-                setPagerContentsFrag(isOffSet, isOffSet);
             } else {
                 setPagerContentsFrag();
             }
@@ -51,7 +49,6 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
             <SetPagerNum />
             {isPagerContents.map((el, i) => (
                 <article key={i}>
-                    <p>No：{i + 1}</p>
                     <ContentsItems aryEl={el} />
                 </article>
             ))}
