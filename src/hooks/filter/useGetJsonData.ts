@@ -22,7 +22,7 @@ export const useGetJsonData = () => {
                 resObjDataAry.forEach((resEl, i) => {
                     // console.log(i, resEl);
                     newAry.push(resEl);
-                    setGetFetchData(newAry);
+                    setGetFetchData((_prevFetchAry) => newAry);
                     setCityName((_prevTxt) => resEl.Municipality);
                 });
             } else {

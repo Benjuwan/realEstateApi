@@ -19,7 +19,7 @@ export const useGetJsonData = () => {
                 resObjDataAry.forEach((resEl, i) => {
                     // console.log(i, resEl);
                     newAry.push(resEl);
-                    setGetFetchData(newAry);
+                    setGetFetchData((_prevFetchAry) => newAry);
                 });
             } else {
                 console.log(responese.status);
@@ -27,6 +27,6 @@ export const useGetJsonData = () => {
         }
         ViewGetFetchData();
     }
-    
+
     return { GetJsonData }
 }

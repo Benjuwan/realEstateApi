@@ -4,7 +4,8 @@ import { GetFetchDataContext } from '../../providers/pager/GetFetchData';
 export const usePager = () => {
     const { isPagers, setPagers, isOffSet } = useContext(GetFetchDataContext);
 
-    const prevPager = () => {
+    /* PagerIncDec.tsx：コンテンツデータの随時追加・削除ver */
+    const prevPagerIncDec = () => {
         /* QuickFix：可能な場合は使用されていない全ての宣言にプレフィックスとして（'_'）を付ける */
         if (isPagers <= isOffSet) {
             setPagers((_prevNum) => isPagers + isOffSet);
@@ -13,7 +14,7 @@ export const usePager = () => {
         }
     }
 
-    const nextPager = () => {
+    const nextPagerIncDec = () => {
         if (isPagers <= 0) {
             setPagers((_prevNum) => isPagers + (isOffSet * 2));
         } else {
@@ -21,5 +22,14 @@ export const usePager = () => {
         }
     }
 
-    return { prevPager, nextPager }
+    /* PagerPages.tsx：ページ送りver */
+    const prevPagerPages = () => {
+        setPagers((_prevNum) => isPagers - isOffSet);
+    }
+
+    const nextPagerPages = () => {
+        setPagers((_prevNum) => isPagers + isOffSet);
+    }
+
+    return { prevPagerIncDec, nextPagerIncDec, prevPagerPages, nextPagerPages }
 }

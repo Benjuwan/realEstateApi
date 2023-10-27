@@ -3,23 +3,23 @@ import ReactDOM from 'react-dom/client'
 import { App } from './App.tsx'
 import './index.css'
 
-/* Lists */
+/* pager */
 import { GetFetchDataContextFragment } from './providers/pager/GetFetchData.tsx'
 
-/* Compare */
-// import { GetFetchDataContextFragment } from './providers/compare/GetFetchData.tsx'
-// import { CityNameFragment } from './providers/compare/CityName.tsx'
-// import { FetchDataResetRenderContextFragment } from './providers/compare/FetchDataResetRender.tsx'
-// import { GetFetchCityCodeFragment } from './providers/compare/GetFetchCityCode.tsx'
+/* filter */
+// import { GetFetchDataContextFragment } from './providers/filter/GetFetchData.tsx'
+// import { CityNameFragment } from './providers/filter/CityName.tsx'
+// import { FetchDataResetRenderContextFragment } from './providers/filter/FetchDataResetRender.tsx'
+// import { GetFetchCityCodeFragment } from './providers/filter/GetFetchCityCode.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {/* Lists */}
+    {/* pager */}
     <GetFetchDataContextFragment>
       <App />
     </GetFetchDataContextFragment>
 
-    {/* Compare */}
+    {/* filter */}
     {/* <GetFetchDataContextFragment>
       <CityNameFragment>
         <FetchDataResetRenderContextFragment>

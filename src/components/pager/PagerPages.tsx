@@ -3,7 +3,8 @@ import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents"
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
 import { SetPagerNum } from "./setPagerNum";
 import { ContentsItems } from "../ContentItmes";
-import { useGetJsonData } from "../../hooks/pager/useGetJsonData";
+import { BtnComponent } from "./BtnComponent";
+import { usePager } from "../../hooks/pager/usePager";
 
 type PagerPagesType = {
     pagerLimitMaxNum: number;
@@ -15,14 +16,8 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
     /* 各種 Context */
     const { isGetFetchData, isPagers, isOffSet } = useContext(GetFetchDataContext);
 
-    /* fetch API */
-    const { GetJsonData } = useGetJsonData();
-    useEffect(() => {
-        GetJsonData('https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205');
-
-        /* レンダリング時にスクロールトップ */
-        window.scrollTo(0, 0);
-    }, [isPagers]); // 依存配列 isPagers：ページャー数が変更される度
+    /* pager method */
+    const { prevPagerPages, nextPagerPages } = usePager();
 
     /* ページャー機能：ページ送りで使用 */
     const [isPagerContents, setPagerContents] = useState<estateInfoJsonDataContents[]>([]);
@@ -31,34 +26,46 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
         fragFinish: number = isOffSet
     ) => {
         /* 始点：ページャー数、終点：ページャー数 + オフセット数 */
-        const splicedContents: estateInfoJsonDataContents[] = [...isGetFetchData].splice(fragStart, fragFinish);
-        setPagerContents(splicedContents);
+        const shallowCopy: estateInfoJsonDataContents[] = [...isGetFetchData];
+        const splicedContents: estateInfoJsonDataContents[] = shallowCopy.splice(fragStart, fragFinish);
+        setPagerContents((_prevPagerContents) => splicedContents);
     }, [isGetFetchData]); // 依存配列 isGetFetchData：コンテンツデータが取得・変更される度
 
     useEffect(() => {
-        /* ページャー機能-A：ページ送り */
+        /* ページャー機能：ページ送り */
         if (typeof pagerLimitMaxNum !== "undefined") {
-            const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
-            if (nearlyLimitRange - isOffSet <= isOffSet) {
-                console.log(isPagers, nearlyLimitRange);
-                setPagerContentsFrag(isPagers, nearlyLimitRange);
+            const limitBorderLine: number = pagerLimitMaxNum - isOffSet;
+            if (isPagers >= limitBorderLine) {
+                const remandNum: number = pagerLimitMaxNum - isPagers;
+                setPagerContentsFrag(isPagers, remandNum);
+            } else if (isPagers === 10 && isPagers - isOffSet === 0) {
+                setPagerContentsFrag(isOffSet, isOffSet);
             } else {
                 setPagerContentsFrag();
             }
         }
     }, [isGetFetchData]); // 依存配列 isGetFetchData：コンテンツデータが取得・変更される度
 
-    console.log(isPagerContents.length, isPagers);
-
     return (
         <>
             <SetPagerNum />
             {isPagerContents.map((el, i) => (
                 <article key={i}>
-                    <p>isPagerContents：{i + 1}</p>
+                    <p>No：{i + 1}</p>
                     <ContentsItems aryEl={el} />
                 </article>
             ))}
+            <div style={{ 'display': 'flex', 'gap': '5%', 'justifyContent': 'space-between', 'width': '100%', 'margin': '0 auto 4em' }}>
+                <BtnComponent btnTxt="PrevBtn"
+                    disabledBool={isPagers <= 0}
+                    classNameTxt="Prev"
+                    ClickEvent={prevPagerPages}
+                />
+                <BtnComponent btnTxt="NextBtn"
+                    disabledBool={isPagers >= (pagerLimitMaxNum - isOffSet)} classNameTxt="Next"
+                    ClickEvent={nextPagerPages}
+                />
+            </div>
         </>
     );
 });

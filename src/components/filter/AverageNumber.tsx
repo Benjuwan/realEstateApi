@@ -15,7 +15,7 @@ export const AverageNumber = memo(() => {
         averageTradePriceEls.forEach(el => {
             averageTradePriceAry.push(parseInt(`${el.textContent}`));
         });
-        const averageTradePrice: number = averageTradePriceAry.reduce((a, b) => a + b, 0);
+        const averageTradePrice: number = [...averageTradePriceAry].reduce((a, b) => a + b, 0);
         const averageNumber = Math.floor(averageTradePrice / isGetFetchData.length).toLocaleString();
         return averageNumber;
     }
