@@ -1,6 +1,6 @@
 import { memo, FC } from "react";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
-import { useFilterMethod } from "../../hooks/compare/useFilterMethod";
+import { useFilterMethod } from "../../hooks/filter/useFilterMethod";
 
 type filterAryProps = {
     aryEl: estateInfoJsonDataContents;

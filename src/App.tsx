@@ -1,5 +1,5 @@
-import { ListsComponent } from "./components/lists/ListsComponent";
-import { CompareComponent } from "./components/compare/CompareComponent";
+import { ListsComponent } from "./components/pager/ListsComponent";
+import { CompareComponent } from "./components/filter/FilterComponent";
 
 export const App = () => {
   return (

@@ -1,6 +1,6 @@
 import { useState, useEffect, ChangeEvent, memo, useContext, FC } from "react";
-import { GetFetchCityCode } from "../../providers/compare/GetFetchCityCode";
-import { useGetJsonData } from "../../hooks/compare/useGetJsonData";
+import { GetFetchCityCode } from "../../providers/filter/GetFetchCityCode";
+import { useGetJsonData } from "../../hooks/filter/useGetJsonData";
 
 type optionDefaultNameType = {
     optionDefaultName?: string;

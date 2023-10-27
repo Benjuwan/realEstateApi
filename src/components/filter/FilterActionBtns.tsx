@@ -1,6 +1,6 @@
 import { memo } from "react";
-import { useFilterMethod } from "../../hooks/compare/useFilterMethod";
-import { useSortMethod } from "../../hooks/compare/useSortMethod";
+import { useFilterMethod } from "../../hooks/filter/useFilterMethod";
+import { useSortMethod } from "../../hooks/filter/useSortMethod";
 
 export const FilterActionBtns = memo(() => {
     const { ascClick, deskClick } = useSortMethod();

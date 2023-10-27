@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { GetFetchDataContext } from "../../providers/lists/GetFetchData";
+import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
 import { estateInfoJsonData } from "../../ts/estateInfoJsonData";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
 
