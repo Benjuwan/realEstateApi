@@ -5,9 +5,6 @@ import { PagerComponent } from "./PagerComponent";
 export const PagerBaseComponent = memo(() => {
     const { isPagers, isGetFetchData } = useContext(GetFetchDataContext);
 
-    /* ページャー機能（PagerPages.tsx / PagerIncDec.tsx）の切替用Bool */
-    const [isPagerFrag, setPagerFrag] = useState<boolean>(true);
-
     /* 再レンダリングの度に isGetFetchData.length が倍数（×2）されていくので上限値（初期読込時の isGetFetchData.length）を決め打ちするための計算用 State */
     const [isForCalcNum, setForCalcNum] = useState<number>(0);
     useEffect(() => {
@@ -20,11 +17,5 @@ export const PagerBaseComponent = memo(() => {
         return getAryLength;
     }, [isGetFetchData]);
 
-    return (
-        <PagerComponent
-            pagerLimitMaxNum={pagerLimitMaxNum}
-            isPagerFrag={isPagerFrag}
-            setPagerFrag={setPagerFrag}
-        />
-    );
+    return <PagerComponent pagerLimitMaxNum={pagerLimitMaxNum} />;
 });

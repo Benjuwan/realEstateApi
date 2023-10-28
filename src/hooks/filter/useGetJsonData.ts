@@ -14,17 +14,15 @@ export const useGetJsonData = () => {
         const ViewGetFetchData = async () => {
             const responese = await fetch(url);
             const resObj: estateInfoJsonData = await responese.json();
-            // console.log(resObj);
-            const resObjDataAry: Array<estateInfoJsonDataContents> = resObj.data;
+            const resObjDataAry: estateInfoJsonDataContents[] = resObj.data;
 
             if (responese.status === 200) {
-                const newAry = [...isGetFetchData];
-                resObjDataAry.forEach((resEl, i) => {
+                const resElAry: estateInfoJsonDataContents[] = resObjDataAry.map((resEl, i) => {
                     // console.log(i, resEl);
-                    newAry.push(resEl);
-                    setGetFetchData((_prevFetchAry) => newAry);
                     setCityName((_prevTxt) => resEl.Municipality);
+                    return resEl;
                 });
+                setGetFetchData((_prevFetchAry) => [...isGetFetchData, ...resElAry]);
             } else {
                 console.log(responese.status);
             }

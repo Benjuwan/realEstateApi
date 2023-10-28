@@ -16,9 +16,9 @@ export const ContentsNumber: FC<ContentsNumberType> = memo((props) => {
         <p style={{ 'fontSize': '16px', 'textAlign': 'center', 'marginBottom': '1em' }}>
             {isPagerFrag ?
                 /* PagerPages.tsx でのみ isPagers が 0 or 10 の場合はオフセット分を加算した表記 */
-                isPagers === 0 || 10 ? isPagers + isOffSet : isPagers :
-                isPagers === 0 ? isPagers + isOffSet : isPagers
-            }件 / {pagerLimitMaxNum}
+                <>{isPagers + 1} - {isPagers === 0 || 10 ? isPagers + isOffSet : isPagers}件 / {pagerLimitMaxNum}</> :
+                <>1 - {isPagers === 0 ? isPagers + isOffSet : isPagers}件 / {pagerLimitMaxNum}</>
+            }
         </p>
     );
 });
