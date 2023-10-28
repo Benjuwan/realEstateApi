@@ -68,11 +68,19 @@ export const SetPagerNum = memo(() => {
         } else {
             if (_inputValue >= isOffSet) {
                 /* 入力値がオフセット以上の場合 */
-                if (parseInt(inputValue[inputValue.length - 1]) >= 5) {
-                    /* 入力値の1桁目が 5 以上の場合は四捨五入メソッド（RoundingOff）で処理を進める */
-                    RoundingOff(inputValue, true);
+                const offsetStrAry: string[] = String(isOffSet).split('');
+                const offsetFirstDigit: number = Number(offsetStrAry[offsetStrAry.length - 1]);
+                if (offsetFirstDigit === 5) {
+                    /* オフセットの1の位が「5」の場合 */
+                    if (parseInt(inputValue[inputValue.length - 1]) >= 5) {
+                        /* 入力値の1桁目が 5 以上の場合は四捨五入メソッド（RoundingOff）で処理を進める */
+                        RoundingOff(inputValue, true);
+                    } else {
+                        /* 入力値の1桁目が 5 以下の場合は四捨五入メソッド（RoundingOff）で処理を進める */
+                        RoundingOff(inputValue);
+                    }
                 } else {
-                    /* 入力値の1桁目が 5 以下の場合は四捨五入メソッド（RoundingOff）で処理を進める */
+                    /* オフセットの1の位が「5」以外の場合 */
                     RoundingOff(inputValue);
                 }
             } else {
@@ -90,10 +98,7 @@ export const SetPagerNum = memo(() => {
             }} /></label>
             <button type="button" onClick={() => {
                 setPagerNumber(isInputValue);
-                setTimeout(() => {
-                    /* 1秒後に input を空欄に戻す */
-                    setInputValue((_prevInputValue) => '');
-                }, 1000);
+                setInputValue((_prevInputValue) => '');
             }}>移動</button>
         </SetPagerNumEl>
     );

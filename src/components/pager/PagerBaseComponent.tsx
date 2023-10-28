@@ -3,6 +3,7 @@ import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
 import { PagerComponent } from "./PagerComponent";
 
 export const PagerBaseComponent = memo(() => {
+    /* 各種Context */
     const { isPagers, isGetFetchData } = useContext(GetFetchDataContext);
 
     /* 再レンダリングの度に isGetFetchData.length が倍数（×2）されていくので上限値（初期読込時の isGetFetchData.length）を決め打ちするための計算用 State */

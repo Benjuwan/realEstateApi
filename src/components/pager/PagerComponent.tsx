@@ -1,7 +1,9 @@
-import { memo, useContext, useState, FC, useEffect, useCallback } from "react";
+import { memo, useContext, useState, FC, useEffect } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { ChangePagerStyle } from "./ChangePagerStyle";
 import { ContentsNumber } from "./ContentsNumber";
+import { Pagination } from "./Pagination";
 import { PagerPages } from "./PagerPages";
 import { PagerIncDec } from "./PagerIncDec";
 import { useGetJsonData } from "../../hooks/pager/useGetJsonData";
@@ -13,28 +15,11 @@ type PagerComponentProps = {
 export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
     const { pagerLimitMaxNum } = props;
 
-    const { isPagers, setPagers } = useContext(GetFetchDataContext);
+    /* 各種Context */
+    const { isPagers } = useContext(GetFetchDataContext);
 
     /* ページャー機能（PagerPages.tsx / PagerIncDec.tsx）の切替用Bool */
     const [isPagerFrag, setPagerFrag] = useState<boolean>(true);
-
-    /**
-     * ページャー切替：デフォルト true
-     * true：ページ送り
-     * false：コンテンツデータの随時追加・削除
-    */
-    const changePagerMethod = useCallback(() => {
-        setPagerFrag(!isPagerFrag);
-        setPagers((_prevPagerNum) => 0); // 切替時にページャーをリセット
-    }, [isPagerFrag]);
-    const changePagerMethodStyle: object = {
-        'appearance': 'none',
-        'display': 'block',
-        'width': 'clamp(160px, 100%, 320px)',
-        'margin': '0 auto .5em',
-        'border': '1px solid',
-        'borderRadius': '4px'
-    }
 
     /* fetch API（親コンポーネントで読み込まないと State 更新などによる再レンダリングで随時読み込まれてしまう= jsonデータが倍数で増えていく）*/
     const { GetJsonData } = useGetJsonData();
@@ -50,13 +35,14 @@ export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
     return (
         <>
             <div>
-                <button style={changePagerMethodStyle} id="changePagerMethod" type="button" onClick={changePagerMethod}>{isPagerFrag ? 'ページ送りver' : 'コンテンツ追加・削除ver'}</button>
+                <ChangePagerStyle isPagerFrag={isPagerFrag} setPagerFrag={setPagerFrag} />
                 <ContentsNumber
                     pagerLimitMaxNum={pagerLimitMaxNum}
                     isPagerFrag={isPagerFrag}
                 />
             </div>
             <ContentWrapper>
+                <Pagination pagerLimitMaxNum={pagerLimitMaxNum} isPagerFrag={isPagerFrag} />
                 {isPagerFrag ?
                     <PagerPages pagerLimitMaxNum={pagerLimitMaxNum} /> :
                     <PagerIncDec pagerLimitMaxNum={pagerLimitMaxNum} />
@@ -135,7 +121,7 @@ font-size: 1.6rem;
     @media screen and (min-width: 700px) {
         display: flex;
         flex-flow: row wrap;
-        gap: 2%;
+        gap: 4%;
         width: 48%;
 
         & .boxes{
