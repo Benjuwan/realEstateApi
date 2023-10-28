@@ -1,4 +1,4 @@
-import { memo, useContext, FC, useEffect, useCallback } from "react";
+import { memo, useContext, useState, FC, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
 import { ContentsNumber } from "./ContentsNumber";
@@ -8,14 +8,15 @@ import { useGetJsonData } from "../../hooks/pager/useGetJsonData";
 
 type PagerComponentProps = {
     pagerLimitMaxNum: number;
-    isPagerFrag: boolean;
-    setPagerFrag: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
-    const { pagerLimitMaxNum, isPagerFrag, setPagerFrag } = props;
+    const { pagerLimitMaxNum } = props;
 
     const { isPagers, setPagers } = useContext(GetFetchDataContext);
+
+    /* ページャー機能（PagerPages.tsx / PagerIncDec.tsx）の切替用Bool */
+    const [isPagerFrag, setPagerFrag] = useState<boolean>(true);
 
     /**
      * ページャー切替：デフォルト true
@@ -50,7 +51,10 @@ export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
         <>
             <div>
                 <button style={changePagerMethodStyle} id="changePagerMethod" type="button" onClick={changePagerMethod}>{isPagerFrag ? 'ページ送りver' : 'コンテンツ追加・削除ver'}</button>
-                <ContentsNumber pagerLimitMaxNum={pagerLimitMaxNum} isPagerFrag={isPagerFrag} />
+                <ContentsNumber
+                    pagerLimitMaxNum={pagerLimitMaxNum}
+                    isPagerFrag={isPagerFrag}
+                />
             </div>
             <ContentWrapper>
                 {isPagerFrag ?
