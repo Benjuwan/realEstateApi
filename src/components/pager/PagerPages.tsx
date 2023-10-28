@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect, useCallback, memo, FC } from "react";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
-import { Pagination } from "./Pagination";
 import { SetPagerNum } from "./SetPagerNum";
 import { ContentsItems } from "../ContentItmes";
 import { BtnComponent } from "./BtnComponent";
@@ -47,7 +46,6 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
 
     return (
         <>
-            {/* <Pagination pagerLimitMaxNum={pagerLimitMaxNum} /> */}
             <SetPagerNum />
             {isPagerContents.map((el, i) => (
                 <article key={i}>
