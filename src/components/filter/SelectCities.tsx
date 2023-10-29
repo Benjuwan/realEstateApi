@@ -1,18 +1,11 @@
 import { useState, useEffect, ChangeEvent, memo, useContext, FC } from "react";
+import { cityAry } from "../../ts/filterType/cityDataAryEls";
 import { GetFetchCityCode } from "../../providers/filter/GetFetchCityCode";
 import { useGetJsonData } from "../../hooks/filter/useGetJsonData";
+import { useFetchCityData } from "../../hooks/filter/useFetchCityData";
 
 type optionDefaultNameType = {
     optionDefaultName?: string;
-}
-
-type cityAry = {
-    id: string;
-    name: string;
-}
-
-type ciryData = {
-    data: Array<cityAry>;
 }
 
 export const SelectCities: FC<optionDefaultNameType> = memo((props) => {
@@ -20,6 +13,9 @@ export const SelectCities: FC<optionDefaultNameType> = memo((props) => {
 
     /* fetch API */
     const { GetJsonData } = useGetJsonData();
+
+    /* fetch API：市区町村コード */
+    const { FetchCityData } = useFetchCityData();
 
     /* 市区町村コード */
     const { isGetFetchCityCode } = useContext(GetFetchCityCode);
@@ -34,17 +30,7 @@ export const SelectCities: FC<optionDefaultNameType> = memo((props) => {
         }
         selectEl?.insertAdjacentHTML('afterbegin', `<option>${optionDefaultName}</option>`); // 市区町村リストに市区町村コードに準拠した地名を追加
 
-        const getCityData = async () => {
-            const response = await fetch(`https://www.land.mlit.go.jp/webland/api/CitySearch?area=${isGetFetchCityCode}`);
-            const resObj: ciryData = await response.json();
-            const ciryAry: Array<cityAry> = resObj.data;
-            const newAry = [...isCities];
-            ciryAry.forEach(aryEl => {
-                newAry.push(aryEl);
-                setCities((_prevAry) => newAry);
-            });
-        }
-        getCityData();
+        FetchCityData(isCities, setCities);
     }, [isGetFetchCityCode]);
 
     const getCityCode = (el: HTMLFormElement) => {
