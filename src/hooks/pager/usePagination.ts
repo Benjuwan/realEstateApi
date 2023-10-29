@@ -28,7 +28,8 @@ export const usePagination = () => {
                 const shallowCopy: string[] = [...dataPagerAry];
                 const targetDigit: string = shallowCopy[shallowCopy.length - 2];
                 if (targetDigit === undefined) {
-                    dataPagerResult = '10';
+                    /* ページャー番号（Pagination.tsx の JSX にある'data-pager'データ）が1桁の場合 */
+                    return dataPagerResult = '10'; // 早期リターンで処理終了
                 } else {
                     /* 2桁目以降を'0'に変更 */
                     for (let i = 0; i < shallowCopy.length; i++) {

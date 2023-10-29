@@ -2,7 +2,7 @@ import { memo, useContext, useState, ChangeEvent } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
 
-export const SetPagerNum = memo(() => {
+export const InputPagerNum = memo(() => {
     const { setPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* input text State */
