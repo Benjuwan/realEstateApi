@@ -9,7 +9,13 @@
 ## ページャー（lists）
 - `PagerPages`：ページ送り式ページャー（`splice`メソッド使用）
 - `PagerIncDec`：コンテンツデータの随時追加・削除式ページャー（`filter`メソッド使用）
-- `usePager`カスタムフックでページ数（ページャー）の処理を実装
+- `usePager`：カスタムフックでページ数（ページャー）の処理を実装
+- `Pagination`：ページャー番号項目クリックでのページ遷移ページャー
+- `usePagination`：カスタムフックで、`PagerPages`と`PagerIncDec`それぞれの仕様に合わせたページャー番号項目クリックでのページ遷移処理を実装
+- `InputPagerNum`：ページャー数入力でページ遷移
+
+### 設定関連
+- `providers/pager/GetFetchData.tsx`：ページャー用のオフセット数や表示開始ページ数の設定をしています。
 
 ## フィルター（filter）
 

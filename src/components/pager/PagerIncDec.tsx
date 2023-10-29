@@ -29,14 +29,8 @@ export const PagerIncDec: FC<PagerIncDecType> = memo((props) => {
             /* ページャー機能：コンテンツデータの随時追加・削除 */
             else {
                 if (typeof pagerLimitMaxNum !== "undefined") {
-                    const nearlyLimitRange: number = pagerLimitMaxNum - isPagers;
-                    if (nearlyLimitRange <= isOffSet) {
-                        /* nearlyLimitRange（上限値近辺数値）がオフセット（次ページ表示数）より下回っている場合 */
-                        const getRemandContents: number = isPagers + nearlyLimitRange;
-                        if (i < getRemandContents) {
-                            /* 残りのコンテンツデータ数を計算して、その分だけコンテンツデータを取得 */
-                            return el;
-                        }
+                    if (isPagers > pagerLimitMaxNum) {
+                        if (i < pagerLimitMaxNum) return el;
                     } else if (i < isPagers) {
                         return el;
                     }
@@ -60,8 +54,8 @@ export const PagerIncDec: FC<PagerIncDecType> = memo((props) => {
                     ClickEvent={prevPagerIncDec}
                 />
                 <BtnComponent btnTxt="NextBtn"
-                    /* isPagers >= (pagerLimitMaxNum - isOffSet)：ページャー数が残りの取得予定コンテンツデータ数を超えてしまう場合は操作不可 */
-                    disabledBool={isPagers >= (pagerLimitMaxNum - isOffSet)} classNameTxt="Next"
+                    disabledBool={isPagers >= pagerLimitMaxNum}
+                    classNameTxt="Next"
                     ClickEvent={nextPagerIncDec}
                 />
             </div>

@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect, useCallback, memo, FC } from "react";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
-import { SetPagerNum } from "./SetPagerNum";
+import { InputPagerNum } from "./InputPagerNum";
 import { ContentsItems } from "../ContentItmes";
 import { BtnComponent } from "./BtnComponent";
 import { usePager } from "../../hooks/pager/usePager";
@@ -22,10 +22,9 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
     /* ページャー機能：splice メソッドで処理 */
     const [isPagerContents, setPagerContents] = useState<estateInfoJsonDataContents[]>([]);
     const setPagerContentsFrag = useCallback((
-        fragStart: number = isPagers,
-        fragFinish: number = isOffSet
+        fragStart: number = isPagers, // 始点（fragStart）：ページャー数
+        fragFinish: number = isOffSet // 終点（fragFinish）：オフセット数
     ) => {
-        /* 始点：ページャー数、終点：ページャー数 + オフセット数 */
         const shallowCopy: estateInfoJsonDataContents[] = [...isGetFetchData];
         const splicedContents: estateInfoJsonDataContents[] = shallowCopy.splice(fragStart, fragFinish);
         setPagerContents((_prevPagerContents) => splicedContents);
@@ -37,7 +36,7 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
             const limitBorderLine: number = pagerLimitMaxNum - isOffSet;
             if (isPagers >= limitBorderLine) {
                 const remandNum: number = pagerLimitMaxNum - isPagers;
-                setPagerContentsFrag(isPagers, remandNum);
+                setPagerContentsFrag(isPagers, remandNum); // 終点：残りのコンテンツ数
             } else {
                 setPagerContentsFrag();
             }
@@ -46,7 +45,7 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
 
     return (
         <>
-            <SetPagerNum />
+            <InputPagerNum />
             {isPagerContents.map((el, i) => (
                 <article key={i}>
                     <ContentsItems aryEl={el} />
@@ -59,6 +58,7 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
                     ClickEvent={prevPagerPages}
                 />
                 <BtnComponent btnTxt="NextBtn"
+                    /* isPagers >= (pagerLimitMaxNum - isOffSet)：ページャー数が残りの取得予定コンテンツデータ数を超えてしまう場合は操作不可 */
                     disabledBool={isPagers >= (pagerLimitMaxNum - isOffSet)} classNameTxt="Next"
                     ClickEvent={nextPagerPages}
                 />
