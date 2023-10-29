@@ -4,23 +4,23 @@ import { App } from './App.tsx'
 import './index.css'
 
 /* pager */
-import { GetFetchDataContextFragment } from './providers/pager/GetFetchData.tsx'
+// import { GetFetchDataContextFragment } from './providers/pager/GetFetchData.tsx'
 
 /* filter */
-// import { GetFetchDataContextFragment } from './providers/filter/GetFetchData.tsx'
-// import { CityNameFragment } from './providers/filter/CityName.tsx'
-// import { FetchDataResetRenderContextFragment } from './providers/filter/FetchDataResetRender.tsx'
-// import { GetFetchCityCodeFragment } from './providers/filter/GetFetchCityCode.tsx'
+import { GetFetchDataContextFragment } from './providers/filter/GetFetchData.tsx'
+import { CityNameFragment } from './providers/filter/CityName.tsx'
+import { FetchDataResetRenderContextFragment } from './providers/filter/FetchDataResetRender.tsx'
+import { GetFetchCityCodeFragment } from './providers/filter/GetFetchCityCode.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     {/* pager */}
-    <GetFetchDataContextFragment>
+    {/* <GetFetchDataContextFragment>
       <App />
-    </GetFetchDataContextFragment>
+    </GetFetchDataContextFragment> */}
 
     {/* filter */}
-    {/* <GetFetchDataContextFragment>
+    <GetFetchDataContextFragment>
       <CityNameFragment>
         <FetchDataResetRenderContextFragment>
           <GetFetchCityCodeFragment>
@@ -28,6 +28,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           </GetFetchCityCodeFragment>
         </FetchDataResetRenderContextFragment>
       </CityNameFragment>
-    </GetFetchDataContextFragment> */}
+    </GetFetchDataContextFragment>
   </React.StrictMode>,
 )

@@ -6,7 +6,7 @@ export const useSortMethod = () => {
     const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);
 
     /* ソート機能 */
-    const SortMethod = (sortType: string) => {
+    const _SortMethod = (sortType: string) => {
         if (sortType === '昇順') {
             /* オブジェクトの配列は key（プロパティ）の値を比較することで並べ替えが可能 */
             return [...isGetFetchData].sort((aheadEl, behindEl) => parseInt(aheadEl.TradePrice) - parseInt(behindEl.TradePrice));
@@ -18,7 +18,7 @@ export const useSortMethod = () => {
 
     /* 昇順 */
     const ascClick = () => {
-        const askAry: Array<estateInfoJsonDataContents> | undefined = SortMethod('昇順');
+        const askAry: Array<estateInfoJsonDataContents> | undefined = _SortMethod('昇順');
         if (askAry !== undefined) {
             setGetFetchData((_prevAry) => askAry);
         }
@@ -26,11 +26,11 @@ export const useSortMethod = () => {
 
     /* 降順 */
     const deskClick = () => {
-        const deskAry: Array<estateInfoJsonDataContents> | undefined = SortMethod('降順');
+        const deskAry: Array<estateInfoJsonDataContents> | undefined = _SortMethod('降順');
         if (deskAry !== undefined) {
             setGetFetchData((_prevAry) => deskAry);
         }
     }
 
-    return { SortMethod, ascClick, deskClick }
+    return { ascClick, deskClick }
 }

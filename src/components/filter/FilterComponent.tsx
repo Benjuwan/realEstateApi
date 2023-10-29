@@ -12,7 +12,7 @@ import { useGetJsonData } from "../../hooks/filter/useGetJsonData";
 /* 都道府県から市区町村コードを取得して表示（データフェッチ）したいが未実装 */
 import { SelectPrefs } from "./SelectPrefs";
 
-export const CompareComponent = memo(() => {
+export const FilterComponent = memo(() => {
     const { isGetFetchData } = useContext(GetFetchDataContext);
     const { isFetchDataResetRender } = useContext(FetchDataResetRenderContext);
     const { isCityName } = useContext(CityName);
