@@ -1,11 +1,22 @@
+import { useContext } from "react";
+import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+
 export const usePagination = () => {
+    const { isOffSet } = useContext(GetFetchDataContext);
 
     /* for PagerPages.tsx */
     const PaginationPagesVer = (
-        dataPagerAry: string[] | undefined
+        dataPagerAry: string[] | undefined,
+        targetOffsetFirstDigit: number
     ) => {
         let dataPagerResult: string = '';
         if (typeof dataPagerAry !== 'undefined') {
+            if (targetOffsetFirstDigit === 5) {
+                /* オフセットの1桁目が「5」の場合 */
+                return dataPagerResult = dataPagerAry.join(''); // 早期リターンで処理終了
+            }
+
+            /* オフセットの1桁目が「5」でない場合 */
             if (parseInt(dataPagerAry[dataPagerAry.length - 1]) > 0) {
                 const shallowCopy: string[] = [...dataPagerAry];
                 const splicedData: string[] = shallowCopy.splice(dataPagerAry.length - 1, 1, '0');
@@ -20,16 +31,34 @@ export const usePagination = () => {
 
     /* for PagerIncDec.tsx */
     const PaginationIncDecVer = (
-        dataPagerAry: string[] | undefined
+        dataPagerAry: string[] | undefined,
+        targetOffsetFirstDigit: number,
+        pagerLimitMaxNum: number
     ) => {
         let dataPagerResult: string = '';
         if (typeof dataPagerAry !== 'undefined') {
+            if (targetOffsetFirstDigit === 5) {
+                /* オフセットの1桁目が「5」の場合 */
+                const dataPagerValue: number = parseInt(dataPagerAry.join('')); // ページャー番号（Pagination.tsx の JSX にある'data-pager'データ）
+                if (isOffSet >= pagerLimitMaxNum - dataPagerValue) {
+                    /* dataPager の数値が上限値直前の場合、上限値をリターン */
+                    return dataPagerResult = String(pagerLimitMaxNum);
+                } else if (dataPagerValue >= 5) {
+                    /* dataPager の数値が5以上の場合、オフセット数値を加算した内容をリターン */
+                    const adjustNumStr: number = dataPagerValue + isOffSet
+                    return dataPagerResult = String(adjustNumStr);
+                } else {
+                    return dataPagerResult = dataPagerAry.join(''); // 早期リターン
+                }
+            }
+
+            /* ページャー番号の 1桁目が 0 以上場合 */
             if (parseInt(dataPagerAry[dataPagerAry.length - 1]) > 0) {
                 const shallowCopy: string[] = [...dataPagerAry];
                 const targetDigit: string = shallowCopy[shallowCopy.length - 2];
                 if (targetDigit === undefined) {
                     /* ページャー番号（Pagination.tsx の JSX にある'data-pager'データ）が1桁の場合 */
-                    return dataPagerResult = '10'; // 早期リターンで処理終了
+                    return dataPagerResult = '10'; // 早期リターン
                 } else {
                     /* 2桁目以降を'0'に変更 */
                     for (let i = 0; i < shallowCopy.length; i++) {

@@ -14,6 +14,10 @@ export const Pagination: FC<PaginationType> = memo((props) => {
     /* 各種Context */
     const { isGetFetchData, setPagers, isOffSet } = useContext(GetFetchDataContext);
 
+    /* オフセットの1桁目を取得 */
+    const targetOffsetFirstDigitAry: string[] = String(isOffSet).split('');
+    const targetOffsetFirstDigit: number = parseInt(targetOffsetFirstDigitAry[targetOffsetFirstDigitAry.length - 1]);
+
     /* ページ数：コンテンツデータ数をオフセットで分割した数 */
     const [isPagination, setPagination] = useState<number[]>([]);
 
@@ -30,8 +34,8 @@ export const Pagination: FC<PaginationType> = memo((props) => {
 
         /* PagerPages.tsx / PagerIncDec.tsx で機能切替 */
         let dataPagerResult: string = '';
-        if (isPagerFrag) dataPagerResult = PaginationPagesVer(dataPagerAry); // for PagerPages.tsx
-        else dataPagerResult = PaginationIncDecVer(dataPagerAry); // for PagerIncDec.tsx
+        if (isPagerFrag) dataPagerResult = PaginationPagesVer(dataPagerAry, targetOffsetFirstDigit); // for PagerPages.tsx
+        else dataPagerResult = PaginationIncDecVer(dataPagerAry, targetOffsetFirstDigit, pagerLimitMaxNum); // for PagerIncDec.tsx
 
         /* 加工（1の位を0に固定）したカスタムデータ属性（data-pager）の値をセット */
         setPagers((_prevPagerNum) => Number(dataPagerResult));
@@ -42,12 +46,20 @@ export const Pagination: FC<PaginationType> = memo((props) => {
         if (isPagination.length <= 0) {
             const srcAry: number[] = [];
             let srcNum: number = pagerLimitMaxNum;
+
+            if (targetOffsetFirstDigit === 5) {
+                /* オフセットの1桁目が「5」の場合 */
+                const srcNumStrSplitAry: string[] = String(srcNum).split('');
+                const srcNumFirstDigit: number = parseInt(srcNumStrSplitAry[srcNumStrSplitAry.length - 1]); // 上限値の1桁目
+                if (srcNumFirstDigit !== 0) srcNum = srcNum - srcNumFirstDigit; // 上限値の1桁目が0でない場合は1桁目を 0 に整える
+            }
+
             while (srcNum >= 0) {
                 srcAry.unshift(srcNum);
                 srcNum = srcNum - isOffSet;
             }
 
-            setPagerNum((_prevPagerNum) => srcAry); // ページャー数をセット
+            setPagerNum((_prevPagerNum) => [...isPagerNum, ...srcAry]); // ページャー数をセット
 
             const paginationAry: number[] = srcAry.map((pageNumEl, pagerNum) => {
                 return pagerNum + 1;
