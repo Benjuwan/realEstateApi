@@ -61,9 +61,10 @@ export const Pagination: FC<PaginationType> = memo((props) => {
 
             setPagerNum((_prevPagerNum) => [...isPagerNum, ...srcAry]); // ページャー数をセット
 
-            const paginationAry: number[] = srcAry.map((pageNumEl, pagerNum) => {
-                return pagerNum + 1;
-            });
+            const paginationAry: number[] = [];
+            for (let i = 1; i <= srcAry.length; i++) {
+                paginationAry.push(i);
+            }
             setPagination((_prevPagination) => [...isPagination, ...paginationAry]); // ページ数をセット
         }
     }, [isGetFetchData]);

@@ -1,16 +1,16 @@
 import { ChangeEvent, useEffect, useRef, memo, useContext } from "react";
 import { SelectCities } from "./SelectCities";
-import { GetFetchCityCode } from "../../providers/filter/GetFetchCityCode";
+import { GetFetchPrefCode } from "../../providers/filter/GetFetchPrefCode";
 
 export const SelectPrefs = memo(() => {
-    const { setGetFetchCityCode } = useContext(GetFetchCityCode);
+    const { setGetFetchPrefCode } = useContext(GetFetchPrefCode);
 
     const refFormSelectElValue = useRef<HTMLFormElement | null>(null);
     const get_SelectElValue_CityCode = () => {
         /* form 要素を親に持っていないと下記の記述（ParentEl.querySelector('select')?.value）は不可能 */
         const formSelectElValue: string | undefined = refFormSelectElValue.current?.querySelector('select')?.value;
         if (formSelectElValue) {
-            setGetFetchCityCode((_prevCode) => formSelectElValue);
+            setGetFetchPrefCode((_prevPrefCode) => formSelectElValue);
         }
     }
 

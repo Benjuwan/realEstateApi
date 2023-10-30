@@ -45,7 +45,10 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
 
     return (
         <>
-            <InputPagerNum />
+            {isOffSet % 5 === 0 &&
+                /*（調整不足で）オフセット数が 5 の倍数以外では意図した挙動にならないので条件を設けてコンポーネントを呼び出す */
+                <InputPagerNum pagerLimitMaxNum={pagerLimitMaxNum} />
+            }
             {isPagerContents.map((el, i) => (
                 <article key={i}>
                     <ContentsItems aryEl={el} />

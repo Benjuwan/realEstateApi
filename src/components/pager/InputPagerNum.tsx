@@ -1,20 +1,30 @@
-import { memo, useContext, useState, ChangeEvent } from "react";
+import { FC, memo, useContext, useState, ChangeEvent } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
 
-export const InputPagerNum = memo(() => {
+type InputPagerNumType = {
+    pagerLimitMaxNum: number;
+}
+
+export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) => {
     const { setPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* オフセットの1桁目を取得 */
     const targetOffsetFirstDigitAry: string[] = String(isOffSet).split('');
     const targetOffsetFirstDigit: number = parseInt(targetOffsetFirstDigitAry[targetOffsetFirstDigitAry.length - 1]);
 
-    /* input text State */
+    /* input[type="text"]の State */
     const [isInputValue, setInputValue] = useState<string>('');
+    /* inputTxt：input[type="text"]の onInput イベントで行う処理 */
     const inputTxt = (inputEv: ChangeEvent<HTMLInputElement>) => {
         const inputElValue = inputEv.currentTarget.value;
-        if (Number(inputElValue)) setInputValue((_prevInoutTxt) => inputElValue); // 数値のみ入力を受け付ける
-        else setInputValue((_prevInoutTxt) => ''); // 数値以外は拒否（空欄にする）することでデリート操作で先頭 1文字が残る現象を解消
+        if (Number(inputElValue)) {
+            /* 数値のみ入力を受け付ける */
+            setInputValue((_prevInoutTxt) => inputElValue);
+        } else {
+            /* 数値以外は拒否（空欄にする）することでデリート操作で先頭 1文字が残る現象を解消 */
+            setInputValue((_prevInoutTxt) => '');
+        }
     }
 
     /* 四捨五入メソッド */
@@ -26,8 +36,8 @@ export const InputPagerNum = memo(() => {
         const adjustResultSplitAry: string[] = String(adjustResult).split('');
         const shallowCopy = [...adjustResultSplitAry];
 
-        /* 入力値の1桁目が 5 以上 の場合 */
         if (targetNumOver) {
+            /* 入力値の1桁目が 5 以上 の場合 */
             if (targetOffsetFirstDigit === 5) {
                 /* オフセットの1桁目が「5」の場合 */
                 const firstDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '5');
@@ -52,8 +62,8 @@ export const InputPagerNum = memo(() => {
             }
         }
 
-        /* 入力値の1桁目が 5 以下 の場合 */
         else {
+            /* 入力値の1桁目が 5 以下 の場合 */
             const secondDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0');
             // console.log(shallowCopy.join(''), secondDigitDestroyAry.join(''));
             adjustResult = parseInt(shallowCopy.join(''));
@@ -77,14 +87,23 @@ export const InputPagerNum = memo(() => {
         let _inputValue: number = parseInt(inputValue);
 
         if (_inputValue % isOffSet === 0) {
-            /* 入力値がオフセットの数値で割り切れる場合はそのまま処理を進める */
-            setPagers((_prevPagerNum) => _inputValue);
-            setInputValue((_prevInputValue) => String(_inputValue));
-        } else {
-            /* 入力値がオフセット以上の場合 */
-            if (_inputValue >= isOffSet) {
+            /* 入力値がオフセットの数値で割り切れる場合 */
+            if (targetOffsetFirstDigit === 5) {
                 /* オフセットの1桁目が「5」の場合 */
+                const adjustNum: number = _inputValue - 1;
+                setPagers((_prevPagerNum) => adjustNum);
+                setInputValue((_prevInputValue) => String(adjustNum)); // 1つ減算した数値を渡す
+            } else {
+                /* else ではそのまま処理を進める */
+                setPagers((_prevPagerNum) => _inputValue);
+                setInputValue((_prevInputValue) => String(_inputValue));
+            }
+        } else {
+            /* 入力値がオフセットの数値で割り切れない場合 */
+            if (_inputValue >= isOffSet) {
+                /* 入力値がオフセット以上 の場合 */
                 if (targetOffsetFirstDigit === 5) {
+                    /* オフセットの1桁目が「5」の場合 */
                     if (parseInt(inputValue[inputValue.length - 1]) >= 5) {
                         /* 入力値の1桁目が 5 以上 の場合 */
                         RoundingOff(inputValue, true);
@@ -94,16 +113,16 @@ export const InputPagerNum = memo(() => {
                     }
                 }
 
-                /* オフセットの1桁目が「5」以下 の場合 */
                 else {
+                    /* オフセットの1桁目が「5」以下 の場合 */
                     RoundingOff(inputValue);
                 }
             }
 
-            /* 入力値がオフセット以下の場合はオフセットの数値で処理を進める */
             else {
-                setPagers((_prevPagerNum) => isOffSet);
-                setInputValue((_prevInputValue) => String(isOffSet));
+                /* 入力値がオフセット以下 の場合はページャー数を 0 にして進める（ページャー数の表記は ContentsNumber.tsx にて制御）*/
+                setPagers((_prevPagerNum) => 0);
+                setInputValue((_prevInputValue) => String(_inputValue));
             }
         }
     }
@@ -111,7 +130,13 @@ export const InputPagerNum = memo(() => {
     return (
         <SetPagerNumEl>
             <label htmlFor="">ページ数を指定<input type="text" value={isInputValue} onInput={(inputEv: ChangeEvent<HTMLInputElement>) => {
-                inputTxt(inputEv);
+                if (parseInt(inputEv.currentTarget.value) > pagerLimitMaxNum) {
+                    /* 上限値を超えた場合はアラート表示して input 入力欄を空欄にする */
+                    alert(`「${pagerLimitMaxNum}」以内の数値で入力してください`)
+                    setInputValue((_prevInoutTxt) => '');
+                } else {
+                    inputTxt(inputEv);
+                }
             }} /></label>
             <button type="button" disabled={isInputValue.length <= 0} onClick={() => {
                 setPagerNumber(isInputValue);

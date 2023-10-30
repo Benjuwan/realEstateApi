@@ -18,7 +18,7 @@ export const useFilterMethod = () => {
     }
 
     const ResetFilter = () => {
-        /* フィルターのかかったデータを一旦削除（配列を空に）して、データフェッチのリセット用のState を更新することで FilterComponent.tsx（ベースコンポーネント）にて再度データフェッチを行う */
+        /* フィルターのかかったデータを一旦削除（配列を空に）して、データフェッチのリセット用のState を更新することで FilterComponent.tsx（ベースコンポーネント）にて再度データフェッチ（再レンダリング）を行う */
         setGetFetchData((_prevFetchAry) => []);
         setFetchDataResetRender((_prevBool) => !isFetchDataResetRender);
     }

@@ -10,7 +10,7 @@ import './index.css'
 import { GetFetchDataContextFragment } from './providers/filter/GetFetchData.tsx'
 import { CityNameFragment } from './providers/filter/CityName.tsx'
 import { FetchDataResetRenderContextFragment } from './providers/filter/FetchDataResetRender.tsx'
-import { GetFetchCityCodeFragment } from './providers/filter/GetFetchCityCode.tsx'
+import { GetFetchPrefCodeFragment } from './providers/filter/GetFetchPrefCode.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -23,9 +23,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <GetFetchDataContextFragment>
       <CityNameFragment>
         <FetchDataResetRenderContextFragment>
-          <GetFetchCityCodeFragment>
+          <GetFetchPrefCodeFragment>
             <App />
-          </GetFetchCityCodeFragment>
+          </GetFetchPrefCodeFragment>
         </FetchDataResetRenderContextFragment>
       </CityNameFragment>
     </GetFetchDataContextFragment>
