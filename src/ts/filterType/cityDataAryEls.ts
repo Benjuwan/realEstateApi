@@ -3,6 +3,6 @@ export type cityAry = {
     name: string;
 }
 
-export type ciryData = {
+export type cityData = {
     data: Array<cityAry>;
 }
