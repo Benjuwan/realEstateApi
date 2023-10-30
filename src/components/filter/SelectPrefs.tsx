@@ -3,14 +3,15 @@ import { SelectCities } from "./SelectCities";
 import { GetFetchPrefCode } from "../../providers/filter/GetFetchPrefCode";
 
 export const SelectPrefs = memo(() => {
+    /* 都道府県コード */
     const { setGetFetchPrefCode } = useContext(GetFetchPrefCode);
 
     const refFormSelectElValue = useRef<HTMLFormElement | null>(null);
     const get_SelectElValue_CityCode = () => {
         /* form 要素を親に持っていないと下記の記述（ParentEl.querySelector('select')?.value）は不可能 */
         const formSelectElValue: string | undefined = refFormSelectElValue.current?.querySelector('select')?.value;
-        if (formSelectElValue) {
-            setGetFetchPrefCode((_prevPrefCode) => formSelectElValue);
+        if (typeof formSelectElValue !== "undefined") {
+            setGetFetchPrefCode((_prevPrefCode) => formSelectElValue); // 都道府県コードをセット
         }
     }
 
@@ -35,7 +36,7 @@ export const SelectPrefs = memo(() => {
                 el.preventDefault();
                 get_SelectElValue_CityCode();
             }}>
-                <select name="" id=""></select>
+                <select name="" id="prefLists"></select>
             </form>
             <SelectCities optionDefaultName="選択してください" />
         </>

@@ -7,7 +7,7 @@ import { AverageNumber } from "./AverageNumber";
 import { ContentsItems } from "../ContentItmes";
 import { FilterActionBtns } from "./FilterActionBtns";
 import { FilterContentsCatClick } from "./FilterContentsCatClick";
-import { useGetJsonData } from "../../hooks/filter/useGetJsonData";
+import { useGetJsonDataXai } from "../../hooks/filter/useGetJsonDataXai";
 
 /* 都道府県から市区町村コードを取得して表示（データフェッチ）したいが未実装 */
 import { SelectPrefs } from "./SelectPrefs";
@@ -17,10 +17,9 @@ export const FilterComponent = memo(() => {
     const { isFetchDataResetRender } = useContext(FetchDataResetRenderContext);
     const { isCityName } = useContext(CityName);
 
-    const { GetJsonData } = useGetJsonData();
-    useEffect(() => {
-        GetJsonData(`https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205`);
-    }, [isFetchDataResetRender]);
+    /* fetch API */
+    const { GetJsonDataXai } = useGetJsonDataXai();
+    useEffect(() => GetJsonDataXai(), [isFetchDataResetRender]);
 
     // 詳細情報の表示機能（モーダル）
     const OnViewDetails = (el: HTMLElement) => {
@@ -34,9 +33,9 @@ export const FilterComponent = memo(() => {
 
     return (
         <Contents>
-            <h2>「{isCityName}」の平均取引価格「<AverageNumber />」</h2>
-            <p>件数：{isGetFetchData.length}</p>
             <SelectPrefs />
+            <h2>{isCityName && <>「{isCityName}」の</>}平均取引価格「<AverageNumber />」</h2>
+            <p>件数：{isGetFetchData.length}</p>
             <FilterActionBtns />
             {isGetFetchData.map((el, i) => (
                 <div className="contents" key={i}>
