@@ -2,7 +2,6 @@ import { useState, useEffect, ChangeEvent, memo, useContext, FC } from "react";
 import { cityAry } from "../../ts/filterType/cityDataAryEls";
 import { GetFetchPrefCode } from "../../providers/filter/GetFetchPrefCode";
 import { useFetchPrefData } from "../../hooks/filter/useFetchPrefData";
-import { useSetPrefCityName } from "../../hooks/filter/useSetPrefCityName";
 
 type optionDefaultNameType = {
     optionDefaultName?: string;
@@ -20,9 +19,6 @@ export const SelectCities: FC<optionDefaultNameType> = memo((props) => {
     /* 市区町村リスト（select） */
     const [isCities, setCities] = useState<Array<cityAry>>([]);
 
-    /*  */
-    const { SetPrefCityName } = useSetPrefCityName();
-
     useEffect(() => {
         const selectEl: HTMLSelectElement | null = document.querySelector('#citiesLists');
         if (selectEl) {
@@ -36,7 +32,6 @@ export const SelectCities: FC<optionDefaultNameType> = memo((props) => {
     return (
         <form action="" onChange={(el: ChangeEvent<HTMLFormElement>) => {
             el.preventDefault();
-            SetPrefCityName('#prefLists', '#citiesLists');
         }}>
             <select name="" id="citiesLists">
                 {isCities.map((city, i) => (

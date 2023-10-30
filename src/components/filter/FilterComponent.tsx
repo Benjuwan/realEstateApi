@@ -57,6 +57,7 @@ export const FilterComponent = memo(() => {
 
 const Contents = styled.div`
 width: clamp(320px, 100%, 640px);
+padding: 0 2em;
 margin: auto;
 
 & button {

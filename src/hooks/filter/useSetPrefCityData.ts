@@ -2,12 +2,29 @@ import { useContext } from "react"
 import { CityName } from "../../providers/filter/CityName"
 import { useGetJsonDataXai } from "./useGetJsonDataXai";
 
-export const useSetPrefCityName = () => {
+export const useSetPrefCityData = () => {
     /* 市区町村名 State の更新関数 */
     const { setCityName } = useContext(CityName);
 
     /* fetch API */
     const { GetJsonDataXai } = useGetJsonDataXai();
+
+    /* 計測期間の取得 */
+    const _getTerms = (
+        YearsQuarterListsName: string
+    ) => {
+        /* yearsLists：年 */
+        const yearsLists: HTMLSelectElement | null = document.querySelector(`${YearsQuarterListsName} #yearsLists`);
+        const yearsValue: string | undefined = yearsLists?.value;
+
+        /* quarterLists：四半期 */
+        const quarterLists: HTMLSelectElement | null = document.querySelector(`${YearsQuarterListsName} #quarterLists`);
+        const quarterValue: string | undefined = quarterLists?.value;
+
+        /* termValue：計測期間の文字列 */
+        const termValue: string = `${yearsValue}${quarterValue}`;
+        return termValue;
+    }
 
     /* 選択した option 要素のラベル名（都道府県名・市区町村名）を取得 */
     const _getTargetOptionLabel = (
@@ -24,13 +41,14 @@ export const useSetPrefCityName = () => {
             }).filter(optionEl => {
                 return optionEl !== undefined;
             });
+
             // console.log(getTargetOptionLabelAry); // 都道府県名は StrictMode では 2重表記
             return getTargetOptionLabelAry[0];
         }
     }
 
-    /* 選択した option 要素のラベル名（都道府県名・市区町村名）を市区町村名 State にセット */
-    const SetPrefCityName = (
+    /* 都道府県・市区町村及び計測期間に準じたデータを取得・反映する */
+    const SetPrefCityData = (
         prefListsName: string,
         citiesListsName: string,
     ) => {
@@ -47,12 +65,19 @@ export const useSetPrefCityName = () => {
         /* 都道府県名 - 市区町村名 の文字列を生成 */
         const prefCityName: string | null = `${getTargetOption_PrefName} ${getTargetOption_CityName}`;
 
-        /* 都道府県名 - 市区町村名 の文字列をセット */
-        setCityName((_prevCityname) => prefCityName);
+        /* 計測期間の取得元 select 要素を指定 */
+        const YearsQuarterLists_From = _getTerms('.YearsQuarterLists_From');
+        const YearsQuarterLists_To = _getTerms('.YearsQuarterLists_To');
+        if (YearsQuarterLists_From === YearsQuarterLists_To) {
+            return; // 値が同じ場合は早期リターンして処理終了
+        } else {
+            /* 都道府県名 - 市区町村名 の文字列をセット */
+            setCityName((_prevCityname) => prefCityName);
 
-        /* 都道府県名 - 市区町村名 に準拠したデータを取得及び反映 */
-        GetJsonDataXai(citiesLists?.value);
+            /* 都道府県名 - 市区町村名 に準拠したデータを取得及び反映 */
+            GetJsonDataXai(citiesLists?.value, YearsQuarterLists_From, YearsQuarterLists_To);
+        }
     }
 
-    return { SetPrefCityName }
+    return { SetPrefCityData }
 }
