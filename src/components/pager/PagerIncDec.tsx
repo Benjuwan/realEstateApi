@@ -1,6 +1,6 @@
 import { useContext, useMemo, memo, FC } from "react";
-import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
 import { ContentsItems } from "../ContentItmes";
 import { BtnComponent } from "./BtnComponent";
 import { usePager } from "../../hooks/pager/usePager";

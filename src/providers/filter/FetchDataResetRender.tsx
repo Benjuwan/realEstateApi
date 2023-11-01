@@ -1,3 +1,8 @@
+/**
+ * FetchDataContents.tsx にてコンテンツデータを初期取得及び表示している場合に使用
+ * 使用想定例：訪問者にとりあえず見た目でどんなものかを知ってもらいたいケースなど
+*/
+
 import { createContext, ReactNode, useState, FC } from "react";
 
 type Default = {

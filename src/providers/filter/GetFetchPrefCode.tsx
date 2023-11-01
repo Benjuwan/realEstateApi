@@ -10,7 +10,6 @@ type fragmentType = {
     children: ReactNode;
 }
 export const GetFetchPrefCodeFragment: FC<fragmentType> = (props) => {
-    /* 都道府県内市区町村一覧取得API：https://www.land.mlit.go.jp/webland/api.html */
     const [isGetFetchPrefCode, setGetFetchPrefCode] = useState<string>('01'); // 都道府県コードのデフォルト値は北海道（01）
 
     return (

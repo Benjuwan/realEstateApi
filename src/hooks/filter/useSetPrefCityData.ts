@@ -10,7 +10,7 @@ export const useSetPrefCityData = () => {
     const { GetJsonDataXai } = useGetJsonDataXai();
 
     /* 計測期間の取得 */
-    const _getTerms = (
+    const getTerms = (
         YearsQuarterListsName: string
     ) => {
         /* yearsLists：年 */
@@ -23,7 +23,7 @@ export const useSetPrefCityData = () => {
 
         /* termValue：計測期間の文字列 */
         const termValue: string = `${yearsValue}${quarterValue}`;
-        return termValue;
+        return parseInt(termValue); // 数値型で返却 
     }
 
     /* 選択した option 要素のラベル名（都道府県名・市区町村名）を取得 */
@@ -55,29 +55,30 @@ export const useSetPrefCityData = () => {
         /* 都道府県名 を取得 */
         const prefLists: HTMLSelectElement | null = document.querySelector(prefListsName);
         const getTargetOption_PrefName: string | undefined = _getTargetOptionLabel(prefLists);
-        console.log(prefLists?.value); // 都道府県コード
+        // console.log(prefLists?.value); // 都道府県コード
 
         /* 市区町村名 を取得 */
         const citiesLists: HTMLSelectElement | null = document.querySelector(citiesListsName);
         const getTargetOption_CityName: string | undefined = _getTargetOptionLabel(citiesLists);
-        console.log(citiesLists?.value); // 市区町村コード
+        // console.log(citiesLists?.value); // 市区町村コード
 
         /* 都道府県名 - 市区町村名 の文字列を生成 */
         const prefCityName: string | null = `${getTargetOption_PrefName} ${getTargetOption_CityName}`;
 
         /* 計測期間の取得元 select 要素を指定 */
-        const YearsQuarterLists_From = _getTerms('.YearsQuarterLists_From');
-        const YearsQuarterLists_To = _getTerms('.YearsQuarterLists_To');
-        if (YearsQuarterLists_From === YearsQuarterLists_To) {
-            return; // 値が同じ場合は早期リターンして処理終了
+        const fromValue = getTerms('.YearsQuarterLists_From');
+        const toValue = getTerms('.YearsQuarterLists_To');
+        if (fromValue === toValue || fromValue > toValue) {
+            /* 値が同じ or 計測開始の方が計測終了より大きい場合 */
+            return; // 早期リターンして処理終了
         } else {
             /* 都道府県名 - 市区町村名 の文字列をセット */
             setCityName((_prevCityname) => prefCityName);
 
             /* 都道府県名 - 市区町村名 に準拠したデータを取得及び反映 */
-            GetJsonDataXai(citiesLists?.value, YearsQuarterLists_From, YearsQuarterLists_To);
+            GetJsonDataXai(citiesLists?.value, fromValue, toValue);
         }
     }
 
-    return { SetPrefCityData }
+    return { getTerms, SetPrefCityData }
 }

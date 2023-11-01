@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
+import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 
 export const useSortMethod = () => {
@@ -18,7 +18,7 @@ export const useSortMethod = () => {
 
     /* 昇順 */
     const ascClick = () => {
-        const askAry: Array<estateInfoJsonDataContents> | undefined = _SortMethod('昇順');
+        const askAry: estateInfoJsonDataContents[] | undefined = _SortMethod('昇順');
         if (askAry !== undefined) {
             setGetFetchData((_prevAry) => askAry);
         }
@@ -26,7 +26,7 @@ export const useSortMethod = () => {
 
     /* 降順 */
     const deskClick = () => {
-        const deskAry: Array<estateInfoJsonDataContents> | undefined = _SortMethod('降順');
+        const deskAry: estateInfoJsonDataContents[] | undefined = _SortMethod('降順');
         if (deskAry !== undefined) {
             setGetFetchData((_prevAry) => deskAry);
         }
