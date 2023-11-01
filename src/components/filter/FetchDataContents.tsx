@@ -2,10 +2,11 @@ import { memo, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 import { CityName } from "../../providers/filter/CityName";
-import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
 import { FilterContentsCatClick } from "./FilterContentsCatClick";
 import { AverageNumber } from "./AverageNumber";
 import { ContentsItems } from "../ContentItmes";
+
+import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
 import { useGetJsonDataXai } from "../../hooks/filter/useGetJsonDataXai";
 
 export const FetchDataContents = memo(() => {
@@ -13,9 +14,25 @@ export const FetchDataContents = memo(() => {
     const { isCityName } = useContext(CityName); // 都道府県・市区町村名
 
     /* fetch API：デフォルト（大阪府吹田市）設定を初期表示したい場合は isFetchDataResetRender を依存配列にした useEffect 部分のコメントアウトを外す */
-    const { isFetchDataResetRender } = useContext(FetchDataResetRenderContext); // fetch データのリセット
-    const { GetJsonDataXai } = useGetJsonDataXai();
+    // const { isFetchDataResetRender } = useContext(FetchDataResetRenderContext); // fetch データのリセット
+    // const { GetJsonDataXai } = useGetJsonDataXai();
     // useEffect(() => GetJsonDataXai(), [isFetchDataResetRender]);
+
+    /* ローディングテキストのアニメーション演出の準備と補助 */
+    useEffect(() => {
+        const isLoadingEl: HTMLParagraphElement | null = document.querySelector('.isLoading');
+        const isLoadingElWords: string[] | undefined = isLoadingEl?.textContent?.split('');
+        const loadingWords: string[] | undefined = isLoadingElWords?.map((word, i) => {
+            return `<span class="txtFrames" style="animation-delay:${i * 0.025}s">${word}</span>`;
+        });
+
+        if (
+            isLoadingEl !== null &&
+            typeof loadingWords !== "undefined"
+        ) {
+            isLoadingEl.innerHTML = loadingWords?.join('');
+        }
+    }, [isGetFetchData]);
 
     /* 詳細情報の表示機能（モーダル） */
     const OnViewDetails = (targetViewElm: HTMLElement) => {
@@ -28,7 +45,7 @@ export const FetchDataContents = memo(() => {
     }
 
     return (
-        <>{isLoading ? <p>...now loading</p> :
+        <>{isLoading ? <LoadingEl className="isLoading">...データを取得中</LoadingEl> :
             <>
                 {isGetFetchData.length > 0 && <h2 style={{ 'fontSize': '20px', 'textAlign': 'center' }}>{isCityName && <>「{isCityName}」の</>}平均取引価格「<AverageNumber />」</h2>}
                 <p>件数：{isGetFetchData.length}</p>
@@ -52,6 +69,25 @@ export const FetchDataContents = memo(() => {
         </>
     );
 });
+
+const LoadingEl = styled.p`
+overflow: hidden;
+letter-spacing: .25em;
+
+& span {
+    display: inline-block;
+    transform: translateY(1em);
+
+    &.txtFrames{
+        animation: txtFrames .75s infinite ease-in-out;
+
+        @keyframes txtFrames {
+            0%{transform:translateY(1em)}
+            50%, 100%{transform:translateY(0)}
+        }
+    }
+}
+`;
 
 const EachContents = styled.div`
 &.contents{
