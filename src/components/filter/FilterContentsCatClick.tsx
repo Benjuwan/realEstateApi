@@ -1,5 +1,5 @@
 import { memo, FC } from "react";
-import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
+import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
 import { useFilterMethod } from "../../hooks/filter/useFilterMethod";
 
 type filterAryProps = {

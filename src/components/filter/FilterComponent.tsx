@@ -1,56 +1,15 @@
-import { useContext, useEffect, memo } from "react";
+import { memo } from "react";
 import styled from "styled-components";
-import { CityName } from "../../providers/filter/CityName";
-import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
-import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
-import { AverageNumber } from "./AverageNumber";
-import { ContentsItems } from "../ContentItmes";
-import { FilterActionBtns } from "./FilterActionBtns";
-import { FilterContentsCatClick } from "./FilterContentsCatClick";
-import { useGetJsonDataXai } from "../../hooks/filter/useGetJsonDataXai";
-
-/* 都道府県から市区町村コードを取得して表示（データフェッチ）したいが未実装 */
 import { SelectPrefs } from "./SelectPrefs";
+import { FilterActionBtns } from "./FilterActionBtns";
+import { FetchDataContents } from "./FetchDataContents";
 
 export const FilterComponent = memo(() => {
-    const { isGetFetchData } = useContext(GetFetchDataContext);
-    const { isFetchDataResetRender } = useContext(FetchDataResetRenderContext);
-    const { isCityName } = useContext(CityName);
-
-    /* fetch API */
-    const { GetJsonDataXai } = useGetJsonDataXai();
-    useEffect(() => GetJsonDataXai(), [isFetchDataResetRender]);
-
-    // 詳細情報の表示機能（モーダル）
-    const OnViewDetails = (el: HTMLElement) => {
-        const detailsContent = el.parentElement?.querySelector('.details');
-        if (detailsContent?.classList.contains('OnView')) {
-            detailsContent.classList.remove('OnView');
-        } else {
-            detailsContent?.classList.add('OnView');
-        }
-    }
-
     return (
         <Contents>
             <SelectPrefs />
-            <h2>{isCityName && <>「{isCityName}」の</>}平均取引価格「<AverageNumber />」</h2>
-            <p>件数：{isGetFetchData.length}</p>
             <FilterActionBtns />
-            {isGetFetchData.map((el, i) => (
-                <div className="contents" key={i}>
-                    <FilterContentsCatClick aryEl={el} classNameStr="infoBtn" />
-                    <p className="TradePrice">{el.TradePrice}</p>
-                    <button type="button" onClick={((btnEl) => {
-                        OnViewDetails(btnEl.currentTarget);
-                    })}>詳細</button>
-                    <div className="details" onClick={((divEl) => {
-                        OnViewDetails(divEl.currentTarget);
-                    })}>
-                        <ContentsItems aryEl={el} />
-                    </div>
-                </div>
-            ))}
+            <FetchDataContents />
         </Contents>
     );
 });
@@ -67,69 +26,5 @@ margin: auto;
     background-color: transparent;
     border: 1px solid;
     width: 100%;
-}
-
-& h2 {
-    font-size: 20px;
-    text-align: center;
-}
-
-& .btns {
-    margin-bottom: 2em;
-    display: flex;
-    justify-content: space-between;
-    background-color: #dadada;
-    padding: 1em 3em;
-    border-radius: 4px;
-    gap: 5%;
-}
-
-& .contents{
-    font-size: 16px;
-    line-height: 2;
-    display: flex;
-    align-items: center;
-    gap: 2%;
-    margin-bottom: 1em;
-    padding: 1em;
-    background-color: #eaeaea;
-    border-radius: 4px;
-
-    & .infoBtn{
-        color: #fff;
-        background-color: limegreen;
-        text-align: center;
-        padding: .25em 1em;
-        border-radius: 30px;
-        width: 50%;
-    }
-
-    & .details{
-        width: 100%;
-        position: fixed;
-        inset: 0;
-        margin: auto;
-        display: grid;
-        padding: 5em calc(100vw/8);
-        overflow-x: scroll;
-        overflow: hidden;
-        visibility: hidden;
-        height: 0;
-        background-color: rgba(255,255,255,.75);
-        backdrop-filter: blur(8px);
-
-        &.OnView{
-            overflow: auto;
-            visibility: visible;
-            height: 100%;
-            z-index: 1;
-        }
-
-        & p {
-            &::before{
-                content: "・";
-            }
-        }
-    }
 }
 `;

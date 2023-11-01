@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
-import { estateInfoJsonData } from "../../ts/estateInfoJsonData";
-import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonDataContents";
+import { estateInfoJsonData, estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
 
 export const useGetJsonData = () => {
     const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);
