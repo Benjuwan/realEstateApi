@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
-import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
+// import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
 import { GetFetchPrefCode } from "../../providers/filter/GetFetchPrefCode";
 
@@ -13,10 +13,11 @@ export const useFilterMethod = () => {
         setGetFetchData((_prevFetchAry) => filterTypeAry);
     }
 
-    /* フィルター：Municipality（場所 - 自治体）*/
+    /* フィルター：DistrictName（地区）*/
     const FilterPlace = (filterWord: string | null) => {
-        const filterPlaceAry: estateInfoJsonDataContents[] = [...isGetFetchData].filter(els => filterWord === els.Municipality);
-        setGetFetchData((_prevFetchAry) => filterPlaceAry);
+        const filterPlaceAry: estateInfoJsonDataContents[] = [...isGetFetchData].filter(els => els.DistrictName.match(`${filterWord}`));
+        if (filterPlaceAry.length === 0) return // 早期リターンで処理終了
+        else setGetFetchData((_prevFetchAry) => filterPlaceAry);
     }
 
     /* フィルター：特定の文字列 */
