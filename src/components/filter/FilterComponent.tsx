@@ -1,14 +1,12 @@
 import { memo } from "react";
 import styled from "styled-components";
 import { SelectPrefs } from "./SelectPrefs";
-import { FilterActionBtns } from "./FilterActionBtns";
 import { FetchDataContents } from "./FetchDataContents";
 
 export const FilterComponent = memo(() => {
     return (
         <Contents>
             <SelectPrefs />
-            <FilterActionBtns />
             <FetchDataContents />
         </Contents>
     );
@@ -22,9 +20,9 @@ margin: auto;
 & button {
     cursor: pointer;
     appearance: none;
-    border-radius: 4px;
     background-color: transparent;
+    border-radius: 4px;
     border: 1px solid;
-    width: 100%;
+    line-height: 2;
 }
 `;

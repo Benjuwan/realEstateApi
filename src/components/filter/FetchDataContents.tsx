@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 import { CityName } from "../../providers/filter/CityName";
 import { FilterContentsCatClick } from "./FilterContentsCatClick";
+import { FilterActionBtns } from "./FilterActionBtns";
 import { AverageNumber } from "./AverageNumber";
 import { ContentsItems } from "../ContentItmes";
 
-import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
-import { useGetJsonDataXai } from "../../hooks/filter/useGetJsonDataXai";
+/* デフォルト（大阪府吹田市）設定を初期表示したい場合に以下を使用 */
+// import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
+// import { useGetJsonDataXai } from "../../hooks/filter/useGetJsonDataXai";
 
 export const FetchDataContents = memo(() => {
     const { isGetFetchData, isLoading } = useContext(GetFetchDataContext); // fetch データ
@@ -23,7 +25,7 @@ export const FetchDataContents = memo(() => {
         const isLoadingEl: HTMLParagraphElement | null = document.querySelector('.isLoading');
         const isLoadingElWords: string[] | undefined = isLoadingEl?.textContent?.split('');
         const loadingWords: string[] | undefined = isLoadingElWords?.map((word, i) => {
-            return `<span class="txtFrames" style="animation-delay:${i * 0.025}s">${word}</span>`;
+            return `<span class="txtFrames" style="animation-delay:${(i + 1) * 0.025}s">${word}</span>`;
         });
 
         if (
@@ -32,7 +34,7 @@ export const FetchDataContents = memo(() => {
         ) {
             isLoadingEl.innerHTML = loadingWords?.join('');
         }
-    }, [isGetFetchData]);
+    }, [isLoading]);
 
     /* 詳細情報の表示機能（モーダル） */
     const OnViewDetails = (targetViewElm: HTMLElement) => {
@@ -44,16 +46,28 @@ export const FetchDataContents = memo(() => {
         }
     }
 
+    /* h2 のスタイル */
+    const headingStyle: object = {
+        'fontSize': '18px',
+        'textAlign': 'center',
+        'fontWeight': 'normal'
+    }
+
     return (
         <>{isLoading ? <LoadingEl className="isLoading">...データを取得中</LoadingEl> :
             <>
-                {isGetFetchData.length > 0 && <h2 style={{ 'fontSize': '20px', 'textAlign': 'center' }}>{isCityName && <>「{isCityName}」の</>}平均取引価格「<AverageNumber />」</h2>}
-                <p>件数：{isGetFetchData.length}</p>
+                {isGetFetchData.length > 0 &&
+                    <>
+                        <FilterActionBtns />
+                        <h2 style={headingStyle}>{isCityName && <>「{isCityName}」の</>}平均取引価格「<AverageNumber />」</h2>
+                        <p>件数：{isGetFetchData.length}</p>
+                    </>
+                }
                 {isGetFetchData.map((el, i) => (
                     <EachContents className="contents" key={i}>
                         <FilterContentsCatClick aryEl={el} classNameStr="infoBtn" />
                         <p className="TradePrice">{el.TradePrice}</p>
-                        <button type="button" onClick={((btnEl) => {
+                        <button type="button" className="detailsViewBtn" onClick={((btnEl) => {
                             OnViewDetails(btnEl.currentTarget);
                         })}>詳細</button>
                         <div className="details" onClick={((divEl) => {
@@ -101,12 +115,32 @@ const EachContents = styled.div`
     border-radius: 4px;
 
     & .infoBtn{
-        color: #fff;
-        background-color: limegreen;
+        color: #0a5e0a;
+        border-color: transparent;
+        background-color: #2ae72a;
         text-align: center;
         padding: .25em 1em;
         border-radius: 30px;
         width: 50%;
+
+        &:hover {
+            border-color: #2ae72a;
+            color: #2ae72a;
+            background-color: #fff;
+        }
+    }
+
+    & .detailsViewBtn{
+        width: 100%;
+        background-color: #0a5e0a;
+        border: 1px solid transparent;
+        color: #fff;
+
+        &:hover{
+            border-color: #0a5e0a;
+            color: #0a5e0a;
+            background-color: #fff;
+        }
     }
 
     & .details{
