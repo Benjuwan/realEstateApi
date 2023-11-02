@@ -2,6 +2,7 @@ import { memo, useContext, useState, FC, useEffect } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 import { ChangePagerStyle } from "./ChangePagerStyle";
+import { LoadingEl } from "../filter/LoadingEl";
 import { ContentsNumber } from "./ContentsNumber";
 import { Pagination } from "./Pagination";
 import { PagerPages } from "./PagerPages";
@@ -22,8 +23,8 @@ export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
     const { pagerLimitMaxNum } = props;
 
     /* 各種Context */
-    // const { isPagers, isOffSet } = useContext(PagerGetFetchDataContext);
-    const { isPagers, isOffSet } = useContext(GetFetchDataContext);
+    // const { isPagerGetFetchData, isPagers, isOffSet } = useContext(PagerGetFetchDataContext);
+    const { isGetFetchData, isPagers, isOffSet, isLoading } = useContext(GetFetchDataContext);
 
     /* ページャー機能（PagerPages.tsx / PagerIncDec.tsx）の切替用Bool */
     const [isPagerFrag, setPagerFrag] = useState<boolean>(true);
@@ -45,22 +46,30 @@ export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
 
     return (
         <>
-            <div>
-                <ChangePagerStyle isPagerFrag={isPagerFrag} setPagerFrag={setPagerFrag} />
-                <ContentsNumber
-                    pagerLimitMaxNum={pagerLimitMaxNum}
-                    isPagerFrag={isPagerFrag}
-                />
-            </div>
-            <ContentWrapper>
-                {isOffSet % 5 === 0 &&
-                    /*（調整不足で）オフセット数が 5 の倍数以外では意図した挙動にならないので条件を設けてコンポーネントを呼び出す */
-                    <Pagination pagerLimitMaxNum={pagerLimitMaxNum} isPagerFrag={isPagerFrag} />}
-                {isPagerFrag ?
-                    <PagerPages pagerLimitMaxNum={pagerLimitMaxNum} /> :
-                    <PagerIncDec pagerLimitMaxNum={pagerLimitMaxNum} />
-                }
-            </ContentWrapper>
+            {isLoading ? <LoadingEl /> :
+                <>
+                    {isGetFetchData.length > 0 &&
+                        <>
+                            <div>
+                                <ChangePagerStyle isPagerFrag={isPagerFrag} setPagerFrag={setPagerFrag} />
+                                <ContentsNumber
+                                    pagerLimitMaxNum={pagerLimitMaxNum}
+                                    isPagerFrag={isPagerFrag}
+                                />
+                            </div>
+                            <ContentWrapper>
+                                {isOffSet % 5 === 0 &&
+                                    /*（調整不足で）オフセット数が 5 の倍数以外では意図した挙動にならないので条件を設けてコンポーネントを呼び出す */
+                                    <Pagination pagerLimitMaxNum={pagerLimitMaxNum} isPagerFrag={isPagerFrag} />}
+                                {isPagerFrag ?
+                                    <PagerPages pagerLimitMaxNum={pagerLimitMaxNum} /> :
+                                    <PagerIncDec pagerLimitMaxNum={pagerLimitMaxNum} />
+                                }
+                            </ContentWrapper>
+                        </>
+                    }
+                </>
+            }
         </>
     );
 });

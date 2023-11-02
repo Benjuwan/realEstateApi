@@ -1,7 +1,8 @@
-import { memo, useContext, useEffect } from "react";
+import { memo, useContext } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 import { CityName } from "../../providers/filter/CityName";
+import { LoadingEl } from "./LoadingEl";
 import { FilterContentsCatClick } from "./FilterContentsCatClick";
 import { FilterActionBtns } from "./FilterActionBtns";
 import { AverageNumber } from "./AverageNumber";
@@ -24,22 +25,6 @@ export const FetchDataContents = memo(() => {
     /* fee を3桁区切りに */
     const { ToLocalString } = useToLocalString();
 
-    /* ローディングテキストのアニメーション演出の準備と補助 */
-    useEffect(() => {
-        const isLoadingEl: HTMLParagraphElement | null = document.querySelector('.isLoading');
-        const isLoadingElWords: string[] | undefined = isLoadingEl?.textContent?.split('');
-        const loadingWords: string[] | undefined = isLoadingElWords?.map((word, i) => {
-            return `<span class="txtFrames" style="animation-delay:${(i + 1) * 0.025}s">${word}</span>`;
-        });
-
-        if (
-            isLoadingEl !== null &&
-            typeof loadingWords !== "undefined"
-        ) {
-            isLoadingEl.innerHTML = loadingWords?.join('');
-        }
-    }, [isLoading]);
-
     /* 詳細情報の表示機能（モーダル） */
     const OnViewDetails = (targetViewElm: HTMLElement) => {
         const detailsContent = targetViewElm.parentElement?.querySelector('.details');
@@ -59,7 +44,7 @@ export const FetchDataContents = memo(() => {
     }
 
     return (
-        <>{isLoading ? <LoadingEl className="isLoading">...データを取得中</LoadingEl> :
+        <>{isLoading ? <LoadingEl /> :
             <>
                 {isGetFetchData.length > 0 &&
                     <>
@@ -88,25 +73,6 @@ export const FetchDataContents = memo(() => {
         </>
     );
 });
-
-const LoadingEl = styled.p`
-overflow: hidden;
-letter-spacing: .25em;
-
-& span {
-    display: inline-block;
-    transform: translateY(1em);
-
-    &.txtFrames{
-        animation: txtFrames .75s infinite ease-in-out;
-
-        @keyframes txtFrames {
-            0%{transform:translateY(1em)}
-            50%, 100%{transform:translateY(0)}
-        }
-    }
-}
-`;
 
 const EachContents = styled.div`
 &.contents{

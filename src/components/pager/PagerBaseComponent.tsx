@@ -29,7 +29,7 @@ export const PagerBaseComponent = memo(() => {
 
     return (
         <PagerBaseElm>
-            <SelectPrefs />
+            <SelectPrefs pagerName="ページャー ver" setForCalcNum_forPagerMaxNumValue={setForCalcNum} />
             <PagerComponent pagerLimitMaxNum={pagerLimitMaxNum} />
         </PagerBaseElm>
     );
@@ -37,6 +37,5 @@ export const PagerBaseComponent = memo(() => {
 
 const PagerBaseElm = styled.div`
 width: clamp(320px, 100%, 640px);
-margin: auto;
-padding: 0 2em;
+margin: 0 auto 3em;
 `;

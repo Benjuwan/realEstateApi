@@ -7,7 +7,8 @@ import { usePager } from "../../hooks/pager/usePager";
 
 /**
  * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
- * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
+ * ・単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
+ * ・依存配列の値を変更する
 */
 // import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
 
@@ -44,7 +45,8 @@ export const PagerIncDec: FC<PagerIncDecType> = memo((props) => {
                 }
             }
         });
-    }, [isGetFetchData]); // 依存配列 isGetFetchData：コンテンツデータが取得・変更される度
+    }, [isPagers]);
+    /* 単体使用時は isGetFetchData を依存配列に指定 */
 
     return (
         <>
