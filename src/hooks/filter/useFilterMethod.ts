@@ -16,8 +16,12 @@ export const useFilterMethod = () => {
     /* フィルター：DistrictName（地区）*/
     const FilterPlace = (filterWord: string | null) => {
         const filterPlaceAry: estateInfoJsonDataContents[] = [...isGetFetchData].filter(els => els.DistrictName.match(`${filterWord}`));
-        if (filterPlaceAry.length === 0) return // 早期リターンで処理終了
-        else setGetFetchData((_prevFetchAry) => filterPlaceAry);
+        if (filterPlaceAry.length === 0) {
+            alert(`地区名「${filterWord}」は、\n検索条件のデータ内に存在しません。`);
+            return // リターンで処理終了
+        } else {
+            setGetFetchData((_prevFetchAry) => filterPlaceAry);
+        }
     }
 
     /* フィルター：特定の文字列 */

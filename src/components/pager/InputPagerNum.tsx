@@ -1,12 +1,20 @@
 import { FC, memo, useContext, useState, ChangeEvent } from "react";
 import styled from "styled-components";
-import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
+
+/**
+ * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
+ * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
+*/
+// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
 
 type InputPagerNumType = {
     pagerLimitMaxNum: number;
 }
 
 export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) => {
+    /* 各種Context */
+    // const { setPagers, isOffSet } = useContext(PagerGetFetchDataContext);
     const { setPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* オフセットの1桁目を取得 */

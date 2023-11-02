@@ -6,6 +6,7 @@ import { FilterContentsCatClick } from "./FilterContentsCatClick";
 import { FilterActionBtns } from "./FilterActionBtns";
 import { AverageNumber } from "./AverageNumber";
 import { ContentsItems } from "../ContentItmes";
+import { useToLocalString } from "../../hooks/useToLocalString";
 
 /* デフォルト（大阪府吹田市）設定を初期表示したい場合に以下を使用 */
 // import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
@@ -19,6 +20,9 @@ export const FetchDataContents = memo(() => {
     // const { isFetchDataResetRender } = useContext(FetchDataResetRenderContext); // fetch データのリセット
     // const { GetJsonDataXai } = useGetJsonDataXai();
     // useEffect(() => GetJsonDataXai(), [isFetchDataResetRender]);
+
+    /* fee を3桁区切りに */
+    const { ToLocalString } = useToLocalString();
 
     /* ローディングテキストのアニメーション演出の準備と補助 */
     useEffect(() => {
@@ -50,7 +54,8 @@ export const FetchDataContents = memo(() => {
     const headingStyle: object = {
         'fontSize': '18px',
         'textAlign': 'center',
-        'fontWeight': 'normal'
+        'fontWeight': 'normal',
+        'marginBottom': '1em'
     }
 
     return (
@@ -66,7 +71,7 @@ export const FetchDataContents = memo(() => {
                 {isGetFetchData.map((el, i) => (
                     <EachContents className="contents" key={i}>
                         <FilterContentsCatClick aryEl={el} classNameStr="infoBtn" />
-                        <p className="TradePrice">{el.TradePrice}</p>
+                        <p>￥<span className="TradePrice">{ToLocalString(el.TradePrice)}</span></p>
                         <button type="button" className="detailsViewBtn" onClick={((btnEl) => {
                             OnViewDetails(btnEl.currentTarget);
                         })}>詳細</button>

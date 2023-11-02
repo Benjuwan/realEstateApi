@@ -1,7 +1,13 @@
 import { FC, memo, useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 import { usePagination } from "../../hooks/pager/usePagination";
+
+/**
+ * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
+ * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
+*/
+// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
 
 type PaginationType = {
     pagerLimitMaxNum: number;
@@ -12,6 +18,7 @@ export const Pagination: FC<PaginationType> = memo((props) => {
     const { pagerLimitMaxNum, isPagerFrag } = props;
 
     /* 各種Context */
+    // const { isPagerGetFetchData, setPagers, isOffSet } = useContext(PagerGetFetchDataContext);
     const { isGetFetchData, setPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* オフセットの1桁目を取得 */

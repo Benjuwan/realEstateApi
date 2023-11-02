@@ -1,5 +1,6 @@
 import { memo, FC } from "react";
 import { estateInfoJsonDataContents } from "../ts/estateInfoJsonData";
+import { useToLocalString } from "../hooks/useToLocalString";
 
 type ContentItemsProps = {
     aryEl: estateInfoJsonDataContents;
@@ -9,7 +10,7 @@ export const ContentsItems: FC<ContentItemsProps> = memo((props) => {
     const { aryEl } = props;
 
     /* fee を3桁区切りに */
-    const toLocaleString = (targetWords: string) => parseInt(targetWords).toLocaleString();
+    const { ToLocalString } = useToLocalString();
 
     return (
         <>
@@ -20,7 +21,7 @@ export const ContentsItems: FC<ContentItemsProps> = memo((props) => {
             </div>
             <div className="boxes infos">
                 {aryEl.Use && <p className="used">用途：{aryEl.Use}</p>}
-                {aryEl.TradePrice && <p className="fee">￥{toLocaleString(aryEl.TradePrice)}</p>}
+                {aryEl.TradePrice && <p className="fee">￥{ToLocalString(aryEl.TradePrice)}</p>}
                 {aryEl.Prefecture &&
                     <p className="districtName">{aryEl.Prefecture}
                         {aryEl.Municipality && <span>{aryEl.Municipality}</span>}

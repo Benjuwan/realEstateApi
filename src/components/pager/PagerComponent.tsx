@@ -1,12 +1,18 @@
 import { memo, useContext, useState, FC, useEffect } from "react";
 import styled from "styled-components";
-import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 import { ChangePagerStyle } from "./ChangePagerStyle";
 import { ContentsNumber } from "./ContentsNumber";
 import { Pagination } from "./Pagination";
 import { PagerPages } from "./PagerPages";
 import { PagerIncDec } from "./PagerIncDec";
-import { useGetJsonData } from "../../hooks/pager/useGetJsonData";
+
+/**
+ * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
+ * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
+*/
+// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
+// import { useGetJsonData } from "../../hooks/pager/useGetJsonData";
 
 type PagerComponentProps = {
     pagerLimitMaxNum: number;
@@ -16,15 +22,20 @@ export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
     const { pagerLimitMaxNum } = props;
 
     /* 各種Context */
+    // const { isPagers, isOffSet } = useContext(PagerGetFetchDataContext);
     const { isPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* ページャー機能（PagerPages.tsx / PagerIncDec.tsx）の切替用Bool */
     const [isPagerFrag, setPagerFrag] = useState<boolean>(true);
 
-    /* fetch API（親コンポーネントで読み込まないと State 更新などによる再レンダリングで随時読み込まれてしまう= jsonデータが倍数で増えていく）*/
-    const { GetJsonData } = useGetJsonData();
+    /**
+     * pager 単体で使用したい場合は下記 GetJsonData でコンテンツデータを取得する
+     * fetch API（親コンポーネントで読み込まないと State 更新などによる再レンダリングで随時読み込まれてしまう= コンテンツデータが倍数で増えていく）
+    */
+    // const { GetJsonData } = useGetJsonData();
     useEffect(() => {
-        GetJsonData('https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205');
+        /* デフォルト値の設定は大阪府吹田市 */
+        // GetJsonData('https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205');
 
         /* レンダリング時にスクロールトップ */
         if (isPagerFrag) {
