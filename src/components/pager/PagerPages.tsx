@@ -1,10 +1,16 @@
 import { useContext, useState, useEffect, useCallback, memo, FC } from "react";
-import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
 import { InputPagerNum } from "./InputPagerNum";
 import { ContentsItems } from "../ContentItmes";
 import { BtnComponent } from "./BtnComponent";
 import { usePager } from "../../hooks/pager/usePager";
+
+/**
+ * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
+ * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
+*/
+// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
 
 type PagerPagesType = {
     pagerLimitMaxNum: number;
@@ -13,7 +19,8 @@ type PagerPagesType = {
 export const PagerPages: FC<PagerPagesType> = memo((props) => {
     const { pagerLimitMaxNum } = props;
 
-    /* 各種 Context */
+    /* 各種Context */
+    // const { isPagerGetFetchData, isPagers, isOffSet } = useContext(PagerGetFetchDataContext);
     const { isGetFetchData, isPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* pager method */

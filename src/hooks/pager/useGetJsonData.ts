@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
 import { estateInfoJsonData, estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
 
 export const useGetJsonData = () => {
-    const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);
+    const { isPagerGetFetchData, setPagerGetFetchData } = useContext(PagerGetFetchDataContext);
 
     const GetJsonData = (
         url: string
@@ -18,7 +18,7 @@ export const useGetJsonData = () => {
                     // console.log(i, resEl);
                     return resEl;
                 });
-                setGetFetchData((_prevFetchAry) => [...isGetFetchData, ...resElAry]);
+                setPagerGetFetchData((_prevFetchAry) => [...isPagerGetFetchData, ...resElAry]);
             } else {
                 console.log(responese.status);
             }

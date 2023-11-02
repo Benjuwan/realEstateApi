@@ -1,5 +1,11 @@
 import { memo, FC, useCallback, useContext } from "react";
-import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
+
+/**
+ * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
+ * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
+*/
+// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
 
 type ChangePagerStyle = {
     isPagerFrag: boolean;
@@ -8,6 +14,7 @@ type ChangePagerStyle = {
 
 export const ChangePagerStyle: FC<ChangePagerStyle> = memo(({ isPagerFrag, setPagerFrag }) => {
     /* 各種Context */
+    // const { setPagers } = useContext(PagerGetFetchDataContext);
     const { setPagers } = useContext(GetFetchDataContext);
 
     /**

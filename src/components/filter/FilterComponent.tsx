@@ -14,15 +14,15 @@ export const FilterComponent = memo(() => {
 
 const Contents = styled.div`
 width: clamp(320px, 100%, 640px);
-padding: 0 2em;
 margin: auto;
+padding: 0 2em;
 
 & button {
     cursor: pointer;
     appearance: none;
     background-color: transparent;
     border-radius: 4px;
-    border: 1px solid;
+    border: 1px solid transparent;
     line-height: 2;
 }
 `;

@@ -21,7 +21,8 @@ export const SelectPrefs = memo(() => {
     const refFormSelectElValue = useRef<HTMLFormElement | null>(null);
     const get_SelectElValue_CityCode = () => {
         /* form 要素を親に持っていないと下記の記述（ParentEl.querySelector('select')?.value）は不可能 */
-        const formSelectElValue: string | undefined = refFormSelectElValue.current?.querySelector('select')?.value;
+        const formSelectEl: HTMLSelectElement | null | undefined = refFormSelectElValue.current?.querySelector('#prefLists');
+        const formSelectElValue: string | undefined = formSelectEl?.value;
         if (typeof formSelectElValue !== "undefined") {
             setGetFetchPrefCode((_prevPrefCode) => formSelectElValue); // 都道府県コードをセット
         }
@@ -32,7 +33,7 @@ export const SelectPrefs = memo(() => {
 
     useEffect(() => {
         /* Strict mode では2回レンダリングされるので option が重複する */
-        const selectEl = document.querySelector('select');
+        const selectEl = document.querySelector('#prefLists');
         for (let i = 1; i <= 47; i++) {
             if (i < 10) {
                 selectEl?.insertAdjacentHTML('beforeend', `<option value=0${i}>${PrefNameAry[i - 1]}</option>`);
@@ -139,6 +140,7 @@ border-radius: 4px;
 }
 
 & .fetchPrefCityDataBtn{
+    display: block;
     appearance: none;
     cursor: pointer;
     width: clamp(120px, 100%, 240px);

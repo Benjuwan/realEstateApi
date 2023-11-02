@@ -6,6 +6,9 @@ type Default = {
     setGetFetchData: React.Dispatch<React.SetStateAction<estateInfoJsonDataContents[]>>;
     isLoading: boolean;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    isPagers: number;
+    setPagers: React.Dispatch<React.SetStateAction<number>>;
+    isOffSet: number;
 }
 export const GetFetchDataContext = createContext({} as Default);
 
@@ -25,10 +28,18 @@ export const GetFetchDataContextFragment: FC<fragmentType> = (props) => {
     /* データフェッチ時の読み込み状態の State */
     const [isLoading, setLoading] = useState<boolean>(false);
 
+    /* ページャー数の管理用 State */
+    const [isPagers, setPagers] = useState<number>(0); // 再レンダリングの度に引数に指定した数値が加算される
+
+    /* ページャーの offset 値 */
+    const [isOffSet] = useState<number>(10); // ※（調整不足で）5の倍数以外では「Pagination：ページャー項目クリックでページ遷移」と「InputPagerNum：ページ数入力でのページ遷移」が意図した挙動にならない
+
     return (
         <GetFetchDataContext.Provider value={{
             isGetFetchData, setGetFetchData,
             isLoading, setLoading,
+            isPagers, setPagers,
+            isOffSet
         }}>
             {children}
         </GetFetchDataContext.Provider>

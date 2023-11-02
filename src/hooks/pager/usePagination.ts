@@ -1,7 +1,15 @@
 import { useContext } from "react";
-import { GetFetchDataContext } from "../../providers/pager/GetFetchData";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
+
+/**
+ * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
+ * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
+*/
+// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
 
 export const usePagination = () => {
+    /* 各種 Context：ページャーのオフセットは isOffSet State で指定 */
+    // const { isOffSet } = useContext(PagerGetFetchDataContext);
     const { isOffSet } = useContext(GetFetchDataContext);
 
     /* for PagerPages.tsx */
