@@ -1,17 +1,33 @@
-import { ChangeEvent, useEffect, useRef, useState, memo, useContext } from "react";
+import { FC, ChangeEvent, useEffect, useRef, useState, memo, useContext } from "react";
 import styled from "styled-components";
 import { GetFetchPrefCode } from "../../providers/filter/GetFetchPrefCode";
 import { SelectCities } from "./SelectCities";
 import { SelectTerm } from "./SelectTerm";
 import { useSetPrefCityData } from "../../hooks/filter/useSetPrefCityData";
+import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 
-export const SelectPrefs = memo(() => {
+type SelectPrefsType = {
+    pagerName?: string;
+    setForCalcNum_forPagerMaxNumValue?: React.Dispatch<React.SetStateAction<number>>
+}
+
+export const SelectPrefs: FC<SelectPrefsType> = memo(({ pagerName, setForCalcNum_forPagerMaxNumValue }) => {
+    /* 各種 Context */
+    const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);
+
     /* 都道府県コード （useGetJsonDataXai.ts にて使用） */
     const { setGetFetchPrefCode } = useContext(GetFetchPrefCode);
 
     /* 都道府県・市区町村及び計測期間に準じたデータを取得・反映する */
     const { getTerms, SetPrefCityData } = useSetPrefCityData();
     const fetchPrefCityData = () => {
+        if (isGetFetchData.length > 0) {
+            setGetFetchData((_prevGetFetchData) => []); // コンテンツデータの中身を一旦リセット
+
+            if (setForCalcNum_forPagerMaxNumValue) {
+                setForCalcNum_forPagerMaxNumValue((_prevNum) => 0); // ページャー機能における上限値計算用の数値をリセット
+            }
+        }
         SetPrefCityData('#prefLists', '#citiesLists');
     }
 
@@ -60,6 +76,7 @@ export const SelectPrefs = memo(() => {
 
     return (
         <SelectEls>
+            {pagerName && <p style={{ 'lineHeight': '2', 'fontWeight': 'bold' }}>{pagerName}</p>}
             <div className="termEls">
                 <form action="" ref={refFormSelectElValue} onChange={(el: ChangeEvent<HTMLFormElement>) => {
                     el.preventDefault();
@@ -80,11 +97,11 @@ export const SelectPrefs = memo(() => {
 });
 
 const SelectEls = styled.div`
-margin-bottom: 3em;
 color: #333;
 background-color: #b0b0b0;
-padding: 1em;
 border-radius: 4px;
+margin-bottom: 3em;
+padding: 1em;
 
 & .termEls{
     width: 100%;
