@@ -93,6 +93,7 @@ const EachContents = styled.div`
         padding: .25em 1em;
         border-radius: 30px;
         width: 50%;
+        max-width: 320px;
 
         &:hover {
             border-color: #2ae72a;

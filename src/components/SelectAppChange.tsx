@@ -1,16 +1,17 @@
-import { memo, FC, ChangeEvent, useContext } from "react";
+import { memo, FC, ChangeEvent, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../providers/filter/GetFetchData";
 import { GetFetchPrefCode } from "../providers/filter/GetFetchPrefCode";
 
 type SelectAppType = {
+    isAppChange?: string;
     setAppChange: React.Dispatch<React.SetStateAction<string>>;
     isFirstSelect?: boolean;
     setFirstSelect?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const SelectAppChange: FC<SelectAppType> = memo((props) => {
-    const { setAppChange, isFirstSelect, setFirstSelect } = props;
+    const { isAppChange, setAppChange, isFirstSelect, setFirstSelect } = props;
 
     /* 各種 Context */
     const { setGetFetchData, setPagers } = useContext(GetFetchDataContext);
@@ -25,6 +26,16 @@ export const SelectAppChange: FC<SelectAppType> = memo((props) => {
         setGetFetchPrefCode((_prevGetFetchPrefCode) => '01'); // 市区町村 select を初期化
         if (typeof setFirstSelect !== "undefined") setFirstSelect(true); // 初期表示を検知
     }
+
+    /*（コンテンツデータ表示後の仕様・機能切替を行えるようにするために）選択した機能名（isAppChange）に合致した値を持つ option 要素に selected 属性を付与 */
+    useEffect(() => {
+        const AppChangeOptions: NodeListOf<HTMLOptionElement> | null = document.querySelectorAll('#AppChange option');
+        AppChangeOptions.forEach(optionElm => {
+            if (optionElm.value === isAppChange) {
+                optionElm.setAttribute('selected', 'true');
+            }
+        });
+    }, [isAppChange]); // isAppChange：依存配列 機能を切り替える度に行う
 
     return (
         <AppChange name="" id="AppChange" onChange={(AppChangeEl: ChangeEvent<HTMLSelectElement>) => {
