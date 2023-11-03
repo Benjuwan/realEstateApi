@@ -75,16 +75,16 @@ export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
 });
 
 const ContentWrapper = styled.div`
-width: clamp(320px, 100%, 640px);
-margin: auto;
 padding: 0 2em;
-font-size: 1.6rem;
+font-size: 1.4rem;
 
 & article {
+    height: clamp(160px, calc(100vh/2), 480px);
+    overflow-y: scroll;
     border-radius: 4px;
     padding: 1em;
     background-color: #eaeaee;
-    margin-bottom: 4em;
+    margin-bottom: 2.5em;
 
     & .boxes{
         margin-bottom: 1em;
@@ -94,16 +94,16 @@ font-size: 1.6rem;
         display: flex;
         align-items: center;
         gap: 2%;
-        line-height: 2;
+        line-height: 1.4;
         color: #fff;
         
         & h2,
         & p{
+            font-weight: normal;
             margin: 0;
-            font-size: 14px;
             padding: .25em 1em;
             border-radius: 30px;
-            background-color: limegreen;
+            background-color: #333;
             text-align: center;
         }
 
@@ -114,8 +114,7 @@ font-size: 1.6rem;
 
     & .infos,
     & .otherInfo{
-        line-height: 1.8;
-        font-size: 16px;
+        line-height: 1.6;
         
         & p{
             margin: 0;
@@ -125,39 +124,14 @@ font-size: 1.6rem;
             &:not(:last-of-type){
                 margin-bottom: 1em;
             }
-
-            & span{
-                margin: 0 .5em;
-            }
         }
-    }
-
-    & .infos{
-        border-bottom: 1px solid #333;
-        padding-bottom: 1em;
-    }
-    & .otherInfo{
-        margin: 0;
     }
 
     @media screen and (min-width: 700px) {
-        display: flex;
-        flex-flow: row wrap;
-        gap: 4%;
         width: 48%;
-
-        & .boxes{
-            width: 48%;
-        }
-
         & .categories{
             width: 100%;
             margin-bottom: 1em;
-        }
-
-        & .infos{
-            border-bottom: none;
-            padding: 0;
         }
     }
 
@@ -167,16 +141,12 @@ font-size: 1.6rem;
 }
 
 @media screen and (min-width: 700px) {
-    width: clamp(320px, 100%, 960px);
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
-    align-items: flex-start;
     gap: 2%;
 }
 
 @media screen and (min-width: 1025px) {
-    width: clamp(320px, 100%, 1280px);
-    font-size: 16px;
+    font-size: 14px;
 }
 `;

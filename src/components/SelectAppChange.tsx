@@ -4,7 +4,7 @@ import { GetFetchDataContext } from "../providers/filter/GetFetchData";
 import { GetFetchPrefCode } from "../providers/filter/GetFetchPrefCode";
 
 type SelectAppType = {
-    isAppChange?: string;
+    isAppChange: string;
     setAppChange: React.Dispatch<React.SetStateAction<string>>;
     isFirstSelect?: boolean;
     setFirstSelect?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,15 +14,17 @@ export const SelectAppChange: FC<SelectAppType> = memo((props) => {
     const { isAppChange, setAppChange, isFirstSelect, setFirstSelect } = props;
 
     /* 各種 Context */
-    const { setGetFetchData, setPagers } = useContext(GetFetchDataContext);
+    const { setGetFetchData } = useContext(GetFetchDataContext);
     const { setGetFetchPrefCode } = useContext(GetFetchPrefCode);
 
-    /* App 機能切替に関する処理 */
+    /* App 機能切替と切替時の初期化に関する処理 */
     const selectAppComponent = (AppChangeEl: ChangeEvent<HTMLSelectElement>) => {
+        /* App 機能切替 */
         const AppChangeValue: string = AppChangeEl.currentTarget.value;
-        setAppChange((_prevAppChangeValue) => AppChangeValue); // 機能の切替
+        setAppChange((_prevAppChangeValue) => AppChangeValue);
+
+        /* 初期化処理（一部は SelectPrefs.tsx のデータ取得ボタンのクリックイベントにも記述）*/
         setGetFetchData((_prevGetFetchData) => []); // コンテンツデータをリセット
-        setPagers((_prevPager) => 0); // ページャー数をリセット
         setGetFetchPrefCode((_prevGetFetchPrefCode) => '01'); // 市区町村 select を初期化
         if (typeof setFirstSelect !== "undefined") setFirstSelect(true); // 初期表示を検知
     }
@@ -38,19 +40,26 @@ export const SelectAppChange: FC<SelectAppType> = memo((props) => {
     }, [isAppChange]); // isAppChange：依存配列 機能を切り替える度に行う
 
     return (
-        <AppChange name="" id="AppChange" onChange={(AppChangeEl: ChangeEvent<HTMLSelectElement>) => {
+        <AppChange name="" className={isAppChange === 'mount' ? 'mount' : 'active'} id="AppChange" onChange={(AppChangeEl: ChangeEvent<HTMLSelectElement>) => {
             selectAppComponent(AppChangeEl);
         }}>
             {isFirstSelect || <option>ここから機能を選んでください</option>}
-            <option value="pager">ページャー機能</option>
-            <option value="filter">フィルター機能</option>
+            <option value="pager">pager（ページャー）</option>
+            <option value="filter">filter（フィルター）</option>
         </AppChange>
     );
 });
 
 const AppChange = styled.select`
 display: block;
-margin: 3em auto;
 font-size: 16px;
 line-height: 2;
+
+&.mount{
+    margin: 3em auto;
+}
+
+&.active{
+    margin-bottom: 1em;
+}
 `;

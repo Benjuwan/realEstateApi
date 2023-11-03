@@ -13,7 +13,7 @@ type SelectPrefsType = {
 
 export const SelectPrefs: FC<SelectPrefsType> = memo(({ pagerName, isCheckSelectValue }) => {
     /* 各種 Context */
-    const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);
+    const { isGetFetchData, setGetFetchData, setPagers } = useContext(GetFetchDataContext);
 
     /* 都道府県コード （useGetJsonDataXai.ts にて使用） */
     const { setGetFetchPrefCode } = useContext(GetFetchPrefCode);
@@ -23,6 +23,7 @@ export const SelectPrefs: FC<SelectPrefsType> = memo(({ pagerName, isCheckSelect
     const fetchPrefCityData = () => {
         if (isGetFetchData.length > 0) setGetFetchData((_prevGetFetchData) => []); // コンテンツデータの中身を一旦リセット
         SetPrefCityData('#prefLists', '#citiesLists');
+        if (pagerName !== 'mount') setPagers((_prevPagers) => 0); // 初期表示状態以外の場合はデータ取得時にページャー数をリセット
     }
 
     /* データ取得ボタン（.fetchPrefCityDataBtn）の disabled 関連の処理 */
@@ -70,7 +71,7 @@ export const SelectPrefs: FC<SelectPrefsType> = memo(({ pagerName, isCheckSelect
 
     return (
         <SelectEls>
-            {pagerName && <p style={{ 'lineHeight': '2', 'fontWeight': 'bold' }}>{pagerName}</p>}
+            {pagerName && <p style={{ 'lineHeight': '2', 'fontWeight': 'bold' }}>{pagerName} ver</p>}
             <div className="termEls">
                 <form action="" ref={refFormSelectElValue} onChange={(el: ChangeEvent<HTMLFormElement>) => {
                     el.preventDefault();
@@ -103,7 +104,7 @@ padding: 1em;
     width: 100%;
     display: flex;
     flex-flow: row wrap;
-    gap: 10%;
+    gap: 2%;
 
     &:first-of-type{
         margin-bottom: 1.5em;
@@ -120,7 +121,7 @@ padding: 1em;
     }
 
     & .YearsQuarterLists{
-        width: 45%;
+        width: 49%;
         display: flex;
         flex-flow: row wrap;
         gap: 2%;

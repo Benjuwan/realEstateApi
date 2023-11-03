@@ -17,8 +17,15 @@ export const useGetTradePrice = () => {
             const resObjDataAry: estateInfoJsonDataContents[] = resObj.data;
 
             if (responese.status === 200) {
-                const resElAry: string[] = resObjDataAry.map(resEl => {
-                    return resEl.TradePrice;
+                const resElAry: string[] = resObjDataAry.map((resEl, i) => {
+                    if (i === resObjDataAry.length - 1) {
+                        return (
+                            resEl.TradePrice,
+                            '.' // 年間データの処理完了シグナルとして
+                        );
+                    } else {
+                        return resEl.TradePrice;
+                    }
                 });
                 setCompareGetFetchData((_prevFetchAry) => resElAry); // スプレッド構文不使用（倍増防止）
             } else {
