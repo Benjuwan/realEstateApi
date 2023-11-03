@@ -30,7 +30,7 @@ export const SelectApp = memo(() => {
                     </ul>
                     <SelectPrefs isCheckSelectValue="mount" />
                 </div> :
-                <SelectAppChange setAppChange={setAppChange} isFirstSelect={isFirstSelect} />
+                <SelectAppChange isAppChange={isAppChange} setAppChange={setAppChange} isFirstSelect={isFirstSelect} />
             }
             {isAppChange === 'filter' && <FilterComponent />}
             {isAppChange === 'pager' && <PagerBaseComponent />}
