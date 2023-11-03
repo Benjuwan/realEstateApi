@@ -11,25 +11,29 @@ import { SelectPrefs } from "../filter/SelectPrefs";
 // import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
 
 export const PagerBaseComponent = memo(() => {
-    /* 各種Context */
+    /* 各種 Context */
     // const { isPagers, isGetFetchData } = useContext(PagerGetFetchDataContext);
     const { isPagers, isGetFetchData } = useContext(GetFetchDataContext);
 
-    /* 再レンダリングの度に isGetFetchData.length が倍数（×2）されていくので上限値（初期読込時の isGetFetchData.length）を決め打ちするための計算用 State */
+    /**
+     * 単体使用時に下記 State を使用
+     * 再レンダリングの度に isGetFetchData.length が倍数（×2）されていくので上限値（初期読込時の isGetFetchData.length）を決め打ちするための計算用 State
+    */
     const [isForCalcNum, setForCalcNum] = useState<number>(0);
     useEffect(() => {
         setForCalcNum((_prevForCalcNum) => isForCalcNum + 1);
-    }, [isPagers]); // 依存配列 isPagers：ページャー数に変更があった場合のみカウントアップ
+    }, [isPagers]);
 
     /* ページャー（コンテンツ数）上限値の決め打ち */
     const pagerLimitMaxNum: number = useMemo(() => {
-        const getAryLength: number = isGetFetchData.length / isForCalcNum;
+        // const getAryLength: number = isGetFetchData.length / isForCalcNum; // 単体使用時はこちらを使用
+        const getAryLength: number = isGetFetchData.length;
         return getAryLength;
     }, [isGetFetchData]);
 
     return (
         <PagerBaseElm>
-            <SelectPrefs pagerName="ページャー ver" setForCalcNum_forPagerMaxNumValue={setForCalcNum} />
+            <SelectPrefs pagerName="ページャー ver" />
             <PagerComponent pagerLimitMaxNum={pagerLimitMaxNum} />
         </PagerBaseElm>
     );
