@@ -8,10 +8,10 @@ import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 
 type SelectPrefsType = {
     pagerName?: string;
-    setForCalcNum_forPagerMaxNumValue?: React.Dispatch<React.SetStateAction<number>>
+    isCheckSelectValue?: string;
 }
 
-export const SelectPrefs: FC<SelectPrefsType> = memo(({ pagerName, setForCalcNum_forPagerMaxNumValue }) => {
+export const SelectPrefs: FC<SelectPrefsType> = memo(({ pagerName, isCheckSelectValue }) => {
     /* 各種 Context */
     const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);
 
@@ -21,13 +21,7 @@ export const SelectPrefs: FC<SelectPrefsType> = memo(({ pagerName, setForCalcNum
     /* 都道府県・市区町村及び計測期間に準じたデータを取得・反映する */
     const { getTerms, SetPrefCityData } = useSetPrefCityData();
     const fetchPrefCityData = () => {
-        if (isGetFetchData.length > 0) {
-            setGetFetchData((_prevGetFetchData) => []); // コンテンツデータの中身を一旦リセット
-
-            if (setForCalcNum_forPagerMaxNumValue) {
-                setForCalcNum_forPagerMaxNumValue((_prevNum) => 0); // ページャー機能における上限値計算用の数値をリセット
-            }
-        }
+        if (isGetFetchData.length > 0) setGetFetchData((_prevGetFetchData) => []); // コンテンツデータの中身を一旦リセット
         SetPrefCityData('#prefLists', '#citiesLists');
     }
 
@@ -91,7 +85,9 @@ export const SelectPrefs: FC<SelectPrefsType> = memo(({ pagerName, setForCalcNum
                 <SelectTerm SelectTermClassName="YearsQuarterLists_To" explainSentence="計測「終了」期間" />
             </div>
             <p className="termCaption"><small>※ 1:1月～3月、2:4月～6月、3:7月～10月、4:11月～12月<a href="https://www.land.mlit.go.jp/webland/api.html" target="_blank">『国土交通省　土地総合情報システム』から取得</a></small></p>
-            <button type="button" disabled={isBtnDisabled_term} className="fetchPrefCityDataBtn" onClick={fetchPrefCityData}>不動産取引データを取得</button>
+            {isCheckSelectValue !== 'mount' &&
+                <button type="button" disabled={isBtnDisabled_term} className="fetchPrefCityDataBtn" onClick={fetchPrefCityData}>不動産取引データを取得</button>
+            }
         </SelectEls>
     );
 });

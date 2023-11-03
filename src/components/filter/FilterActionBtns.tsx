@@ -39,7 +39,7 @@ const Btns = styled.div`
 margin-bottom: 2em;
 display: flex;
 flex-flow: row wrap;
-background-color: #dadada;
+background-color: #f1f1f1;
 padding: 1em 3em;
 border-radius: 4px;
 gap: 2%;
@@ -50,8 +50,8 @@ gap: 2%;
 
     &[disabled]{
         cursor: default;
-        background-color: #dadada;
-        color: #eaeaea;
+        background-color: #dadada!important;
+        color: #eaeaea!important;
     }
 
     &.askBtn,
@@ -67,11 +67,11 @@ gap: 2%;
 
     &.placeBtn{
         font-size: clamp(10px, calc(100vw/56), 16px);
-        background-color: #333;
+        background-color: #4f2609;
 
-        &:hover{
-            color: #333;
-            border-color: #333;
+        &:not([disabled]):hover{
+            color: #4f2609;
+            border-color: #4f2609;
             background-color: #fff;
         }
     }

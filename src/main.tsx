@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <App />
     </PagerGetFetchDataContextFragment> */}
 
-    {/* filter or Both */}
+    {/* filter or both */}
     <GetFetchDataContextFragment>
       <CityNameFragment>
         <FetchDataResetRenderContextFragment>

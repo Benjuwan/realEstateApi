@@ -59,7 +59,7 @@ export const FetchDataContents = memo(() => {
                         <p>￥<span className="TradePrice">{ToLocalString(el.TradePrice)}</span></p>
                         <button type="button" className="detailsViewBtn" onClick={((btnEl) => {
                             OnViewDetails(btnEl.currentTarget);
-                        })}>詳細</button>
+                        })}>詳細情報</button>
                         <div className="details" onClick={((divEl) => {
                             OnViewDetails(divEl.currentTarget);
                         })}>
@@ -103,6 +103,7 @@ const EachContents = styled.div`
 
     & .detailsViewBtn{
         width: 100%;
+        max-width: 240px;
         background-color: #0a5e0a;
         border: 1px solid transparent;
         color: #fff;
