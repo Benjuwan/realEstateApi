@@ -3,7 +3,7 @@ import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 
 export const AverageNumber = memo(() => {
     const { isGetFetchData } = useContext(GetFetchDataContext);
-    
+
     useEffect(() => {
         const averageCalcResult: string = averageCalc();
         setAveragePrice((_prevTxt) => averageCalcResult);

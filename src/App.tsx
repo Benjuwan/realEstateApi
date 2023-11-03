@@ -1,6 +1,7 @@
 // import { PagerBaseComponent } from "./components/pager/PagerBaseComponent";
 // import { FilterComponent } from "./components/filter/FilterComponent";
-import { SelectApp } from "./components/SelectApp";
+import { CompareComponent } from "./components/compare/CompareComponent";
+// import { SelectApp } from "./components/SelectApp";
 
 export const App = () => {
   return (
@@ -12,8 +13,11 @@ export const App = () => {
       {/* filter */}
       {/* <FilterComponent /> */}
 
+      {/* compare */}
+      <CompareComponent />
+
       {/* both */}
-      <SelectApp />
+      {/* <SelectApp /> */}
     </>
   );
 }
