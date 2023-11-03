@@ -43,7 +43,7 @@ export const SelectPrefs: FC<SelectPrefsType> = memo(({ pagerName, isCheckSelect
 
     useEffect(() => {
         /* Strict mode では2回レンダリングされるので option が重複する */
-        const selectEl = document.querySelector('#prefLists');
+        const selectEl: HTMLSelectElement | null = document.querySelector('#prefLists');
         for (let i = 1; i <= 47; i++) {
             if (i < 10) {
                 selectEl?.insertAdjacentHTML('beforeend', `<option value=0${i}>${PrefNameAry[i - 1]}</option>`);

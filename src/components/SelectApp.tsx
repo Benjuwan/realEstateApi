@@ -1,37 +1,23 @@
-import { memo, useState, ChangeEvent } from "react";
+import { memo, useState } from "react";
 import styled from "styled-components";
+import { SelectAppChange } from "./SelectAppChange";
 import { FilterComponent } from "./filter/FilterComponent";
 import { PagerBaseComponent } from "./pager/PagerBaseComponent";
 import { SelectPrefs } from "./filter/SelectPrefs";
 
 export const SelectApp = memo(() => {
-    /*（処理落ち防止の）リロード判定用のState */
-    const [isCheckSelectValue, setCheckSelectValue] = useState<boolean>(false);
-
     /* 文字列の判定による機能の切替用 State */
     const [isAppChange, setAppChange] = useState<string>('mount');
-    const selectAppComponent = (AppChangeEl: ChangeEvent<HTMLSelectElement>) => {
-        if (isCheckSelectValue) {
-            location.reload();
-        } else {
-            const AppChangeValue: string = AppChangeEl.currentTarget.value;
-            setAppChange((_prevAppChangeValue) => AppChangeValue);
-            setCheckSelectValue(!isCheckSelectValue); // isCheckSelectValue を true に
-        }
-    }
+
+    /* 初期表示を検知する State */
+    const [isFirstSelect, setFirstSelect] = useState<boolean>(false);
 
     return (
         <SelectAppElm>
-            {isAppChange === 'mount' &&
+            {isAppChange === 'mount' ?
                 <div className="appDescription">
                     <p>ここでは「日本各地の不動産取引データ」を確認できます。下記ドロップダウンリストから取得後の表示仕様・機能を選んでください。</p>
-                    <select name="" id="AppChange" onChange={(AppChangeEl: ChangeEvent<HTMLSelectElement>) => {
-                        selectAppComponent(AppChangeEl);
-                    }}>
-                        <option value="">ここから機能を選んでください</option>
-                        <option value="pager">ページャー機能</option>
-                        <option value="filter">フィルター機能</option>
-                    </select>
+                    <SelectAppChange setAppChange={setAppChange} setFirstSelect={setFirstSelect} />
                     <ul>
                         <li>・<b>ページャー ver</b>：取得したデータを随時追加・削除する機能、またはページ送り機能が用意されています。</li>
                         <li>・<b>フィルター ver</b>：取引価格によるソート機能や市区町村内の特定地区の検索機能が用意されています（デフォルト）。</li>
@@ -43,7 +29,8 @@ export const SelectApp = memo(() => {
                         <li>3:フォーム下部に表示される「不動産取引データを取得」ボタンをクリックしてデータを取得します。</li>
                     </ul>
                     <SelectPrefs isCheckSelectValue="mount" />
-                </div>
+                </div> :
+                <SelectAppChange setAppChange={setAppChange} isFirstSelect={isFirstSelect} />
             }
             {isAppChange === 'filter' && <FilterComponent />}
             {isAppChange === 'pager' && <PagerBaseComponent />}
@@ -82,12 +69,5 @@ padding: 0 2em;
             }
         }
     }
-}
-
-& #AppChange {
-    display: block;
-    margin: 3em auto;
-    font-size: 16px;
-    line-height: 2;
 }
 `;

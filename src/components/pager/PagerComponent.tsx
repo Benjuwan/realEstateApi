@@ -170,8 +170,9 @@ font-size: 1.6rem;
     width: clamp(320px, 100%, 960px);
     display: flex;
     flex-flow: row wrap;
-    gap: 2%;
     justify-content: space-between;
+    align-items: flex-start;
+    gap: 2%;
 }
 
 @media screen and (min-width: 1025px) {
