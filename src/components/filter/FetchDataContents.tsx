@@ -56,7 +56,10 @@ export const FetchDataContents = memo(() => {
                 {isGetFetchData.map((el, i) => (
                     <EachContents className="contents" key={i}>
                         <FilterContentsCatClick aryEl={el} classNameStr="infoBtn" />
-                        <p>￥<span className="TradePrice">{ToLocalString(el.TradePrice)}</span></p>
+                        <div className="place">
+                            <p className="DistrictName">{el.Municipality}{el.DistrictName}</p>
+                            <p>￥<span className="TradePrice">{ToLocalString(el.TradePrice)}</span></p>
+                        </div>
                         <button type="button" className="detailsViewBtn" onClick={((btnEl) => {
                             OnViewDetails(btnEl.currentTarget);
                         })}>詳細情報</button>
@@ -76,7 +79,7 @@ export const FetchDataContents = memo(() => {
 
 const EachContents = styled.div`
 &.contents{
-    font-size: 16px;
+    font-size: 1.4rem;
     line-height: 2;
     display: flex;
     align-items: center;
@@ -89,17 +92,23 @@ const EachContents = styled.div`
         color: #0a5e0a;
         border-color: transparent;
         background-color: #2ae72a;
+        line-height: 1.4;
         text-align: center;
         padding: .25em 1em;
         border-radius: 30px;
-        width: 50%;
-        max-width: 320px;
+        width: 70%;
+        max-width: 240px;
 
         &:hover {
             border-color: #2ae72a;
             color: #2ae72a;
             background-color: #fff;
         }
+    }
+
+    & .place{
+        width: 100%;
+        line-height: 1.4;
     }
 
     & .detailsViewBtn{
@@ -155,6 +164,10 @@ const EachContents = styled.div`
                 }
             }
         }
+    }
+
+    @media screen and (min-width: 1025px) {
+        font-size: 14px;
     }
 }
 `;

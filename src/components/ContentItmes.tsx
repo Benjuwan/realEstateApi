@@ -17,11 +17,11 @@ export const ContentsItems: FC<ContentItemsProps> = memo((props) => {
             <div className="boxes categories">
                 {aryEl.Type && <h2 className="type">{aryEl.Type}</h2>}
                 {aryEl.Prefecture && <p className="Prefecture">{aryEl.Prefecture}</p>}
-                {aryEl.Direction && <p className="direction">{aryEl.Direction}</p>}
             </div>
             <div className="boxes infos">
                 {aryEl.Use && <p className="used">用途：{aryEl.Use}</p>}
                 {aryEl.TradePrice && <p className="fee">￥{ToLocalString(aryEl.TradePrice)}</p>}
+                {aryEl.Direction && <p className="direction">向き：{aryEl.Direction}</p>}
                 {aryEl.Prefecture &&
                     <p className="districtName">{aryEl.Prefecture}
                         {aryEl.Municipality && <span>{aryEl.Municipality}</span>}

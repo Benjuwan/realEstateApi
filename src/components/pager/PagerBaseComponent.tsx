@@ -33,13 +33,13 @@ export const PagerBaseComponent = memo(() => {
 
     return (
         <PagerBaseElm>
-            <SelectPrefs pagerName="ページャー ver" />
+            <SelectPrefs pagerName="pager" />
             <PagerComponent pagerLimitMaxNum={pagerLimitMaxNum} />
         </PagerBaseElm>
     );
 });
 
 const PagerBaseElm = styled.div`
-width: clamp(320px, 100%, 640px);
+width: clamp(320px, 100%, 960px);
 margin: 0 auto 3em;
 `;

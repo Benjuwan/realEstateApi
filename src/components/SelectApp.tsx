@@ -17,10 +17,10 @@ export const SelectApp = memo(() => {
             {isAppChange === 'mount' ?
                 <div className="appDescription">
                     <p>ここでは「日本各地の不動産取引データ」を確認できます。下記ドロップダウンリストから取得後の表示仕様・機能を選んでください。</p>
-                    <SelectAppChange setAppChange={setAppChange} setFirstSelect={setFirstSelect} />
-                    <ul>
-                        <li>・<b>ページャー ver</b>：取得したデータを随時追加・削除する機能、またはページ送り機能が用意されています。</li>
-                        <li>・<b>フィルター ver</b>：取引価格によるソート機能や市区町村内の特定地区の検索機能が用意されています（デフォルト）。</li>
+                    <SelectAppChange isAppChange={isAppChange} setAppChange={setAppChange} setFirstSelect={setFirstSelect} />
+                    <ul className="explainFunctions">
+                        <li>・<b>pager ver</b>：取得したデータを随時追加・削除する機能、またはページ送り機能が用意されています。</li>
+                        <li>・<b>filter ver</b>：取引価格によるソート機能や市区町村内の特定地区の検索機能が用意されています（デフォルト）。</li>
                     </ul>
                     <ul>
                         <li><b>【使い方】</b></li>
@@ -30,7 +30,9 @@ export const SelectApp = memo(() => {
                     </ul>
                     <SelectPrefs isCheckSelectValue="mount" />
                 </div> :
-                <SelectAppChange isAppChange={isAppChange} setAppChange={setAppChange} isFirstSelect={isFirstSelect} />
+                <div className="contentWidth">
+                    <SelectAppChange isAppChange={isAppChange} setAppChange={setAppChange} isFirstSelect={isFirstSelect} />
+                </div>
             }
             {isAppChange === 'filter' && <FilterComponent />}
             {isAppChange === 'pager' && <PagerBaseComponent />}
@@ -57,6 +59,10 @@ padding: 0 2em;
         padding: 0;
         margin-bottom: 1em;
 
+        &.explainFunctions {
+            margin-bottom: 3em;
+        }
+
         & li {
             text-indent: -1em;
             padding-left: 1em;
@@ -69,5 +75,10 @@ padding: 0 2em;
             }
         }
     }
+}
+
+& .contentWidth{
+    width: clamp(320px, 100%, 960px);
+    margin: auto;
 }
 `;

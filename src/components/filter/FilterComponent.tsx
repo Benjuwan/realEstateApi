@@ -6,14 +6,14 @@ import { FetchDataContents } from "./FetchDataContents";
 export const FilterComponent = memo(() => {
     return (
         <Contents>
-            <SelectPrefs pagerName="フィルター ver" />
+            <SelectPrefs pagerName="filter" />
             <FetchDataContents />
         </Contents>
     );
 });
 
 const Contents = styled.div`
-width: clamp(320px, 100%, 640px);
+width: clamp(320px, 100%, 960px);
 margin: 0 auto 3em;
 
 & button {
