@@ -6,11 +6,15 @@ import './index.css'
 /* pager */
 // import { PagerGetFetchDataContextFragment } from './providers/pager/PagerGetFetchData.tsx'
 
-/* filter */
-import { GetFetchDataContextFragment } from './providers/filter/GetFetchData.tsx'
-import { CityNameFragment } from './providers/filter/CityName.tsx'
-import { FetchDataResetRenderContextFragment } from './providers/filter/FetchDataResetRender.tsx'
-import { GetFetchPrefCodeFragment } from './providers/filter/GetFetchPrefCode.tsx'
+/* filter or both */
+// import { GetFetchDataContextFragment } from './providers/filter/GetFetchData.tsx'
+// import { CityNameFragment } from './providers/filter/CityName.tsx'
+// import { FetchDataResetRenderContextFragment } from './providers/filter/FetchDataResetRender.tsx'
+// import { GetFetchPrefCodeFragment } from './providers/filter/GetFetchPrefCode.tsx'
+
+/* compare */
+import { CompareGetFetchDataContextFragment } from './providers/compare/CompareGetFetchData.tsx'
+import { CompareGetFetchPrefCodeFragment } from './providers/compare/CompareGetFetchPrefCode.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -20,7 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </PagerGetFetchDataContextFragment> */}
 
     {/* filter or both */}
-    <GetFetchDataContextFragment>
+    {/* <GetFetchDataContextFragment>
       <CityNameFragment>
         <FetchDataResetRenderContextFragment>
           <GetFetchPrefCodeFragment>
@@ -28,6 +32,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           </GetFetchPrefCodeFragment>
         </FetchDataResetRenderContextFragment>
       </CityNameFragment>
-    </GetFetchDataContextFragment>
+    </GetFetchDataContextFragment> */}
+
+    {/* compare */}
+    <CompareGetFetchDataContextFragment>
+      <CompareGetFetchPrefCodeFragment>
+        <App />
+      </CompareGetFetchPrefCodeFragment>
+    </CompareGetFetchDataContextFragment>
   </React.StrictMode>,
 )
