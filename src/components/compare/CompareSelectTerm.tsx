@@ -1,6 +1,5 @@
-import { memo, useState, useEffect, ChangeEvent, useContext } from "react";
-import { CompareLoadingState } from "../../providers/compare/CompareLoadingState";
-import { useGetTradePrice } from "../../hooks/compare/useGetTradePrice";
+import { memo, useState, useEffect, ChangeEvent } from "react";
+import { AppStartBtn } from "./AppStartBtn";
 
 export const CompareSelectTerm = memo(() => {
     const startYear: number = 1990;
@@ -14,9 +13,6 @@ export const CompareSelectTerm = memo(() => {
     useEffect(() => setSelectYears((_prevSelectYearsAry) => selectYearsAry), []);
 
     /* CompareSelectTerm 固有機能 */
-    const { GetTradePrice } = useGetTradePrice();
-    const { isCompareLoading } = useContext(CompareLoadingState);
-
     /* 計測開始・終了期間のセット State */
     const [termLists_from, setTermLists_from] = useState<number>(startYear);
     const [termLists_to, setTermLists_to] = useState<number>(getPresentYear);
@@ -30,29 +26,9 @@ export const CompareSelectTerm = memo(() => {
         setTermLists((_prevTermListsValue) => selectElValue);
     }
 
-    /* 計測ボタンのアクション */
-    const appStart = () => {
-        if (termLists_from !== termLists_to && termLists_from < termLists_to) {
-            const termLists: number[] = [];
-            const targetValue: number = termLists_to - termLists_from;
-            for (let i = 0; i <= targetValue; i++) {
-                const termValue: number = termLists_from + i;
-                termLists.push(termValue);
-            }
-
-            const citySelectEl: HTMLSelectElement | null = document.querySelector('#citiesLists');
-            const citySelectElValue = citySelectEl?.value;
-
-            termLists.forEach(annualYear => {
-                GetTradePrice(citySelectElValue, annualYear);
-            });
-        }
-    }
-    /* CompareSelectTerm 固有機能 */
-
     return (
         <>
-            <form action="">
+            <form action="" className="CompareSelectTerm">
                 <select name="" id="termLists_from" onChange={(selectEl: ChangeEvent<HTMLSelectElement>) => {
                     selectTermEvent(selectEl, setTermLists_from);
                 }}>
@@ -67,7 +43,7 @@ export const CompareSelectTerm = memo(() => {
                         <option key={i} value={optionEl}>{optionEl}</option>
                     ))}
                 </select>
-                <button type="button" disabled={isCompareLoading} onClick={appStart}>計測</button>
+                <AppStartBtn termLists_from={termLists_from} termLists_to={termLists_to} />
             </form>
         </>
     );

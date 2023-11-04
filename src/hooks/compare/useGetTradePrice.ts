@@ -30,11 +30,11 @@ export const useGetTradePrice = () => {
         const reduceResult: number = allTradePrices.reduce((a, b) => a + b, 0);
         const averageNumber: number = reduceResult / resElAry.length;
 
-        /* 平均価格を 3桁区切りにして返却 */
+        /* 平均価格を 3桁区切りにして、配列として返却 */
         const averageResultStr: string = `￥${Math.floor(averageNumber).toLocaleString()}`;
-        console.log(annualYear, averageResultStr);
 
-        return averageResultStr;
+        // console.log(annualYear, averageResultStr);
+        return [annualYear, averageResultStr];
     }
 
     const GetTradePrice = (
@@ -55,7 +55,19 @@ export const useGetTradePrice = () => {
                         return resEl.TradePrice;
                     }
                 });
-                _AverageCalc(annualValue, resElAry); // 平均価格を算出
+
+                /* 平均価格を算出 */
+                const AverageCalcAry: (string | number)[] = _AverageCalc(annualValue, resElAry);
+
+                /**
+                 *【各年の平均価格をリアル DOM へ反映】
+                 * _AverageCalc メソッドは随時処理されていく（appStart メソッド内の forEach 処理）ので グローバル State だと差し変わっていってしまう
+                 * ソートをしようにも上記同様、随時処理（一つずつ生成）なのでソートできない
+                 * この2点から手続き的処理で進める
+                */
+                const AverageCalcLists: HTMLUListElement | null = document.querySelector('.AverageCalcLists');
+                AverageCalcLists?.insertAdjacentHTML('afterbegin', `<li><span>${AverageCalcAry[0]}：</span>${AverageCalcAry[1]}</li>`);
+
                 setCompareLoading(false); // 計測ボタンの disabled を解除
             } else {
                 console.log(responese.status);
