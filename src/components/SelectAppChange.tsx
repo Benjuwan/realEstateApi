@@ -23,7 +23,7 @@ export const SelectAppChange: FC<SelectAppType> = memo((props) => {
         const AppChangeValue: string = AppChangeEl.currentTarget.value;
         setAppChange((_prevAppChangeValue) => AppChangeValue);
 
-        /* 初期化処理（一部は SelectPrefs.tsx のデータ取得ボタンのクリックイベントにも記述）*/
+        /* 初期化処理（一部は FetchPrefCityDataBtn.tsx のデータ取得ボタンのクリックイベントにも記述）*/
         setGetFetchData((_prevGetFetchData) => []); // コンテンツデータをリセット
         setGetFetchPrefCode((_prevGetFetchPrefCode) => '01'); // 市区町村 select を初期化
         if (typeof setFirstSelect !== "undefined") setFirstSelect(true); // 初期表示を検知

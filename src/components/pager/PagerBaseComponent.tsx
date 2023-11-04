@@ -1,8 +1,8 @@
 import { useContext, memo, useMemo, useState, useEffect } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
+import { SelectEls } from "../filter/SelectEls";
 import { PagerComponent } from "./PagerComponent";
-import { SelectPrefs } from "../filter/SelectPrefs";
 
 /**
  * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
@@ -33,7 +33,7 @@ export const PagerBaseComponent = memo(() => {
 
     return (
         <PagerBaseElm>
-            <SelectPrefs pagerName="pager" />
+            <SelectEls pagerName="pager" />
             <PagerComponent pagerLimitMaxNum={pagerLimitMaxNum} />
         </PagerBaseElm>
     );

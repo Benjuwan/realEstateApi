@@ -1,12 +1,12 @@
 import { memo } from "react";
 import styled from "styled-components";
-import { SelectPrefs } from "./SelectPrefs";
+import { SelectEls } from "./SelectEls";
 import { FetchDataContents } from "./FetchDataContents";
 
 export const FilterComponent = memo(() => {
     return (
         <Contents>
-            <SelectPrefs pagerName="filter" />
+            <SelectEls pagerName="filter" />
             <FetchDataContents />
         </Contents>
     );
@@ -19,7 +19,6 @@ margin: 0 auto 3em;
 & button {
     cursor: pointer;
     appearance: none;
-    background-color: transparent;
     border-radius: 4px;
     border: 1px solid transparent;
     line-height: 2;

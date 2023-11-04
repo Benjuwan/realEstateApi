@@ -1,11 +1,9 @@
 import { memo, useState, useEffect, ChangeEvent, useContext } from "react";
 import { CompareLoadingState } from "../../providers/compare/CompareLoadingState";
-import { CompareSelectCity } from "./CompareSelectCity";
-import { CompareSelectPref } from "./CompareSelectPref";
 import { useGetTradePrice } from "../../hooks/compare/useGetTradePrice";
 
 export const CompareSelectTerm = memo(() => {
-    const startYear: number = 1999;
+    const startYear: number = 1990;
     const getPresentYear: number = new Date().getFullYear();
 
     const [isSelectYears, setSelectYears] = useState<string[]>(['']);
@@ -54,8 +52,6 @@ export const CompareSelectTerm = memo(() => {
 
     return (
         <>
-            <CompareSelectPref />
-            <CompareSelectCity />
             <form action="">
                 <select name="" id="termLists_from" onChange={(selectEl: ChangeEvent<HTMLSelectElement>) => {
                     selectTermEvent(selectEl, setTermLists_from);

@@ -1,11 +1,11 @@
 import { useContext } from "react";
 import { estateInfoJsonData, estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
 import { CompareLoadingState } from "../../providers/compare/CompareLoadingState";
-import { CompareGetFetchPrefCode } from "../../providers/compare/CompareGetFetchPrefCode";
+import { GetFetchPrefCode } from "../../providers/filter/GetFetchPrefCode";
 
 export const useGetTradePrice = () => {
     const { setCompareLoading } = useContext(CompareLoadingState);
-    const { isGetFetchPrefCode } = useContext(CompareGetFetchPrefCode);
+    const { isGetFetchPrefCode } = useContext(GetFetchPrefCode);
 
     /* 取得した tradePrice データから平均価格を算出 */
     const _AverageCalc = (

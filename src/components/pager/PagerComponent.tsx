@@ -128,7 +128,7 @@ font-size: 1.4rem;
     }
 
     @media screen and (min-width: 700px) {
-        width: 48%;
+        width: 49%;
         & .categories{
             width: 100%;
             margin-bottom: 1em;

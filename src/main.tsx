@@ -7,14 +7,15 @@ import './index.css'
 // import { PagerGetFetchDataContextFragment } from './providers/pager/PagerGetFetchData.tsx'
 
 /* filter or both */
-// import { GetFetchDataContextFragment } from './providers/filter/GetFetchData.tsx'
-// import { CityNameFragment } from './providers/filter/CityName.tsx'
-// import { FetchDataResetRenderContextFragment } from './providers/filter/FetchDataResetRender.tsx'
-// import { GetFetchPrefCodeFragment } from './providers/filter/GetFetchPrefCode.tsx'
+import { GetFetchDataContextFragment } from './providers/filter/GetFetchData.tsx'
+import { CityNameFragment } from './providers/filter/CityName.tsx'
+import { FetchDataResetRenderContextFragment } from './providers/filter/FetchDataResetRender.tsx'
+
+/* filter and compare */
+import { GetFetchPrefCodeFragment } from './providers/filter/GetFetchPrefCode.tsx'
 
 /* compare */
-import { CompareLoadingStateFragment } from './providers/compare/CompareLoadingState.tsx'
-import { CompareGetFetchPrefCodeFragment } from './providers/compare/CompareGetFetchPrefCode.tsx'
+// import { CompareLoadingStateFragment } from './providers/compare/CompareLoadingState.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -24,7 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </PagerGetFetchDataContextFragment> */}
 
     {/* filter or both */}
-    {/* <GetFetchDataContextFragment>
+    <GetFetchDataContextFragment>
       <CityNameFragment>
         <FetchDataResetRenderContextFragment>
           <GetFetchPrefCodeFragment>
@@ -32,13 +33,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           </GetFetchPrefCodeFragment>
         </FetchDataResetRenderContextFragment>
       </CityNameFragment>
-    </GetFetchDataContextFragment> */}
+    </GetFetchDataContextFragment>
 
     {/* compare */}
-    <CompareLoadingStateFragment>
-      <CompareGetFetchPrefCodeFragment>
+    {/* <CompareLoadingStateFragment>
+      <GetFetchPrefCodeFragment>
         <App />
-      </CompareGetFetchPrefCodeFragment>
-    </CompareLoadingStateFragment>
+      </GetFetchPrefCodeFragment>
+    </CompareLoadingStateFragment> */}
   </React.StrictMode>,
 )
