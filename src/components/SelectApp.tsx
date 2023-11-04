@@ -1,9 +1,9 @@
 import { memo, useState } from "react";
 import styled from "styled-components";
 import { SelectAppChange } from "./SelectAppChange";
+import { SelectEls } from "./filter/SelectEls";
 import { FilterComponent } from "./filter/FilterComponent";
 import { PagerBaseComponent } from "./pager/PagerBaseComponent";
-import { SelectPrefs } from "./filter/SelectPrefs";
 
 export const SelectApp = memo(() => {
     /* 文字列の判定による機能の切替用 State */
@@ -28,7 +28,7 @@ export const SelectApp = memo(() => {
                         <li>2:データの取得を希望する「都道府県」と「市区町村」、取引時期の計測開始期間と計測終了期間を選んでください。</li>
                         <li>3:フォーム下部に表示される「不動産取引データを取得」ボタンをクリックしてデータを取得します。</li>
                     </ul>
-                    <SelectPrefs isCheckSelectValue="mount" />
+                    <SelectEls isCheckSelectValue="mount" />
                 </div> :
                 <div className="contentWidth">
                     <SelectAppChange isAppChange={isAppChange} setAppChange={setAppChange} isFirstSelect={isFirstSelect} />

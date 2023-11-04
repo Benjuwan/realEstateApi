@@ -42,5 +42,8 @@
 ### 設定関連
 - `providers/filter/GetFetchData.tsx`：ページャー用のオフセット数（`isOffset`）や表示開始ページ数（`isPagers`）の設定をしています。
 
+#### 注意事項
+※（調整不足で）`isOffset`：オフセット数が**5の倍数以外**では「`Pagination`：ページャー項目クリックでページ遷移」と「`InputPagerNum`：ページ数入力でのページ遷移」が意図した挙動になりません。
+
 ## 比較（compare）
 - 未実装
