@@ -1,7 +1,14 @@
-import { memo, useState, useEffect, ChangeEvent } from "react";
+import { memo, FC, useState, useEffect, ChangeEvent } from "react";
 import { AppStartBtn } from "./AppStartBtn";
 
-export const CompareSelectTerm = memo(() => {
+type CompareSelectTermType = {
+    isViewChart: boolean;
+    setViewChart: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const CompareSelectTerm: FC<CompareSelectTermType> = memo((props) => {
+    const { isViewChart, setViewChart } = props;
+
     const startYear: number = 1990;
     const getPresentYear: number = new Date().getFullYear();
 
@@ -43,7 +50,12 @@ export const CompareSelectTerm = memo(() => {
                         <option key={i} value={optionEl}>{optionEl}</option>
                     ))}
                 </select>
-                <AppStartBtn termLists_from={termLists_from} termLists_to={termLists_to} />
+                <AppStartBtn
+                    termLists_from={termLists_from}
+                    termLists_to={termLists_to}
+                    isViewChart={isViewChart}
+                    setViewChart={setViewChart}
+                />
             </form>
         </>
     );
