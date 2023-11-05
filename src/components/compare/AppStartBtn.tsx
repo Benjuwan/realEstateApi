@@ -1,8 +1,8 @@
-import { memo, FC, useContext } from "react";
-import { CompareLoadingState } from "../../providers/compare/CompareLoadingState";
+import { memo, FC } from "react";
 import { useGetTradePrice } from "../../hooks/compare/useGetTradePrice";
 
 type AppStartBtnType = {
+    isAppStartBtn: boolean;
     termLists_from: number;
     termLists_to: number;
     isViewChart: boolean;
@@ -10,15 +10,12 @@ type AppStartBtnType = {
 }
 
 export const AppStartBtn: FC<AppStartBtnType> = memo((props) => {
-    const { termLists_from, termLists_to, isViewChart, setViewChart } = props;
-
-    /* 各種 Context */
-    const { isCompareLoading } = useContext(CompareLoadingState);
+    const { isAppStartBtn, termLists_from, termLists_to, isViewChart, setViewChart } = props;
 
     /* 取引価格の取得と表示 */
     const { GetTradePrice } = useGetTradePrice();
 
-    /* 計測ボタンのアクション */
+    /*（都道府県名・市区町村名を取得するための）計測ボタンのアクション */
     const _getPrefCityName = (
         prefSelectOption: NodeListOf<HTMLOptionElement>,
         prefSelectEl: HTMLSelectElement | null
@@ -68,12 +65,12 @@ export const AppStartBtn: FC<AppStartBtnType> = memo((props) => {
             ) {
                 const prefName = _getPrefCityName(prefSelectOption, prefSelectEl);
                 const cityName = _getPrefCityName(citySelectOption, citySelectEl);
-                if (prefCityName !== null) prefCityName.textContent = `${prefName} ${cityName}`;
+                if (prefCityName !== null) prefCityName.textContent = `現在表示されているのは「${prefName} ${cityName}」の情報です。`;
             }
         }
     }
 
     return (
-        <button type="button" className="appStartBtn" disabled={isCompareLoading} onClick={appStart}>計測スタート</button>
+        <button type="button" className="appStartBtn" disabled={isAppStartBtn} onClick={appStart}>計測スタート</button>
     );
 });

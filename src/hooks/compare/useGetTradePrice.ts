@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { estateInfoJsonData, estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
-import { CompareLoadingState } from "../../providers/compare/CompareLoadingState";
+import { CompareSortGraphAction } from "../../providers/compare/CompareSortGraphAction";
 import { GetFetchPrefCode } from "../../providers/filter/GetFetchPrefCode";
 
 export const useGetTradePrice = () => {
-    const { setCompareLoading } = useContext(CompareLoadingState);
+    /* 各種 Context */
+    const { setSortGraphAction } = useContext(CompareSortGraphAction);
     const { isGetFetchPrefCode } = useContext(GetFetchPrefCode);
 
     /* 取得した tradePrice データから平均価格を算出 */
@@ -30,9 +31,11 @@ export const useGetTradePrice = () => {
         const reduceResult: number = allTradePrices.reduce((a, b) => a + b, 0);
         const averageNumber: number = reduceResult / resElAry.length;
 
-        /* 平均価格を 3桁区切りにして、配列として返却 */
-        const averageResultStr: string = `${Math.floor(averageNumber).toLocaleString()}`;
-
+        /* 平均価格（が Nan でない場合は）3桁区切りにして、年数と合わせて配列として返却する */
+        let averageResultStr: string = '0';
+        if (!Number.isNaN(averageNumber)) {
+            averageResultStr = `${Math.floor(averageNumber).toLocaleString()}`;
+        }
         // console.log(annualYear, averageResultStr);
         return [annualYear, averageResultStr];
     }
@@ -42,7 +45,7 @@ export const useGetTradePrice = () => {
         annualValue: number = 2023, // 2023年
     ) => {
         const ViewGetFetchData = async () => {
-            setCompareLoading(true); // 計測ボタンの disabled を設定
+            setSortGraphAction(true); // ソート＆グラフ表示ボタンの disabled を設定
             const responese = await fetch(`https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=${annualValue}1&to=${annualValue}4&area=${isGetFetchPrefCode}&city=${cityCode}`); // ${annualValue}1～4で年間
             const resObj: estateInfoJsonData = await responese.json();
             const resObjDataAry: estateInfoJsonDataContents[] = resObj.data;
@@ -68,7 +71,7 @@ export const useGetTradePrice = () => {
                 const AverageCalcLists: HTMLUListElement | null = document.querySelector('.AverageCalcLists');
                 AverageCalcLists?.insertAdjacentHTML('afterbegin', `<li><span id="annualYear">${AverageCalcAry[0]}</span><span id="averageTradePrice">${AverageCalcAry[1]}</span></li>`);
 
-                setCompareLoading(false); // 計測ボタンの disabled を解除
+                setSortGraphAction(false); // ソート＆グラフ表示ボタンの disabled を解除
             } else {
                 console.log(responese.status);
             }
