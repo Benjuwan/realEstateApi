@@ -33,9 +33,25 @@ export const CompareSelectTerm: FC<CompareSelectTermType> = memo((props) => {
         setTermLists((_prevTermListsValue) => selectElValue);
     }
 
+    /* 計測スタートボタンの disabled 関連の処理 */
+    const [isAppStartBtn, setAppStartBtn] = useState<boolean>(true);
+    const formEvent = (formEl: ChangeEvent<HTMLFormElement>) => {
+        formEl.preventDefault();
+        const termFrom: HTMLSelectElement | null = formEl.currentTarget.querySelector('#termLists_from');
+        const fromValue: number = Number(termFrom?.value);
+        const termTo: HTMLSelectElement | null = formEl.currentTarget.querySelector('#termLists_to');
+        const toValue: number = Number(termTo?.value);
+
+        /* 計測期間が同じでなく終了期間の方が大きい（過去 < 未来となっている）場合は disabled 解除。そうでない場合は disabled 付与 */
+        if (fromValue !== toValue && fromValue < toValue) setAppStartBtn(false);
+        else setAppStartBtn(true);
+    }
+
     return (
         <>
-            <form action="" className="CompareSelectTerm">
+            <form action="" className="CompareSelectTerm" onChange={(formEl: ChangeEvent<HTMLFormElement>) => {
+                formEvent(formEl);
+            }}>
                 <select name="" id="termLists_from" onChange={(selectEl: ChangeEvent<HTMLSelectElement>) => {
                     selectTermEvent(selectEl, setTermLists_from);
                 }}>
@@ -51,6 +67,7 @@ export const CompareSelectTerm: FC<CompareSelectTermType> = memo((props) => {
                     ))}
                 </select>
                 <AppStartBtn
+                    isAppStartBtn={isAppStartBtn}
                     termLists_from={termLists_from}
                     termLists_to={termLists_to}
                     isViewChart={isViewChart}

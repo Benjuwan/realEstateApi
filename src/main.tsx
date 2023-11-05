@@ -14,7 +14,7 @@ import './index.css'
 import { GetFetchPrefCodeFragment } from './providers/filter/GetFetchPrefCode.tsx'
 
 /* compare */
-import { CompareLoadingStateFragment } from './providers/compare/CompareLoadingState.tsx'
+import { CompareSortGraphActionFragment } from './providers/compare/CompareSortGraphAction.tsx'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -33,10 +33,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     </GetFetchDataContextFragment> */}
 
     {/* compare */}
-    <CompareLoadingStateFragment>
+    <CompareSortGraphActionFragment>
       <GetFetchPrefCodeFragment>
         <App />
       </GetFetchPrefCodeFragment>
-    </CompareLoadingStateFragment>
+    </CompareSortGraphActionFragment>
   </React.StrictMode>,
 )
