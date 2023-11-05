@@ -137,7 +137,7 @@ export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) 
 
     return (
         <SetPagerNumEl>
-            <label htmlFor="">ページ数を指定<input type="text" value={isInputValue} onInput={(inputEv: ChangeEvent<HTMLInputElement>) => {
+            <label htmlFor="">コンテンツナンバーを入力<input type="text" value={isInputValue} onInput={(inputEv: ChangeEvent<HTMLInputElement>) => {
                 if (parseInt(inputEv.currentTarget.value) > pagerLimitMaxNum) {
                     /* 上限値を超えた場合はアラート表示して input 入力欄を空欄にする */
                     alert(`「${pagerLimitMaxNum}」以内の数値で入力してください`)

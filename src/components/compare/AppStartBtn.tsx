@@ -32,6 +32,11 @@ export const AppStartBtn: FC<AppStartBtnType> = memo((props) => {
 
     const appStart = () => {
         if (termLists_from !== termLists_to && termLists_from < termLists_to) {
+            /* 既にリストが存在する場合はリセットする */
+            const AverageCalcLists: HTMLUListElement | null = document.querySelector('.AverageCalcLists');
+            if (AverageCalcLists !== null && AverageCalcLists.childNodes.length > 0) AverageCalcLists.innerHTML = "";
+
+            /* 計測終了期間から計測開始期間を差し引いて計測期間リストを生成 */
             const termLists: number[] = [];
             const targetValue: number = termLists_to - termLists_from;
             for (let i = 0; i <= targetValue; i++) {
@@ -39,9 +44,11 @@ export const AppStartBtn: FC<AppStartBtnType> = memo((props) => {
                 termLists.push(termValue);
             }
 
+            /* 市区町村コードを取得 */
             const citySelectEl: HTMLSelectElement | null = document.querySelector('#citiesLists');
             const citySelectElValue = citySelectEl?.value;
 
+            /* 計測期間リストの各年に対して取引価格の取得及び平均取引価格の算出と反映を行う */
             termLists.forEach(annualYear => {
                 GetTradePrice(citySelectElValue, annualYear);
             });

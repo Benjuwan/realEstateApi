@@ -9,18 +9,9 @@ import { AverageNumber } from "./AverageNumber";
 import { ContentsItems } from "../ContentItmes";
 import { useToLocalString } from "../../hooks/useToLocalString";
 
-/* デフォルト（大阪府吹田市）設定を初期表示したい場合に以下を使用 */
-// import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
-// import { useGetJsonDataXai } from "../../hooks/filter/useGetJsonDataXai";
-
 export const FetchDataContents = memo(() => {
     const { isGetFetchData, isLoading } = useContext(GetFetchDataContext); // fetch データ
     const { isCityName } = useContext(CityName); // 都道府県・市区町村名
-
-    /* fetch API：デフォルト（大阪府吹田市）設定を初期表示したい場合は isFetchDataResetRender を依存配列にした useEffect 部分のコメントアウトを外す */
-    // const { isFetchDataResetRender } = useContext(FetchDataResetRenderContext); // fetch データのリセット
-    // const { GetJsonDataXai } = useGetJsonDataXai();
-    // useEffect(() => GetJsonDataXai(), [isFetchDataResetRender]);
 
     /* fee を3桁区切りに */
     const { ToLocalString } = useToLocalString();

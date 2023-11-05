@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { estateInfoJsonDataContents } from "../../ts/estateInfoJsonData";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 import { GetFetchPrefCode } from "../../providers/filter/GetFetchPrefCode";
-// import { FetchDataResetRenderContext } from "../../providers/filter/FetchDataResetRender";
 
 export const useFilterMethod = () => {
     const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);
@@ -30,13 +29,12 @@ export const useFilterMethod = () => {
         filterWord: string | null,
         setSpecificContents: (value: React.SetStateAction<HTMLElement[] | NodeListOf<HTMLElement>>) => void
     ) => {
-        const filterTypeAry: HTMLElement[] | NodeListOf<HTMLElement> = [...targetElsAry].filter(els => filterWord === els.textContent);
+        const filterTypeAry: HTMLElement[] | NodeListOf<HTMLElement> = [...targetElsAry].filter(els => els.textContent?.match(`${filterWord}`));
         setSpecificContents((_prevSpecificContents) => filterTypeAry);
     }
 
     /* データリセット */
     const { setGetFetchPrefCode } = useContext(GetFetchPrefCode);
-    // const { isFetchDataResetRender, setFetchDataResetRender } = useContext(FetchDataResetRenderContext); // FetchDataContents.tsx にてコンテンツデータを初期取得及び表示している場合に使用
     const ResetFilter = () => {
         setGetFetchData((_prevFetchAry) => []); // フィルターのかかったデータを一旦削除（配列を空に）
 
@@ -49,9 +47,6 @@ export const useFilterMethod = () => {
             }
         });
         setGetFetchPrefCode((_prevFetchPrefCode) => '01'); // 都道府県コードを初期値に戻す
-
-        /* 以下は FetchDataContents.tsx にてコンテンツデータを初期取得及び表示している場合に使用 */
-        // setFetchDataResetRender((_prevBool) => !isFetchDataResetRender); // データフェッチのリセット用のState を更新することで再度データフェッチ（再レンダリング）
     }
 
     return { FilterType, FilterPlace, FilterSpecificWord, ResetFilter }
