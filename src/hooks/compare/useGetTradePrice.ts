@@ -31,7 +31,7 @@ export const useGetTradePrice = () => {
         const averageNumber: number = reduceResult / resElAry.length;
 
         /* 平均価格を 3桁区切りにして、配列として返却 */
-        const averageResultStr: string = `￥${Math.floor(averageNumber).toLocaleString()}`;
+        const averageResultStr: string = `${Math.floor(averageNumber).toLocaleString()}`;
 
         // console.log(annualYear, averageResultStr);
         return [annualYear, averageResultStr];
@@ -66,7 +66,7 @@ export const useGetTradePrice = () => {
                  * この2点から手続き的処理で進める
                 */
                 const AverageCalcLists: HTMLUListElement | null = document.querySelector('.AverageCalcLists');
-                AverageCalcLists?.insertAdjacentHTML('afterbegin', `<li><span>${AverageCalcAry[0]}：</span>${AverageCalcAry[1]}</li>`);
+                AverageCalcLists?.insertAdjacentHTML('afterbegin', `<li><span id="annualYear">${AverageCalcAry[0]}</span><span id="averageTradePrice">${AverageCalcAry[1]}</span></li>`);
 
                 setCompareLoading(false); // 計測ボタンの disabled を解除
             } else {

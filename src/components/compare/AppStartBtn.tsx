@@ -5,10 +5,12 @@ import { useGetTradePrice } from "../../hooks/compare/useGetTradePrice";
 type AppStartBtnType = {
     termLists_from: number;
     termLists_to: number;
+    isViewChart: boolean;
+    setViewChart: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AppStartBtn: FC<AppStartBtnType> = memo((props) => {
-    const { termLists_from, termLists_to } = props;
+    const { termLists_from, termLists_to, isViewChart, setViewChart } = props;
 
     /* 各種 Context */
     const { isCompareLoading } = useContext(CompareLoadingState);
@@ -31,6 +33,8 @@ export const AppStartBtn: FC<AppStartBtnType> = memo((props) => {
     }
 
     const appStart = () => {
+        if (isViewChart === true) setViewChart(false); // chart の初期化
+
         if (termLists_from !== termLists_to && termLists_from < termLists_to) {
             /* 既にリストが存在する場合はリセットする */
             const AverageCalcLists: HTMLUListElement | null = document.querySelector('.AverageCalcLists');

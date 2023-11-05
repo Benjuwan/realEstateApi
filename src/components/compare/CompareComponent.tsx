@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import styled from "styled-components";
 import { SelectPrefs } from "../filter/SelectPrefs";
 import { SelectCities } from "../filter/SelectCities";
@@ -6,15 +6,18 @@ import { CompareSelectTerm } from "./CompareSelectTerm";
 import { CompareListsSortAction } from "./CompareListsSortAction";
 
 export const CompareComponent = memo(() => {
+    /* chart 表示判定用の State */
+    const [isViewChart, setViewChart] = useState<boolean>(false);
+
     return (
         <CompareComponentEl>
             <div className="selectElsWrapper">
                 <SelectPrefs />
                 <SelectCities />
-                <CompareSelectTerm />
+                <CompareSelectTerm isViewChart={isViewChart} setViewChart={setViewChart} />
             </div>
             <p id="prefCityName"></p>
-            <CompareListsSortAction />
+            <CompareListsSortAction isViewChart={isViewChart} setViewChart={setViewChart} />
         </CompareComponentEl>
     );
 });
@@ -66,7 +69,6 @@ margin: auto;
         &.CompareSelectTerm {
             width: clamp(80px, 100%, 160px);
             display: flex;
-            align-items: flex-start;
             flex-flow: row wrap;
             gap: 2%;
             
@@ -77,18 +79,6 @@ margin: auto;
             & button {
                 width: 100%;
             }
-        }
-    }
-}
-
-& .AverageCalcLists{
-    list-style: none;
-    font-size: 14px;
-    line-height: 1.6;
-
-    & li {
-        & span {
-            font-weight: bold;
         }
     }
 }
