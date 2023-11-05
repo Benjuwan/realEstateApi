@@ -34,6 +34,11 @@ margin: auto;
     background-color: #333;
     padding: 0 1em;
 
+    &[disabled] {
+        background-color: #dadada;
+        color: #eaeaea;
+    }
+
     &:not([disabled]):hover {
         background-color: #fff;
         border-color: #333;
