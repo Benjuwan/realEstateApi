@@ -1,15 +1,24 @@
 # realEstateApi
-- 日本各地の不動産取引データを取得するサイトです。
-- `SelectApp`：サイトのトップページ
-- `SelectAppChange`：サイトのトップページからデータ取得後の表示仕様・機能を選ぶためのコンポーネント
+## 概要
+日本各地の不動産取引データを取得するサイトです。『国土交通省　土地総合情報システム』ページのAPIを使ってデータを取得しています。
+
+## 使用ツール
+- React
+- TypeScript
+- Vite
+- styled-components
+- recharts
 
 * 不動産取引価格情報
   * 都道府県内市区町村一覧取得API：https://www.land.mlit.go.jp/webland/api.html
-  * 大阪府（27）の市区町村コード一覧：https://www.land.mlit.go.jp/webland/api/CitySearch?area=27
-  * 2015年の上半期（20151 - 20152）の大阪府全域：https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20151&to=20152&area=27
-  * 2023年の上半期の大阪府吹田市：https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=20231&to=20232&area=27&city=27205
 
-## ページャー（pager）
+## コンポーネント
+### 共通
+- `SelectApp`：サイトのトップページ
+- `SelectAppChange`：サイトのトップページからデータ取得後の表示仕様・機能を選ぶためのコンポーネント
+- `ContentItems`：取得した不動産取引情報の各種項目（データの中身）を表示するコンポーネント（pager 及び filter で使用）
+
+### ページャー（pager）
 - `PagerBaseComponent`：ページャー機能のトップページ
 - `PagerPages`：ページ送り式ページャー（`splice`メソッド使用）
 - `PagerIncDec`：コンテンツデータの随時追加・削除式ページャー（`filter`メソッド使用）
@@ -18,13 +27,13 @@
 - `usePagination`：カスタムフックで、`PagerPages`と`PagerIncDec`それぞれの仕様に合わせたページャー番号項目クリックでのページ遷移処理を実装
 - `InputPagerNum`：ページャー数入力でページ遷移
 
-### 設定関連
+#### 設定関連
 - `providers/pager/PagerGetFetchData.tsx`：ページャー用のオフセット数（`isOffset`）や表示開始ページ数（`isPagers`）の設定をしています。
 
 #### 注意事項
 ※（調整不足で）`isOffset`：オフセット数が**5の倍数以外**では「`Pagination`：ページャー項目クリックでページ遷移」と「`InputPagerNum`：ページ数入力でのページ遷移」が意図した挙動になりません。
 
-## フィルター（filter）
+### フィルター（filter）
 - `FilterComponent`：フィルター機能のトップページ
 - `FetchDataContents`：取得したコンテンツデータを表示する
 - `AverageNumber`：取得したコンテンツデータの取引価格の平均値を算出する
@@ -39,11 +48,15 @@
 - `useSetPrefCityData`：希望する都道府県名と市区町村名の反映及び、任意の都道府県・市区町村・計測期間を指定してコンテンツデータを取得するためのカスタムフック
 - `useGetJsonDataXai`：`useSetPrefCityData`によって渡されたデータ（任意の都道府県・市区町村・計測期間）から希望するコンテンツデータを取得するためのカスタムフック
 
-### 設定関連
+#### 設定関連
 - `providers/filter/GetFetchData.tsx`：ページャー用のオフセット数（`isOffset`）や表示開始ページ数（`isPagers`）の設定をしています。
 
 #### 注意事項
 ※（調整不足で）`isOffset`：オフセット数が**5の倍数以外**では「`Pagination`：ページャー項目クリックでページ遷移」と「`InputPagerNum`：ページ数入力でのページ遷移」が意図した挙動になりません。
 
-## 比較（compare）
-- 未実装
+### 比較-リスト・グラフ表示（compare）
+- `CompareComponent`：比較（リスト及びグラフ表示）機能のトップページ
+- `CompareSelectTerm`：計測開始及び終了期間を選択するための select 要素と関連処理（計測開始及び終了期間の select.value を各 select 要素に関連付く State に反映）
+- `AppStartBtn`：計測スタートボタンと関連処理（取引価格データの取得や計測場所の反映）を記述したボタンコンポーネント
+- `CompareSortListsViewGraph`：取得した平均価格のリスト（`ul.AverageCalcLists`）をソート及びグラフ表示するためのコンポーネント（グラフ表示には Recharts：https://recharts.org/en-US を使用）
+- `useGetTradePrice`：指定された場所と計測期間から不動産取引価格を取得し、それらの平均価格を算出してリアル DOM（`ul.AverageCalcLists`）に反映（リスト表示）させるためのカスタムフック
