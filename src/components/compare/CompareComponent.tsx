@@ -32,7 +32,7 @@ export const CompareComponent = memo(() => {
 });
 
 const CompareComponentEl = styled.div`
-padding: 2.5em;
+/* padding: 2.5em; */
 width: clamp(320px, 100%, 960px);
 margin: auto;
 
