@@ -74,7 +74,7 @@ margin: auto;
 
 & .selectElsWrapper{
     border-radius: 4px;
-    background-color: #dadada;
+    background-color: #b0b0b0;
     padding: 1em;
     margin-bottom: 1em;
     font-size: 1.4rem;
