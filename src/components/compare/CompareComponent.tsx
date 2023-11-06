@@ -6,7 +6,7 @@ import { CompareSelectTerm } from "./CompareSelectTerm";
 import { CompareSortListsViewGraph } from "./CompareSortListsViewGraph";
 
 export const CompareComponent = memo(() => {
-    /* chart 表示判定用の State */
+    /* chart コンポーネント表示判定用の State */
     const [isViewChart, setViewChart] = useState<boolean>(false);
 
     return (
@@ -62,7 +62,10 @@ margin: auto;
 & #prefCityName {
     font-size: 1.6rem;
     margin-bottom: 1em;
-    font-weight: bold;
+
+    & span {
+        font-weight: bold;
+    }
 
     @media screen and (min-width: 1025px) {
         font-size: 16px;

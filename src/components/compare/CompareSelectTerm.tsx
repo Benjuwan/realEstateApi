@@ -9,7 +9,7 @@ type CompareSelectTermType = {
 export const CompareSelectTerm: FC<CompareSelectTermType> = memo((props) => {
     const { isViewChart, setViewChart } = props;
 
-    const startYear: number = 1990;
+    const startYear: number = 1999;
     const getPresentYear: number = new Date().getFullYear();
 
     const [isSelectYears, setSelectYears] = useState<string[]>(['']);
