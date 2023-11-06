@@ -81,7 +81,6 @@ export const CompareSortListsViewGraph: FC<CompareListsSortLists_viewGraphType> 
 
 
 const SortListsViewGraphWrapper = styled.div`
-
 & .sortLists_viewGraphBtn {
     margin-bottom: .5em;
 
@@ -99,6 +98,11 @@ const SortListsViewGraphWrapper = styled.div`
 
     @media screen and (min-width: 700px) {
         overflow-x: unset;
+        font-size: 14px;
+
+        & svg {
+            overflow: unset;
+        }
     }
 }
 
