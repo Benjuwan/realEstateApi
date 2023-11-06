@@ -48,7 +48,9 @@ export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) 
             /* 入力値の1桁目が 5 以上 の場合 */
             if (targetOffsetFirstDigit === 5) {
                 /* オフセットの1桁目が「5」の場合 */
-                const firstDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '5');
+                shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '5');
+
+                // const firstDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '5'); // デバック用に変数（firstDigitDestroyAry）に格納しているだけ
                 // console.log(shallowCopy.join(''), firstDigitDestroyAry.join(''));
                 adjustResult = parseInt(shallowCopy.join(''));
             } else if (shallowCopy[1] === '9') {
@@ -63,8 +65,13 @@ export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) 
                 adjustResult = parseInt(shallowCopy.join(''));
             } else {
                 /* 90 番台以外の場合 */
-                const secondDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 2, 1, `${parseInt(inputValue[adjustResultSplitAry.length - 2]) + 1}`);
-                const firstDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0');
+                shallowCopy.splice(adjustResultSplitAry.length - 2, 1, `${parseInt(inputValue[adjustResultSplitAry.length - 2]) + 1}`);
+                shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0');
+
+                // const secondDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 2, 1, `${parseInt(inputValue[adjustResultSplitAry.length - 2]) + 1}`); // デバック用に変数（secondDigitDestroyAry）に格納しているだけ
+
+                // const firstDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0'); // デバック用に変数（firstDigitDestroyAry）に格納しているだけ
+
                 // console.log(shallowCopy.join(''), secondDigitDestroyAry.join(''), firstDigitDestroyAry.join(''));
                 adjustResult = parseInt(shallowCopy.join(''));
             }
@@ -72,7 +79,9 @@ export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) 
 
         else {
             /* 入力値の1桁目が 5 以下 の場合 */
-            const secondDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0');
+            shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0');
+
+            // const secondDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0'); // デバック用に変数（secondDigitDestroyAry）に格納しているだけ
             // console.log(shallowCopy.join(''), secondDigitDestroyAry.join(''));
             adjustResult = parseInt(shallowCopy.join(''));
         }

@@ -14,7 +14,7 @@ export const useGetJsonData = () => {
             const resObjDataAry: estateInfoJsonDataContents[] = resObj.data;
 
             if (responese.status === 200) {
-                const resElAry: estateInfoJsonDataContents[] = resObjDataAry.map((resEl, i) => {
+                const resElAry: estateInfoJsonDataContents[] = resObjDataAry.map((resEl, _i) => {
                     // console.log(i, resEl);
                     return resEl;
                 });

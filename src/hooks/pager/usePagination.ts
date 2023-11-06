@@ -27,7 +27,9 @@ export const usePagination = () => {
             /* オフセットの1桁目が「5」でない場合 */
             if (parseInt(dataPagerAry[dataPagerAry.length - 1]) > 0) {
                 const shallowCopy: string[] = [...dataPagerAry];
-                const splicedData: string[] = shallowCopy.splice(dataPagerAry.length - 1, 1, '0');
+                shallowCopy.splice(dataPagerAry.length - 1, 1, '0');
+
+                // const splicedData: string[] = shallowCopy.splice(dataPagerAry.length - 1, 1, '0'); // デバック用に変数（splicedData）に格納しているだけ
                 // console.log(splicedData, shallowCopy, dataPagerAry);
                 dataPagerResult = shallowCopy.join('');
             } else {
@@ -80,12 +82,16 @@ export const usePagination = () => {
                         /* 2桁目が「9」の場合*/
                         // console.log(shallowCopy, dataPagerAry);
                         const setForFirstDigit: string = `${dataPagerAry[0]}${dataPagerAry[1]}`;
-                        const splicedData: string[] = shallowCopy.splice(0, 1, `${parseInt(setForFirstDigit) + 1}`);
+                        shallowCopy.splice(0, 1, `${parseInt(setForFirstDigit) + 1}`);
+
+                        // const splicedData: string[] = shallowCopy.splice(0, 1, `${parseInt(setForFirstDigit) + 1}`); // デバック用に変数（splicedData）に格納しているだけ
                         shallowCopy.pop(); // 末尾の不要な'0'を削除 
                         // console.log(splicedData);
                     } else {
                         /* 2桁目が「9」ではない場合*/
-                        const splicedData: string[] = shallowCopy.splice(dataPagerAry.length - 2, 1, `${parseInt(targetDigit) + 1}`);
+                        shallowCopy.splice(dataPagerAry.length - 2, 1, `${parseInt(targetDigit) + 1}`);
+
+                        // const splicedData: string[] = shallowCopy.splice(dataPagerAry.length - 2, 1, `${parseInt(targetDigit) + 1}`); // デバック用に変数（splicedData）に格納しているだけ
                         // console.log(splicedData);
                     }
                 }
