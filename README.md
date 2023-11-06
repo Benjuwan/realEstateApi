@@ -1,6 +1,7 @@
 # realEstateApi
 ## 概要
 日本各地の不動産取引データを取得するサイトです。『国土交通省　土地総合情報システム』ページのAPIを使ってデータを取得しています。
+- 公開サイト：https://real-estate-api-app-benjuwan.vercel.app/
 
 ## 使用ツール
 - React
