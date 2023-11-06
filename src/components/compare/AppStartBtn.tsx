@@ -65,7 +65,7 @@ export const AppStartBtn: FC<AppStartBtnType> = memo((props) => {
             ) {
                 const prefName = _getPrefCityName(prefSelectOption, prefSelectEl);
                 const cityName = _getPrefCityName(citySelectOption, citySelectEl);
-                if (prefCityName !== null) prefCityName.textContent = `現在表示されているのは「${prefName} ${cityName}」の情報です。`;
+                if (prefCityName !== null) prefCityName.innerHTML = `現在表示されているのは<span>「${prefName} ${cityName}」</span>の情報です。`;
             }
         }
     }

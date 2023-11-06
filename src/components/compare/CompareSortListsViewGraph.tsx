@@ -63,7 +63,7 @@ export const CompareSortListsViewGraph: FC<CompareListsSortLists_viewGraphType> 
     return (
         <SortListsViewGraphWrapper>
             <button type="button" className="sortLists_viewGraphBtn" disabled={isSortGraphAction} onClick={sortLists_viewGraph}>ソート&amp;グラフを表示</button>
-            <p>計測結果は随時追加されていきます。</p>
+            <p>計測結果は随時追加されていきます。指定した計測年数データが揃った後にソート&amp;グラフ表示してください。</p>
             {isViewChart &&
                 <div className="LineChartWrapper">
                     <LineChart width={600} height={300} data={isChartData}>
@@ -94,6 +94,8 @@ const SortListsViewGraphWrapper = styled.div`
 & .LineChartWrapper {
     overflow-x: scroll;
     padding: 1em;
+    background-color: #f0f0f0;
+    border-radius: 4px;
 
     @media screen and (min-width: 700px) {
         overflow-x: unset;

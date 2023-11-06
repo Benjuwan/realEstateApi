@@ -6,7 +6,7 @@ type SelectTermType = {
 }
 
 export const SelectTerm: FC<SelectTermType> = memo(({ SelectTermClassName, explainSentence }) => {
-    const startYear: number = 1990;
+    const startYear: number = 1999;
     const getPresentYear: number = new Date().getFullYear();
 
     const [isSelectYears, setSelectYears] = useState<string[]>(['']);
