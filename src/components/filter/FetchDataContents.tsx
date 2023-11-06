@@ -78,6 +78,7 @@ const EachContents = styled.div`
     padding: 1em;
     background-color: #eaeaea;
     border-radius: 4px;
+    margin-bottom: 1em;
 
     & .infoBtn{
         color: #0a5e0a;
@@ -128,6 +129,7 @@ const EachContents = styled.div`
         visibility: hidden;
         height: 0;
         background-color: rgba(255,255,255,.25);
+        -webkit-backdrop-filter: blur(8px);
         backdrop-filter: blur(8px);
 
         &.OnView{
