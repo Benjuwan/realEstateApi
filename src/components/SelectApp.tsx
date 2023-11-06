@@ -2,8 +2,9 @@ import { memo, useState } from "react";
 import styled from "styled-components";
 import { SelectAppChange } from "./SelectAppChange";
 import { SelectEls } from "./filter/SelectEls";
-import { FilterComponent } from "./filter/FilterComponent";
 import { PagerBaseComponent } from "./pager/PagerBaseComponent";
+import { FilterComponent } from "./filter/FilterComponent";
+import { CompareComponent } from "./compare/CompareComponent";
 
 export const SelectApp = memo(() => {
     /* 文字列の判定による機能の切替用 State */
@@ -21,9 +22,10 @@ export const SelectApp = memo(() => {
                     <ul className="explainFunctions">
                         <li>・<b>pager ver</b>：取得したデータを随時追加・削除する機能、またはページ送り機能が用意されています。</li>
                         <li>・<b>filter ver</b>：取引価格によるソート機能や市区町村内の特定地区の検索機能が用意されています（デフォルト）。</li>
+                        <li>・<b>compare ver</b>：指定年数と場所に応じた不動産の年間取引平均価格を比較表示（リスト及びグラフ）する機能が用意されています。</li>
                     </ul>
                     <ul>
-                        <li><b>【使い方】</b></li>
+                        <li><b>【使い方（pager / filter ver 例）】</b></li>
                         <li>1:ドロップダウンリストから機能を選ぶとフォームが表示されます。（※下記フォームは使用例のダミーなのでデータ取得ボタンは表示されていません）</li>
                         <li>2:データの取得を希望する「都道府県」と「市区町村」、取引時期の計測開始期間と計測終了期間を選んでください。</li>
                         <li>3:フォーム下部に表示される「不動産取引データを取得」ボタンをクリックしてデータを取得します。</li>
@@ -34,8 +36,9 @@ export const SelectApp = memo(() => {
                     <SelectAppChange isAppChange={isAppChange} setAppChange={setAppChange} isFirstSelect={isFirstSelect} />
                 </div>
             }
-            {isAppChange === 'filter' && <FilterComponent />}
             {isAppChange === 'pager' && <PagerBaseComponent />}
+            {isAppChange === 'filter' && <FilterComponent />}
+            {isAppChange === 'compare' && <CompareComponent />}
         </SelectAppElm>
     );
 });

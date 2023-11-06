@@ -46,6 +46,7 @@ export const SelectAppChange: FC<SelectAppType> = memo((props) => {
             {isFirstSelect || <option>ここから機能を選んでください</option>}
             <option value="pager">pager（ページャー）</option>
             <option value="filter">filter（フィルター）</option>
+            <option value="compare">compare（リスト・グラフ）</option>
         </AppChange>
     );
 });
