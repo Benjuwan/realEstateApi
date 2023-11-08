@@ -75,7 +75,7 @@ export const PagerComponent: FC<PagerComponentProps> = memo((props) => {
 });
 
 const ContentWrapper = styled.div`
-padding: 0 2em;
+/* padding: 0 2em; */
 font-size: 1.4rem;
 
 & article {

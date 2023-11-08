@@ -17,7 +17,7 @@ export const useFilterMethod = () => {
         const filterPlaceAry: estateInfoJsonDataContents[] = [...isGetFetchData].filter(els => els.DistrictName.match(`${filterWord}`));
         if (filterPlaceAry.length === 0) {
             alert(`地区名「${filterWord}」は、\n検索条件のデータ内に存在しません。`);
-            return // リターンで処理終了
+            return; // リターンで処理終了
         } else {
             setGetFetchData((_prevFetchAry) => filterPlaceAry);
         }
