@@ -26,13 +26,10 @@
 - `usePager`：カスタムフックでページ数（ページャー）の処理を実装
 - `Pagination`：ページャー番号項目クリックでのページ遷移ページャー
 - `usePagination`：カスタムフックで、`PagerPages`と`PagerIncDec`それぞれの仕様に合わせたページャー番号項目クリックでのページ遷移処理を実装
-- `InputPagerNum`：ページャー数入力でページ遷移
+- `InputPagerNum`：コンテンツナンバー入力でページ遷移
 
 #### 設定関連
 - `providers/pager/PagerGetFetchData.tsx`：ページャー用のオフセット数（`isOffset`）や表示開始ページ数（`isPagers`）の設定をしています。
-
-#### 注意事項
-※（調整不足で）`isOffset`：オフセット数が**5の倍数以外**では「`Pagination`：ページャー項目クリックでページ遷移」と「`InputPagerNum`：ページ数入力でのページ遷移」が意図した挙動になりません。
 
 ### フィルター（filter）
 - `FilterComponent`：フィルター機能のトップページ
@@ -51,9 +48,6 @@
 
 #### 設定関連
 - `providers/filter/GetFetchData.tsx`：ページャー用のオフセット数（`isOffset`）や表示開始ページ数（`isPagers`）の設定をしています。
-
-#### 注意事項
-※（調整不足で）`isOffset`：オフセット数が**5の倍数以外**では「`Pagination`：ページャー項目クリックでページ遷移」と「`InputPagerNum`：ページ数入力でのページ遷移」が意図した挙動になりません。
 
 ### 比較-リスト・グラフ表示（compare）
 - `CompareComponent`：比較（リスト及びグラフ表示）機能のトップページ
