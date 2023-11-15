@@ -14,12 +14,8 @@ type InputPagerNumType = {
 
 export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) => {
     /* 各種Context */
-    // const { setPagers, isOffSet } = useContext(PagerGetFetchDataContext);
-    const { setPagers, isOffSet } = useContext(GetFetchDataContext);
-
-    /* オフセットの1桁目を取得 */
-    const targetOffsetFirstDigitAry: string[] = String(isOffSet).split('');
-    const targetOffsetFirstDigit: number = parseInt(targetOffsetFirstDigitAry[targetOffsetFirstDigitAry.length - 1]);
+    // const { setPagers } = useContext(PagerGetFetchDataContext);
+    const { setPagers, isOffSet, setCurrPager } = useContext(GetFetchDataContext);
 
     /* input[type="text"]の State */
     const [isInputValue, setInputValue] = useState<string>('');
@@ -35,111 +31,42 @@ export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) 
         }
     }
 
-    /* 四捨五入メソッド */
-    const RoundingOff = (
-        inputValue: string,
-        targetNumOver?: boolean
-    ) => {
-        let adjustResult: number = parseInt(inputValue);
-        const adjustResultSplitAry: string[] = String(adjustResult).split('');
-        const shallowCopy = [...adjustResultSplitAry];
-
-        if (targetNumOver) {
-            /* 入力値の1桁目が 5 以上 の場合 */
-            if (targetOffsetFirstDigit === 5) {
-                /* オフセットの1桁目が「5」の場合 */
-                shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '5');
-
-                // const firstDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '5'); // デバック用に変数（firstDigitDestroyAry）に格納しているだけ
-                // console.log(shallowCopy.join(''), firstDigitDestroyAry.join(''));
-                adjustResult = parseInt(shallowCopy.join(''));
-            } else if (shallowCopy[1] === '9') {
-                /*（現在 90 番台で次は）桁が増える場合は1桁目に加算して、2桁目以降は全て 0 にする */
-                for (let i = 0; i < shallowCopy.length; i++) {
-                    if (i >= 1) {
-                        /* splice は破壊的な配列処理 */
-                        shallowCopy.splice(i, 1, '0');
-                    }
-                }
-                shallowCopy.splice(0, 1, `${parseInt(inputValue[0]) + 1}`);
-                adjustResult = parseInt(shallowCopy.join(''));
-            } else {
-                /* 90 番台以外の場合 */
-                shallowCopy.splice(adjustResultSplitAry.length - 2, 1, `${parseInt(inputValue[adjustResultSplitAry.length - 2]) + 1}`);
-                shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0');
-
-                // const secondDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 2, 1, `${parseInt(inputValue[adjustResultSplitAry.length - 2]) + 1}`); // デバック用に変数（secondDigitDestroyAry）に格納しているだけ
-
-                // const firstDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0'); // デバック用に変数（firstDigitDestroyAry）に格納しているだけ
-
-                // console.log(shallowCopy.join(''), secondDigitDestroyAry.join(''), firstDigitDestroyAry.join(''));
-                adjustResult = parseInt(shallowCopy.join(''));
-            }
-        }
-
-        else {
-            /* 入力値の1桁目が 5 以下 の場合 */
-            shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0');
-
-            // const secondDigitDestroyAry: string[] = shallowCopy.splice(adjustResultSplitAry.length - 1, 1, '0'); // デバック用に変数（secondDigitDestroyAry）に格納しているだけ
-            // console.log(shallowCopy.join(''), secondDigitDestroyAry.join(''));
-            adjustResult = parseInt(shallowCopy.join(''));
-        }
-
-        if (adjustResult <= isOffSet) {
-            /* 調整結果がオフセット以下の場合 */
-            setPagers((_prevPagerNum) => isOffSet);
-            setInputValue((_prevInputValue) => String(adjustResult));
-        } else {
-            /* 調整結果がオフセット以上の場合 */
-            setPagers((_prevPagerNum) => adjustResult);
-            setInputValue((_prevInputValue) => String(adjustResult));
-        }
-    }
-
     /* 数値入力によるページャー機能 */
     const setPagerNumber = (
         inputValue: string
     ) => {
-        let _inputValue: number = parseInt(inputValue);
+        /* ページャーにセットする予定の各種ページャー項目の値とページ番号を取得 */
+        const dataPagerEls: NodeListOf<HTMLElement> = document.querySelectorAll('[data-pager]');
+        const dataPagerValue: (string | null)[][] = Array.from(dataPagerEls).map(dataPagerEl => [
+            dataPagerEl.getAttribute('data-pager'),
+            dataPagerEl.textContent
+        ]); // (string | null)[][] === Array<Array<string | null>>
 
-        if (_inputValue % isOffSet === 0) {
-            /* 入力値がオフセットの数値で割り切れる場合 */
-            if (targetOffsetFirstDigit === 5) {
-                /* オフセットの1桁目が「5」の場合 */
-                const adjustNum: number = _inputValue - 1;
-                setPagers((_prevPagerNum) => adjustNum);
-                setInputValue((_prevInputValue) => String(adjustNum)); // 1つ減算した数値を渡す
-            } else {
-                /* else ではそのまま処理を進める */
-                setPagers((_prevPagerNum) => _inputValue);
-                setInputValue((_prevInputValue) => String(_inputValue));
-            }
-        } else {
-            /* 入力値がオフセットの数値で割り切れない場合 */
-            if (_inputValue >= isOffSet) {
-                /* 入力値がオフセット以上 の場合 */
-                if (targetOffsetFirstDigit === 5) {
-                    /* オフセットの1桁目が「5」の場合 */
-                    if (parseInt(inputValue[inputValue.length - 1]) >= 5) {
-                        /* 入力値の1桁目が 5 以上 の場合 */
-                        RoundingOff(inputValue, true);
+        /* 取得したページャー項目の数だけループさせ、各ページャー項目の値と入力数値を計算してオフセット数以下になる値を該当数値（入力数値が含まれるページ数）として各種 State 変数にセット（更新）する */
+        for (let i = 0; i < dataPagerValue.length; i++) {
+            if (dataPagerValue[i - 1] !== undefined) {
+                const currentPagerVal: number = Number(dataPagerValue[i][0]);
+                if (currentPagerVal - parseInt(inputValue) < isOffSet) {
+                    const finalPagerVal: number = Number(dataPagerValue[dataPagerValue.length - 1][0]);
+                    if (parseInt(inputValue) >= finalPagerVal) {
+                        /* 入力数値が最終ページャー項目の値よりも「大きい」場合は最終ページャー項目の値をセット */
+                        setPagers((_prevPagerNum) => finalPagerVal);
+
+                        /* 表示中のページ番号を変更 */
+                        const finalPagerNum = dataPagerValue[dataPagerValue.length - 1][1];
+                        setCurrPager((_prevCurrPager) => Number(finalPagerNum));
                     } else {
-                        /* 入力値の1桁目が 5 以下 の場合 */
-                        RoundingOff(inputValue);
+                        /* 該当数値（入力数値が含まれるページ数）をセット */
+                        const behindPagerVal: number = Number(dataPagerValue[i - 1][0]);
+                        setPagers((_prevPagerNum) => behindPagerVal);
+
+                        /* 表示中のページ番号を変更 */
+                        const behindPagerNum = dataPagerValue[i - 1][1];
+                        setCurrPager((_prevCurrPager) => Number(behindPagerNum));
                     }
-                }
+                    // console.log(currentPagerVal, isInputValue, behindPagerVal, finalPagerVal);
 
-                else {
-                    /* オフセットの1桁目が「5」以下 の場合 */
-                    RoundingOff(inputValue);
                 }
-            }
-
-            else {
-                /* 入力値がオフセット以下 の場合はページャー数を 0 にして進める（ページャー数の表記は ContentsNumber.tsx にて制御）*/
-                setPagers((_prevPagerNum) => 0);
-                setInputValue((_prevInputValue) => String(_inputValue));
             }
         }
     }

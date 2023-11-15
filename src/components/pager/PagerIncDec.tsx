@@ -46,7 +46,7 @@ export const PagerIncDec: FC<PagerIncDecType> = memo((props) => {
             }
         });
     }, [isPagers]);
-    /* 単体使用時は isGetFetchData を依存配列に指定 */
+    /* 単体使用時は isGetFetchData, isPagers を依存配列に指定 */
 
     return (
         <>

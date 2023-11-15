@@ -9,6 +9,8 @@ type Default = {
     isPagers: number;
     setPagers: React.Dispatch<React.SetStateAction<number>>;
     isOffSet: number;
+    isCurrPager: number;
+    setCurrPager: React.Dispatch<React.SetStateAction<number>>;
 }
 export const GetFetchDataContext = createContext({} as Default);
 
@@ -32,14 +34,18 @@ export const GetFetchDataContextFragment: FC<fragmentType> = (props) => {
     const [isPagers, setPagers] = useState<number>(0); // 再レンダリングの度に引数に指定した数値が加算される
 
     /* ページャーの offset 値 */
-    const [isOffSet] = useState<number>(10); // ※（調整不足で）5の倍数以外では「Pagination：ページャー項目クリックでページ遷移」と「InputPagerNum：ページ数入力でのページ遷移」が意図した挙動にならない
+    const [isOffSet] = useState<number>(25);
+
+    /* 表示中のページ番号 */
+    const [isCurrPager, setCurrPager] = useState<number>(1);
 
     return (
         <GetFetchDataContext.Provider value={{
             isGetFetchData, setGetFetchData,
             isLoading, setLoading,
             isPagers, setPagers,
-            isOffSet
+            isOffSet,
+            isCurrPager, setCurrPager
         }}>
             {children}
         </GetFetchDataContext.Provider>

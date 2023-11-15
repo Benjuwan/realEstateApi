@@ -37,7 +37,7 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
         const splicedContents: estateInfoJsonDataContents[] = shallowCopy.splice(fragStart, fragFinish);
         setPagerContents((_prevPagerContents) => splicedContents);
     }, [isPagers]);
-    /* 単体使用時は isGetFetchData を依存配列に指定 */
+    /* 単体使用時は isGetFetchData, isPagers を依存配列に指定 */
 
     useEffect(() => {
         /* ページャー機能：ページ送り */
@@ -51,14 +51,11 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
             }
         }
     }, [isPagers]);
-    /* 単体使用時は isGetFetchData を依存配列に指定 */
+    /* 単体使用時は isGetFetchData, isPagers を依存配列に指定 */
 
     return (
         <>
-            {isOffSet % 5 === 0 &&
-                /*（調整不足で）オフセット数が 5 の倍数以外では意図した挙動にならないので条件を設けてコンポーネントを呼び出す */
-                <InputPagerNum pagerLimitMaxNum={pagerLimitMaxNum} />
-            }
+            <InputPagerNum pagerLimitMaxNum={pagerLimitMaxNum} />
             {isPagerContents.map((el, i) => (
                 <article key={i}>
                     <ContentsItems aryEl={el} />

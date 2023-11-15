@@ -9,7 +9,7 @@ type FetchPrefCityDataBtnType = {
 
 export const FetchPrefCityDataBtn: FC<FetchPrefCityDataBtnType> = memo(({ pagerName }) => {
     /* 各種 Context */
-    const { isGetFetchData, setGetFetchData, setPagers } = useContext(GetFetchDataContext);
+    const { isGetFetchData, setGetFetchData, setPagers, setCurrPager } = useContext(GetFetchDataContext);
 
     /* 都道府県・市区町村及び計測期間に準じたデータを取得・反映する */
     const { getTerms, SetPrefCityData } = useSetPrefCityData();
@@ -17,6 +17,7 @@ export const FetchPrefCityDataBtn: FC<FetchPrefCityDataBtnType> = memo(({ pagerN
         if (isGetFetchData.length > 0) setGetFetchData((_prevGetFetchData) => []); // コンテンツデータの中身を一旦リセット
         SetPrefCityData('#prefLists', '#citiesLists');
         if (pagerName !== 'mount') setPagers((_prevPagers) => 0); // 初期表示状態以外の場合はデータ取得時にページャー数をリセット
+        setCurrPager((_prevCurrPager) => 1); // 表示中のページ番号をリセット
     }
 
     /* データ取得ボタン（.fetchPrefCityDataBtn）の disabled 関連の処理 */
