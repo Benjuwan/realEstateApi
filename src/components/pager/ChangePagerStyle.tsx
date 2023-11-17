@@ -14,8 +14,8 @@ type ChangePagerStyle = {
 
 export const ChangePagerStyle: FC<ChangePagerStyle> = memo(({ isPagerFrag, setPagerFrag }) => {
     /* 各種Context */
-    // const { setPagers } = useContext(PagerGetFetchDataContext);
-    const { setPagers } = useContext(GetFetchDataContext);
+    // const { setPagers, setCurrPager } = useContext(PagerGetFetchDataContext);
+    const { setPagers, setCurrPager } = useContext(GetFetchDataContext);
 
     /**
      * ページャー切替（PagerComponent.tsx に State：デフォルト true ）
@@ -25,6 +25,7 @@ export const ChangePagerStyle: FC<ChangePagerStyle> = memo(({ isPagerFrag, setPa
     const changePagerMethod = useCallback(() => {
         setPagerFrag(!isPagerFrag);
         setPagers((_prevPagerNum) => 0); // 切替時にページャーをリセット
+        setCurrPager((_prevCurrPager) => 1); // 切替時に表示ページ番号をリセット
     }, [isPagerFrag]);
     const changePagerMethodStyle: object = {
         'appearance': 'none',
