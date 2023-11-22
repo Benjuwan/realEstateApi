@@ -73,19 +73,25 @@ export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) 
 
     return (
         <SetPagerNumEl>
-            <label htmlFor="">コンテンツナンバーを入力<input type="text" value={isInputValue} onInput={(inputEv: ChangeEvent<HTMLInputElement>) => {
-                if (parseInt(inputEv.currentTarget.value) > pagerLimitMaxNum) {
-                    /* 上限値を超えた場合はアラート表示して input 入力欄を空欄にする */
-                    alert(`「${pagerLimitMaxNum}」以内の数値で入力してください`)
-                    setInputValue((_prevInoutTxt) => '');
-                } else {
-                    inputTxt(inputEv);
-                }
-            }} /></label>
-            <button type="button" disabled={isInputValue.length <= 0} onClick={() => {
+            <form action="" onSubmit={(formEl: ChangeEvent<HTMLFormElement>) => {
+                formEl.preventDefault();
                 setPagerNumber(isInputValue);
                 setInputValue((_prevInputValue) => '');
-            }}>移動</button>
+            }}>
+                <label htmlFor="">コンテンツナンバーを入力<input type="text" value={isInputValue} onInput={(inputEv: ChangeEvent<HTMLInputElement>) => {
+                    if (parseInt(inputEv.currentTarget.value) > pagerLimitMaxNum) {
+                        /* 上限値を超えた場合はアラート表示して input 入力欄を空欄にする */
+                        alert(`「${pagerLimitMaxNum}」以内の数値で入力してください`)
+                        setInputValue((_prevInoutTxt) => '');
+                    } else {
+                        inputTxt(inputEv);
+                    }
+                }} /></label>
+                <button type="button" disabled={isInputValue.length <= 0} onClick={() => {
+                    setPagerNumber(isInputValue);
+                    setInputValue((_prevInputValue) => '');
+                }}>移動</button>
+            </form>
         </SetPagerNumEl>
     );
 });
@@ -93,39 +99,42 @@ export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) 
 const SetPagerNumEl = styled.div`
 width: 100%;
 margin: 0 auto 1em;
-display: flex;
-justify-content: space-between;
-gap: 4%;
 
-& button {
-    cursor: pointer;
-    width: 100%;
-    display: block;
-    padding: .25em 1em;
-    background-color: #333;
-    color: #fff;
-    border-radius: 4px;
-    border: 1px solid transparent;
+& form {
+    display: flex;
+    justify-content: space-between;
+    gap: 4%;
 
-    &[disabled]{
-        cursor: default;
-        background-color: #eaeaea;
-        color: #dadada;
-    }
-
-    &:not([disabled]):hover {
-        background-color: #fff;
-        border-color: #333;
-        color: #333;
-    }
-}
-
-& label {
-    width: 100%;
-
-    & input {
+    & button {
+        cursor: pointer;
         width: 100%;
-        font-size: 16px;
+        display: block;
+        padding: .25em 1em;
+        background-color: #333;
+        color: #fff;
+        border-radius: 4px;
+        border: 1px solid transparent;
+
+        &[disabled]{
+            cursor: default;
+            background-color: #eaeaea;
+            color: #dadada;
+        }
+
+        &:not([disabled]):hover {
+            background-color: #fff;
+            border-color: #333;
+            color: #333;
+        }
+    }
+
+    & label {
+        width: 100%;
+
+        & input {
+            width: 100%;
+            font-size: 16px;
+        }
     }
 }
 `;

@@ -25,10 +25,15 @@ export const FilterActionBtns = memo(() => {
             <button type="button" className="askBtn" onClick={ascClick}>昇順</button>
             <button type="button" className="deskBtn" onClick={deskClick}>降順</button>
             <div className="filterPlace">
-                <input type="text" value={isInputValue} onInput={(inputEl: ChangeEvent<HTMLInputElement>) => {
-                    changeInputValue(inputEl);
-                }} />
-                <button type="button" className="placeBtn" disabled={isInputValue.length <= 0} onClick={() => { FilterPlace(isInputValue); }}>入力した地区で検索</button>
+                <form action="" onSubmit={(formEl: ChangeEvent<HTMLFormElement>) => {
+                    formEl.preventDefault();
+                    FilterPlace(isInputValue);
+                }}>
+                    <input type="text" value={isInputValue} onInput={(inputEl: ChangeEvent<HTMLInputElement>) => {
+                        changeInputValue(inputEl);
+                    }} />
+                    <button type="button" className="placeBtn" disabled={isInputValue.length <= 0} onClick={() => { FilterPlace(isInputValue); }}>入力した地区で検索</button>
+                </form>
             </div>
             <button type="button" className="resetBtn" onClick={filterReset}>リセット</button>
         </Btns>
@@ -91,16 +96,19 @@ gap: 2%;
 
 & .filterPlace{
     width: 56%;
-    display: flex;
-    gap: 2%;
+    
+    & form {
+        display: flex;
+        gap: 2%;
 
-    & input,
-    & button {
-        width: 100%;
-    }
+        & input,
+        & button {
+            width: 100%;
+        }
 
-    & input {
-        font-size: 16px;
+        & input {
+            font-size: 16px;
+        }
     }
 }
 `;
