@@ -75,13 +75,11 @@ const ContentWrapper = styled.div`
 font-size: 1.4rem;
 
 & article {
-    height: clamp(160px, calc(100vh/2), 480px);
-    overflow-y: scroll;
     border-radius: 4px;
     padding: 1em;
     background-color: #eaeaee;
     margin-bottom: 2.5em;
-
+    
     & .boxes{
         margin-bottom: 1em;
     }
