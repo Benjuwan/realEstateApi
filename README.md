@@ -18,6 +18,7 @@
 - `SelectApp`：サイトのトップページ
 - `SelectAppChange`：サイトのトップページからデータ取得後の表示仕様・機能を選ぶためのコンポーネント
 - `ContentItems`：取得した不動産取引情報の各種項目（データの中身）を表示するコンポーネント（pager 及び filter で使用）
+- `HiddenDetailsContent`：`ContentItems`の中身をモーダル表示するためのコンポーネント（pager 及び filter で用いていて、内部で`useViewDetails.ts`カスタムフックを使用している）
 
 ### ページャー（pager）
 - `PagerBaseComponent`：ページャー機能のトップページ

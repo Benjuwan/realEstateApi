@@ -6,7 +6,7 @@ import { LoadingEl } from "./LoadingEl";
 import { FilterContentsCatClick } from "./FilterContentsCatClick";
 import { FilterActionBtns } from "./FilterActionBtns";
 import { AverageNumber } from "./AverageNumber";
-import { ContentsItems } from "../ContentItmes";
+import { HiddenDetailsContent } from "../HiddenDetailsContent";
 import { useToLocalString } from "../../hooks/useToLocalString";
 
 export const FetchDataContents = memo(() => {
@@ -15,16 +15,6 @@ export const FetchDataContents = memo(() => {
 
     /* fee を3桁区切りに */
     const { ToLocalString } = useToLocalString();
-
-    /* 詳細情報の表示機能（モーダル） */
-    const OnViewDetails = (targetViewElm: HTMLElement) => {
-        const detailsContent = targetViewElm.parentElement?.querySelector('.details');
-        if (detailsContent?.classList.contains('OnView')) {
-            detailsContent.classList.remove('OnView');
-        } else {
-            detailsContent?.classList.add('OnView');
-        }
-    }
 
     /* h2 のスタイル */
     const headingStyle: object = {
@@ -51,16 +41,7 @@ export const FetchDataContents = memo(() => {
                             <p className="DistrictName">{el.Municipality}{el.DistrictName}</p>
                             <p>￥<span className="TradePrice">{ToLocalString(el.TradePrice)}</span></p>
                         </div>
-                        <button type="button" className="detailsViewBtn" onClick={((btnEl) => {
-                            OnViewDetails(btnEl.currentTarget);
-                        })}>詳細情報</button>
-                        <div className="details" onClick={((divEl) => {
-                            OnViewDetails(divEl.currentTarget);
-                        })}>
-                            <div className="contentsWrapper">
-                                <ContentsItems aryEl={el} />
-                            </div>
-                        </div>
+                        <HiddenDetailsContent aryEl={el} />
                     </EachContents>))}
             </>
         }
