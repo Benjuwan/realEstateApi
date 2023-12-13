@@ -63,7 +63,11 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
             <InputPagerNum pagerLimitMaxNum={pagerLimitMaxNum} />
             {isPagerContents.map((el, i) => (
                 <PagerArticleContents key={i}>
-                    <h2>目的：{el.Purpose}</h2>
+                    <h2>{el.Type}</h2>
+                    {el.Purpose ?
+                        <p>目的：{el.Purpose}</p> :
+                        <p>用途：{el.Use}</p>
+                    }
                     <p>￥{ToLocalString(el.TradePrice)}</p>
                     <p className="districtName">{el.Prefecture}
                         {el.Municipality && <span>{el.Municipality}</span>}
@@ -132,6 +136,10 @@ margin-bottom: 2.5em;
         visibility: visible;
         height: 100%;
         z-index: 1;
+    }
+
+    & .categories{
+        display: none;
     }
 }
 `;
