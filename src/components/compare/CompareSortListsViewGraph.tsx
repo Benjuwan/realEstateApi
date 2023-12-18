@@ -8,23 +8,24 @@ type CompareListsSortLists_viewGraphType = {
     setViewChart: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+type chartDataType = {
+    name: string,
+    uv: number,
+    pv?: number,
+    amt?: number
+}
+
 export const CompareSortListsViewGraph: FC<CompareListsSortLists_viewGraphType> = memo((props) => {
     const { isViewChart, setViewChart } = props;
 
     /* 各種 Context */
     const { isSortGraphAction } = useContext(CompareSortGraphAction);
 
-    type chartDataType = {
-        name: string,
-        uv: number,
-        pv?: number,
-        amt?: number
-    }
     const getChartDataSrc: chartDataType[] = []; // 取得した平均取引価格データを受け取る一次配列（getChartDataSrc の中身を反転させて isChartData へ反映させる）
     const [isChartData, setChartData] = useState<chartDataType[]>([]); // LineChart コンポーネントの data に渡すための State
 
     /* 取得した各年の平均取引価格のソート及びグラフ表示メソッド */
-    const sortLists_viewGraph = () => {
+    const sortLists_viewGraph: () => void = () => {
         const AverageCalcListsLiEls: NodeListOf<HTMLLIElement> | undefined = document.querySelectorAll('.AverageCalcLists li'); // 計測結果リスト
         if (typeof AverageCalcListsLiEls !== "undefined") {
             const sortListEls: HTMLLIElement[] = Array.from(AverageCalcListsLiEls).sort((ahead, behind) => {

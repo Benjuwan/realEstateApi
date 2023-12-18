@@ -1,4 +1,5 @@
 # realEstateApi
+
 ## 概要
 日本各地の不動産取引データを取得するサイトです。『国土交通省　土地総合情報システム』ページのAPIを使ってデータを取得しています。
 - 公開サイト：https://real-estate-api-app-benjuwan.vercel.app/
@@ -26,11 +27,7 @@
 - `PagerIncDec`：コンテンツデータの随時追加・削除式ページャー（`filter`メソッド使用）
 - `usePager`：カスタムフックでページ数（ページャー）の処理を実装
 - `Pagination`：ページャー番号項目クリックでのページ遷移ページャー
-- `usePagination`：カスタムフックで、`PagerPages`と`PagerIncDec`それぞれの仕様に合わせたページャー番号項目クリックでのページ遷移処理を実装
 - `InputPagerNum`：コンテンツナンバー入力でページ遷移
-
-#### 設定関連
-- `providers/pager/PagerGetFetchData.tsx`：ページャー用のオフセット数（`isOffset`）や表示開始ページ数（`isPagers`）の設定をしています。
 
 ### フィルター（filter）
 - `FilterComponent`：フィルター機能のトップページ

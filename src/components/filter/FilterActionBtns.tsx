@@ -9,13 +9,13 @@ export const FilterActionBtns = memo(() => {
 
     /* 場所フィルター機能の input テキスト関連の処理 */
     const [isInputValue, setInputValue] = useState<string>('');
-    const changeInputValue = (inputEl: ChangeEvent<HTMLInputElement>) => {
+    const changeInputValue: (inputEl: ChangeEvent<HTMLInputElement>) => void = (inputEl: ChangeEvent<HTMLInputElement>) => {
         const inputElValue: string = inputEl.currentTarget.value;
         setInputValue((_prevInputEl) => inputElValue);
     }
 
     /* フィルターのリセット・初期化 */
-    const filterReset = () => {
+    const filterReset: () => void = () => {
         setInputValue((_prevInputValue) => '');
         ResetFilter();
     }

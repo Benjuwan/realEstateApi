@@ -5,13 +5,6 @@ import { ContentsItems } from "../ContentItmes";
 import { BtnComponent } from "./BtnComponent";
 import { usePager } from "../../hooks/pager/usePager";
 
-/**
- * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
- * ・単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
- * ・依存配列の値を変更する
-*/
-// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
-
 type PagerIncDecType = {
     pagerLimitMaxNum: number;
 }
@@ -20,7 +13,6 @@ export const PagerIncDec: FC<PagerIncDecType> = memo((props) => {
     const { pagerLimitMaxNum } = props;
 
     /* 各種Context */
-    // const { isPagerGetFetchData, isPagers, isOffSet } = useContext(PagerGetFetchDataContext);
     const { isGetFetchData, isPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* pager method */
@@ -46,7 +38,6 @@ export const PagerIncDec: FC<PagerIncDecType> = memo((props) => {
             }
         });
     }, [isPagers]);
-    /* 単体使用時は isGetFetchData, isPagers を依存配列に指定 */
 
     return (
         <>

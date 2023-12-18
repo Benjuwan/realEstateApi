@@ -10,7 +10,7 @@ export const useSetPrefCityData = () => {
     const { GetJsonDataXai } = useGetJsonDataXai();
 
     /* 計測期間の取得 */
-    const getTerms = (
+    const getTerms: (YearsQuarterListsName: string) => number = (
         YearsQuarterListsName: string
     ) => {
         /* yearsLists：年 */
@@ -27,7 +27,7 @@ export const useSetPrefCityData = () => {
     }
 
     /* 選択した option 要素のラベル名（都道府県名・市区町村名）を取得 */
-    const _getTargetOptionLabel = (
+    const _getTargetOptionLabel: (selectEl: HTMLSelectElement | null) => string | undefined = (
         selectEl: HTMLSelectElement | null
     ) => {
         const optionEls: NodeListOf<HTMLOptionElement> | undefined = selectEl?.querySelectorAll('option');
@@ -48,7 +48,7 @@ export const useSetPrefCityData = () => {
     }
 
     /* 都道府県・市区町村及び計測期間に準じたデータを取得・反映する */
-    const SetPrefCityData = (
+    const SetPrefCityData: (prefListsName: string, citiesListsName: string) => void = (
         prefListsName: string,
         citiesListsName: string,
     ) => {

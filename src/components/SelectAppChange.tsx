@@ -18,7 +18,7 @@ export const SelectAppChange: FC<SelectAppType> = memo((props) => {
     const { setGetFetchPrefCode } = useContext(GetFetchPrefCode);
 
     /* App 機能切替と切替時の初期化に関する処理 */
-    const selectAppComponent = (AppChangeEl: ChangeEvent<HTMLSelectElement>) => {
+    const selectAppComponent: (AppChangeEl: ChangeEvent<HTMLSelectElement>) => void = (AppChangeEl: ChangeEvent<HTMLSelectElement>) => {
         /* App 機能切替 */
         const AppChangeValue: string = AppChangeEl.currentTarget.value;
         setAppChange((_prevAppChangeValue) => AppChangeValue);

@@ -5,7 +5,7 @@ export const SelectPrefs = memo(() => {
     const { setGetFetchPrefCode } = useContext(GetFetchPrefCode); // 都道府県コード （useGetJsonDataXai.ts にて使用） 
 
     const refFormSelectElValue = useRef<HTMLFormElement | null>(null);
-    const get_SelectElValue_CityCode = () => {
+    const get_SelectElValue_CityCode: () => void = () => {
         /* form 要素を親に持っていないと下記の記述（ParentEl.querySelector('select')?.value）は不可能 */
         const formSelectEl: HTMLSelectElement | null | undefined = refFormSelectElValue.current?.querySelector('#prefLists');
         const formSelectElValue: string | undefined = formSelectEl?.value;

@@ -2,25 +2,18 @@ import { FC, memo, useContext, useState, ChangeEvent } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 
-/**
- * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
- * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
-*/
-// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
-
 type InputPagerNumType = {
     pagerLimitMaxNum: number;
 }
 
 export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) => {
     /* 各種Context */
-    // const { setPagers } = useContext(PagerGetFetchDataContext);
     const { setPagers, isOffSet, setCurrPager } = useContext(GetFetchDataContext);
 
     /* input[type="text"]の State */
     const [isInputValue, setInputValue] = useState<string>('');
     /* inputTxt：input[type="text"]の onInput イベントで行う処理 */
-    const inputTxt = (inputEv: ChangeEvent<HTMLInputElement>) => {
+    const inputTxt: (inputEv: ChangeEvent<HTMLInputElement>) => void = (inputEv: ChangeEvent<HTMLInputElement>) => {
         const inputElValue = inputEv.currentTarget.value;
         if (Number(inputElValue)) {
             /* 数値のみ入力を受け付ける */
@@ -32,7 +25,7 @@ export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) 
     }
 
     /* 数値入力によるページャー機能 */
-    const setPagerNumber = (
+    const setPagerNumber: (inputValue: string) => void = (
         inputValue: string
     ) => {
         /* ページャーにセットする予定の各種ページャー項目の値とページ番号を取得 */
@@ -65,7 +58,6 @@ export const InputPagerNum: FC<InputPagerNumType> = memo(({ pagerLimitMaxNum }) 
                         setCurrPager((_prevCurrPager) => Number(behindPagerNum));
                     }
                     // console.log(currentPagerVal, isInputValue, behindPagerVal, finalPagerVal);
-
                 }
             }
         }
