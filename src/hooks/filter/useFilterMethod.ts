@@ -7,13 +7,13 @@ export const useFilterMethod = () => {
     const { isGetFetchData, setGetFetchData } = useContext(GetFetchDataContext);
 
     /* フィルター：Type（用途）*/
-    const FilterType = (filterWord: string | null) => {
+    const FilterType: (filterWord: string | null) => void = (filterWord: string | null) => {
         const filterTypeAry: estateInfoJsonDataContents[] = [...isGetFetchData].filter(els => filterWord === els.Type);
         setGetFetchData((_prevFetchAry) => filterTypeAry);
     }
 
     /* フィルター：DistrictName（地区）*/
-    const FilterPlace = (filterWord: string | null) => {
+    const FilterPlace: (filterWord: string | null) => void = (filterWord: string | null) => {
         const filterPlaceAry: estateInfoJsonDataContents[] = [...isGetFetchData].filter(els => els.DistrictName.match(`${filterWord}`));
         if (filterPlaceAry.length === 0) {
             alert(`地区名「${filterWord}」は、\n検索条件のデータ内に存在しません。`);
@@ -24,18 +24,22 @@ export const useFilterMethod = () => {
     }
 
     /* フィルター：特定の文字列 */
-    const FilterSpecificWord = (
+    const FilterSpecificWord: (
+        targetElsAry: HTMLElement[] | NodeListOf<HTMLElement>,
+        filterWord: string | null,
+        setSpecificContents: (value: React.SetStateAction<HTMLElement[] | NodeListOf<HTMLElement>>) => void
+    ) => void = (
         targetElsAry: HTMLElement[] | NodeListOf<HTMLElement>,
         filterWord: string | null,
         setSpecificContents: (value: React.SetStateAction<HTMLElement[] | NodeListOf<HTMLElement>>) => void
     ) => {
-        const filterTypeAry: HTMLElement[] | NodeListOf<HTMLElement> = [...targetElsAry].filter(els => els.textContent?.match(`${filterWord}`));
-        setSpecificContents((_prevSpecificContents) => filterTypeAry);
-    }
+            const filterTypeAry: HTMLElement[] | NodeListOf<HTMLElement> = [...targetElsAry].filter(els => els.textContent?.match(`${filterWord}`));
+            setSpecificContents((_prevSpecificContents) => filterTypeAry);
+        }
 
     /* データリセット */
     const { setGetFetchPrefCode } = useContext(GetFetchPrefCode);
-    const ResetFilter = () => {
+    const ResetFilter: () => void = () => {
         setGetFetchData((_prevFetchAry) => []); // フィルターのかかったデータを一旦削除（配列を空に）
 
         /* 都道府県 select を初期値に戻す */

@@ -16,20 +16,23 @@ export const AppStartBtn: FC<AppStartBtnType> = memo((props) => {
     const { GetTradePrice } = useGetTradePrice();
 
     /*（都道府県名・市区町村名を取得するための）計測ボタンのアクション */
-    const _getPrefCityName = (
+    const _getPrefCityName: (
+        prefSelectOption: NodeListOf<HTMLOptionElement>,
+        prefSelectEl: HTMLSelectElement | null
+    ) => string = (
         prefSelectOption: NodeListOf<HTMLOptionElement>,
         prefSelectEl: HTMLSelectElement | null
     ) => {
-        const nameBoxes: string[] = [];
-        prefSelectOption.forEach(optionEl => {
-            if (optionEl.value === prefSelectEl?.value) {
-                nameBoxes.push(optionEl.label);
-            }
-        });
-        return nameBoxes[0];
-    }
+            const nameBoxes: string[] = [];
+            prefSelectOption.forEach(optionEl => {
+                if (optionEl.value === prefSelectEl?.value) {
+                    nameBoxes.push(optionEl.label);
+                }
+            });
+            return nameBoxes[0];
+        }
 
-    const appStart = () => {
+    const appStart: () => void = () => {
         if (isViewChart === true) setViewChart(false); // chart の初期化
 
         if (termLists_from !== termLists_to && termLists_from < termLists_to) {

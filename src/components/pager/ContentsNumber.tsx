@@ -1,12 +1,6 @@
 import { FC, memo, useContext, useEffect, useState } from "react";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 
-/**
- * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
- * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
-*/
-// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
-
 type ContentsNumberType = {
     pagerLimitMaxNum: number;
     isPagerFrag: boolean;
@@ -16,7 +10,6 @@ export const ContentsNumber: FC<ContentsNumberType> = memo((props) => {
     const { pagerLimitMaxNum, isPagerFrag } = props;
 
     /* 各種 Context：ページャーのオフセットは isOffSet State で指定 */
-    // const { isPagers, isOffSet } = useContext(PagerGetFetchDataContext);
     const { isPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* PagerPages.tsx で使用する上限値の表記用 State */

@@ -10,7 +10,7 @@ export const AverageNumber = memo(() => {
     }, [isGetFetchData]);
 
     const [isAveragePrice, setAveragePrice] = useState<string>('');
-    const averageCalc = () => {
+    const averageCalc: () => string = () => {
         const averageTradePriceEls: NodeListOf<HTMLElement> = document.querySelectorAll('.TradePrice');
         const averageTradePriceAry: number[] = [];
         averageTradePriceEls.forEach(el => {
@@ -19,8 +19,8 @@ export const AverageNumber = memo(() => {
             const targetWord: string | undefined = targetEl?.split(',').join('');
             if (typeof targetWord !== "undefined") averageTradePriceAry.push(parseInt(targetWord));
         });
-        const averageTradePrice: number = [...averageTradePriceAry].reduce((a, b) => a + b, 0);
-        const averageNumber = Math.floor(averageTradePrice / isGetFetchData.length).toLocaleString();
+        const averageTradePrice: number = [...averageTradePriceAry].reduce((aheadEl, behindEl) => aheadEl + behindEl, 0);
+        const averageNumber: string = Math.floor(averageTradePrice / isGetFetchData.length).toLocaleString();
         return averageNumber;
     }
 

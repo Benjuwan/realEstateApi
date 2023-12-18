@@ -2,12 +2,6 @@ import { FC, memo, useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { GetFetchDataContext } from "../../providers/filter/GetFetchData";
 
-/**
- * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
- * 単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
-*/
-// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
-
 type PaginationType = {
     pagerLimitMaxNum: number;
     isPagerFrag?: boolean;
@@ -17,7 +11,6 @@ export const Pagination: FC<PaginationType> = memo((props) => {
     const { pagerLimitMaxNum, isPagerFrag } = props;
 
     /* 各種Context */
-    // const { isPagerGetFetchData, setPagers, isOffSet } = useContext(PagerGetFetchDataContext);
     const { isGetFetchData, setPagers, isOffSet, isCurrPager, setCurrPager } = useContext(GetFetchDataContext);
 
     /* ページ数：コンテンツデータ数をオフセットで分割した数 */
@@ -27,7 +20,7 @@ export const Pagination: FC<PaginationType> = memo((props) => {
     const [isPagerNum, setPagerNum] = useState<number[]>([]);
 
     /* 各ページャー項目の data-pager の値に準じたページを表示及びページ番号を変更 */
-    const setPaginationNum = (btnEl: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const setPaginationNum: (btnEl: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void = (btnEl: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         const dataPager: string | null = btnEl.currentTarget.getAttribute('data-pager');
         if (isPagerFrag) {
             setPagers((_prevPagerNum) => Number(dataPager));
@@ -41,7 +34,7 @@ export const Pagination: FC<PaginationType> = memo((props) => {
     }
 
     /* オフセット数に基づいた計算を通してページネーション用の各ページャー項目のページを設定する */
-    const basedonOffsetNum_setPagerNum = () => {
+    const basedonOffsetNum_setPagerNum: () => void = () => {
         /* 初期表示時（isPagination が 0件）という条件を指定して再レンダリングに伴う倍数増加（下記処理実行）を防止 */
         if (isPagination.length <= 0) {
             const srcAry: number[] = [];

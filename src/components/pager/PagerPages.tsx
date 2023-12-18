@@ -8,13 +8,6 @@ import { HiddenDetailsContent } from "../HiddenDetailsContent";
 import { usePager } from "../../hooks/pager/usePager";
 import { useToLocalString } from "../../hooks/useToLocalString";
 
-/**
- * pager 単体で使用したい場合は下記の Context / Fragment を利用する。
- * ・単体使用時は、コンテンツデータ用の配列など各種 State を下記 Context で用意したものに差し替える必要がある
- * ・依存配列の値を変更する
-*/
-// import { PagerGetFetchDataContext } from "../../providers/pager/PagerGetFetchData";
-
 type PagerPagesType = {
     pagerLimitMaxNum: number;
 }
@@ -23,7 +16,6 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
     const { pagerLimitMaxNum } = props;
 
     /* 各種Context */
-    // const { isPagerGetFetchData, isPagers, isOffSet } = useContext(PagerGetFetchDataContext);
     const { isGetFetchData, isPagers, isOffSet } = useContext(GetFetchDataContext);
 
     /* pager method */
@@ -31,7 +23,7 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
 
     /* ページャー機能：splice メソッドで処理 */
     const [isPagerContents, setPagerContents] = useState<estateInfoJsonDataContents[]>([]);
-    const setPagerContentsFrag = useCallback((
+    const setPagerContentsFrag: (fragStart?: number, fragFinish?: number) => void = useCallback((
         fragStart: number = isPagers, // 始点（fragStart）：ページャー数
         fragFinish: number = isOffSet // 終点（fragFinish）：オフセット数
     ) => {
@@ -39,7 +31,6 @@ export const PagerPages: FC<PagerPagesType> = memo((props) => {
         const splicedContents: estateInfoJsonDataContents[] = shallowCopy.splice(fragStart, fragFinish);
         setPagerContents((_prevPagerContents) => splicedContents);
     }, [isPagers]);
-    /* 単体使用時は isGetFetchData, isPagers を依存配列に指定 */
 
     useEffect(() => {
         /* ページャー機能：ページ送り */

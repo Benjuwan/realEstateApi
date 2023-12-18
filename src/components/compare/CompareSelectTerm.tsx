@@ -25,17 +25,20 @@ export const CompareSelectTerm: FC<CompareSelectTermType> = memo((props) => {
     const [termLists_to, setTermLists_to] = useState<number>(getPresentYear);
 
     /* 計測開始・終了期間の State 更新を行う select イベント */
-    const selectTermEvent = (
+    const selectTermEvent: (
+        selectEl: ChangeEvent<HTMLSelectElement>,
+        setTermLists: React.Dispatch<React.SetStateAction<number>>
+    ) => void = (
         selectEl: ChangeEvent<HTMLSelectElement>,
         setTermLists: React.Dispatch<React.SetStateAction<number>>
     ) => {
-        const selectElValue: number = parseInt(selectEl.currentTarget.value);
-        setTermLists((_prevTermListsValue) => selectElValue);
-    }
+            const selectElValue: number = parseInt(selectEl.currentTarget.value);
+            setTermLists((_prevTermListsValue) => selectElValue);
+        }
 
     /* 計測スタートボタンの disabled 関連の処理 */
     const [isAppStartBtn, setAppStartBtn] = useState<boolean>(true);
-    const formEvent = (formEl: ChangeEvent<HTMLFormElement>) => {
+    const formEvent: (formEl: ChangeEvent<HTMLFormElement>) => void = (formEl: ChangeEvent<HTMLFormElement>) => {
         formEl.preventDefault();
         const termFrom: HTMLSelectElement | null = formEl.currentTarget.querySelector('#termLists_from');
         const fromValue: number = Number(termFrom?.value);

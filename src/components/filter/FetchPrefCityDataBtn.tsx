@@ -13,7 +13,7 @@ export const FetchPrefCityDataBtn: FC<FetchPrefCityDataBtnType> = memo(({ pagerN
 
     /* 都道府県・市区町村及び計測期間に準じたデータを取得・反映する */
     const { getTerms, SetPrefCityData } = useSetPrefCityData();
-    const fetchPrefCityData = () => {
+    const fetchPrefCityData: () => void = () => {
         if (isGetFetchData.length > 0) setGetFetchData((_prevGetFetchData) => []); // コンテンツデータの中身を一旦リセット
         SetPrefCityData('#prefLists', '#citiesLists');
         if (pagerName !== 'mount') setPagers((_prevPagers) => 0); // 初期表示状態以外の場合はデータ取得時にページャー数をリセット

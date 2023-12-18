@@ -9,7 +9,7 @@ export const useGetTradePrice = () => {
     const { isGetFetchPrefCode } = useContext(GetFetchPrefCode);
 
     /* 取得した tradePrice データから平均価格を算出 */
-    const _AverageCalc = (
+    const _AverageCalc: (annualYear: number, resElAry: string[]) => (string | number)[] = (
         annualYear: number,
         resElAry: string[]
     ) => {
@@ -40,11 +40,11 @@ export const useGetTradePrice = () => {
         return [annualYear, averageResultStr];
     }
 
-    const GetTradePrice = (
+    const GetTradePrice: (cityCode?: string, annualValue?: number) => void = (
         cityCode: string = '27205', // 大阪府吹田市
         annualValue: number = 2023, // 2023年
     ) => {
-        const ViewGetFetchData = async () => {
+        const ViewGetFetchData: () => Promise<void> = async () => {
             setSortGraphAction(true); // ソート＆グラフ表示ボタンの disabled を設定
             const responese = await fetch(`https://www.land.mlit.go.jp/webland/api/TradeListSearch?from=${annualValue}1&to=${annualValue}4&area=${isGetFetchPrefCode}&city=${cityCode}`); // ${annualValue}1～4で年間
             const resObj: estateInfoJsonData = await responese.json();
@@ -73,7 +73,7 @@ export const useGetTradePrice = () => {
 
                 setSortGraphAction(false); // ソート＆グラフ表示ボタンの disabled を解除
             } else {
-                console.log(responese.status);
+                console.error(responese.status);
             }
         }
         ViewGetFetchData();
