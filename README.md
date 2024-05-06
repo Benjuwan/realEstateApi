@@ -1,8 +1,13 @@
 # realEstateApi
 
 ## 概要
-日本各地の不動産取引データを取得するサイトです。『国土交通省　土地総合情報システム』ページのAPIを使ってデータを取得しています。
-- 公開サイト：https://real-estate-api-app-benjuwan.vercel.app/
+日本各地の不動産取引データを取得するサイトです。『[国土交通省　土地総合情報システム](https://www.land.mlit.go.jp/webland/api.html)』ページのAPIを使ってデータを取得しています。
+- ~~公開サイト：https://real-estate-api-app-benjuwan.vercel.app/~~
+
+※本機能は『[国土交通省　土地総合情報システム](https://www.land.mlit.go.jp/webland/api.html)』のAPI廃止に伴って使用不可能になっています。
+
+<details>
+<summary>技術スタックなど詳細情報</summary>
 
 ## 使用ツール
 - React
@@ -53,3 +58,5 @@
 - `AppStartBtn`：計測スタートボタンと関連処理（取引価格データの取得や計測場所の反映）を記述したボタンコンポーネント
 - `CompareSortListsViewGraph`：取得した平均価格のリスト（`ul.AverageCalcLists`）をソート及びグラフ表示するためのコンポーネント（グラフ表示には Recharts：https://recharts.org/en-US を使用）
 - `useGetTradePrice`：指定された場所と計測期間から不動産取引価格を取得し、それらの平均価格を算出してリアル DOM（`ul.AverageCalcLists`）に反映（リスト表示）させるためのカスタムフック
+
+</details>
